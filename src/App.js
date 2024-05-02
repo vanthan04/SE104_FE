@@ -1,8 +1,8 @@
-import MyComponent from "./components/header"
+import Home from "./pages/Home";
 
 function App() {
   return (
-    <MyComponent></MyComponent>
+    <Home />
   );
 }
 
