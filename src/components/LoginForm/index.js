@@ -2,19 +2,11 @@ import { Box, Container, TextField, Typography, Button } from '@mui/material'
 import React from 'react'
 
 const LoginForm = () => {
-     const handleSubmit = (event) => {
-          event.preventDefault();
-          const data = new FormData(event.currentTarget);
-          console.log({
-               email: data.get('email'),
-               password: data.get('password'),
-          });
-     };
-
      return (
           <Container
+               sx = {{height: '60vh'}}
                component='main'
-               maxWidth='sx'
+               maxWidth='sm'
           >
                <Box
                     sx={{
@@ -22,12 +14,16 @@ const LoginForm = () => {
                          display: 'flex',
                          flexDirection: 'column',
                          alignItems: 'center',
+                         border: 'solid 1px',
+                         padding: '16px',
+                         borderRadius: '20px',
+                         px: 5
                     }}>
                     <Typography component='h1' variant='h3'>
                          Login Form
                     </Typography>
 
-                    <Box component='form' onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+                    <Box component='form' noValidate sx={{ mt: 1}}>
                          <TextField
                               margin='normal'
                               required
