@@ -12,7 +12,7 @@ function AppBar() {
       alignItems: 'center',
       display: 'flex',
       justifyContent: 'space-between',
-      px: 5,
+      px: 2,
       backgroundColor:'primary.light'
     }}>
       <Box sx={{
