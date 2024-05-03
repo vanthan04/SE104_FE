@@ -3,6 +3,7 @@ import React from 'react'
 import QuanlyDocGia from './Menus/QuanlyDocGia'
 import QuanlySach from './Menus/QuanlySach'
 import Khac from './Menus/Khac'
+import Profiles from './Menus/Profiles'
 function DashBar() {
      return (
           <Box
@@ -23,7 +24,7 @@ function DashBar() {
                     <Khac />
                </Box>
                <Box sx={{ display: "flex", alignContent: "center", gap: 2 }}>
-                    Profiles
+                    <Profiles/>
                </Box>
           </Box>
      )

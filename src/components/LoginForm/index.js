@@ -1,10 +1,30 @@
 import { Box, Container, TextField, Typography, Button } from '@mui/material'
-import React from 'react'
+import React, { useState } from 'react'
 
 const LoginForm = () => {
+     const [data, setData] = useState({
+          username: '',
+          password: ''
+     })
+     const { username, password } = data
+     const handleChange = (event) => {
+          setData({
+               ...data,
+               [event.target.name]: event.target.value
+          })
+     }
+
+     const handleSubmit = (event) => {
+          event.preventDefault();
+          if (!username || !password) {
+               alert('Username/Password is required')
+               return
+          }
+          console.log(data)
+     }
      return (
           <Container
-               sx = {{height: '60vh'}}
+               sx={{ height: '60vh' }}
                component='main'
                maxWidth='sm'
           >
@@ -23,32 +43,34 @@ const LoginForm = () => {
                          Login Form
                     </Typography>
 
-                    <Box component='form' noValidate sx={{ mt: 1}}>
+                    <Box component='form' noValidate sx={{ mt: 1 }} onSubmit={handleSubmit}>
                          <TextField
                               margin='normal'
-                              required
                               fullWidth
-                              id='email'
-                              label='Email'
-                              name='email'
-                              autoComplete='email'
-                              autoFocus />
+                              id='username'
+                              label='Username'
+                              name='username'
+                              autoFocus
+                              value={username}
+                              onChange={handleChange} />
 
                          <TextField
                               margin='normal'
-                              required
                               fullWidth
                               id='password'
                               label='Password'
                               type='password'
-                              name='pwd'
-                              autoComplete="current-password"
+                              name='password'
+                              value={password}
+                              onChange={handleChange}
                          />
                          <Button
                               type="submit"
                               fullWidth
                               variant="contained"
                               sx={{ mt: 3, mb: 2 }}
+                              onClick={handleSubmit}
+                              disabled={username && password ? false : true}
                          >
                               Sign In
                          </Button>
