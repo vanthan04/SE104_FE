@@ -3,6 +3,7 @@ import React from 'react'
 import HomeIcon from '@mui/icons-material/Home';
 import InfoIcon from '@mui/icons-material/Info';
 import TextField from '@mui/material/TextField';
+import LoginIcon from '@mui/icons-material/Login';
 
 function AppBar() {
   return (
@@ -29,7 +30,7 @@ function AppBar() {
         gap: 2
       }}>
         <TextField id="search-basic" label="Search Book" variant="outlined" size='small'/>
-        {/* <Button id='basic-button-login' variant='contained' startIcon={<LoginIcon />}>Login</Button> */}
+        <Button id='basic-button-login' variant='contained' startIcon={<LoginIcon />}>Login</Button>
       </Box>
     </Box>
   )

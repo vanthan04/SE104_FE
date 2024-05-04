@@ -10,8 +10,7 @@ function BoardContent() {
                     width: '100%',
                     backgroundImage: 'uit_background.jpg'
                }}
-          >
-               
+          >   
           </Box>
      )
 }
