@@ -5,7 +5,7 @@ function BoardContent() {
      return (
           <Box
                sx={{
-                    backgroundColor: 'primary.light',
+                    backgroundColor: 'primary.main',
                     height: 'calc(100vh - 58px)',
                     width: '100%',
                     backgroundImage: 'uit_background.jpg'

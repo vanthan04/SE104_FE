@@ -1,12 +1,15 @@
 import { Box } from "@mui/material";
-import DashBar from "./components/DashBar";
-import Home from "./pages/Home";
-import LoginForm from "./pages/Authentication/Login";
-
+import AppBar from "./components/AppBar";
+import { Outlet } from "react-router-dom";
 function App() {
   return (
     <Box>
-      <Home/>
+      <Box>
+        <AppBar/>
+      </Box>
+      <Box>
+        <Outlet/>
+      </Box>
     </Box>
 
   );

@@ -29,6 +29,26 @@ const theme = createTheme({
                '"Segoe UI Symbol"',
           ].join(','),
      },
+     components: {
+          // Assuming you're using MUI v5 you might need to adjust this if using a different version
+          MuiLink: { // If using the MuiLink component
+               styleOverrides: {
+                    root: {
+                         textDecoration: 'none',
+                         color: 'inherit', // Ensure links inherit color from their parent
+                    },
+               },
+          },
+          // Or for all anchor elements globally, use the following:
+          MuiCssBaseline: {
+               styleOverrides: {
+                    a: { // Target anchor tags globally
+                         textDecoration: 'none',
+                         color: 'inherit', // Use the inherit keyword to use the parent's text color
+                    },
+               },
+          },
+     },
 });
 
 export default theme;

@@ -1,5 +1,6 @@
 import { Box, Container, TextField, Typography, Button } from '@mui/material'
 import React, { useState } from 'react'
+import ApiUser from '../../untils/api/user'
 
 const LoginForm = () => {
      const [data, setData] = useState({
@@ -14,13 +15,26 @@ const LoginForm = () => {
           })
      }
 
-     const handleSubmit = (event) => {
+     const handleSubmit = async (event) => {
           event.preventDefault();
           if (!username || !password) {
                alert('Username/Password is required')
                return
           }
-          console.log(data)
+          try {
+               // Gọi phương thức postLogin từ ApiUser với đường dẫn và dữ liệu đăng nhập
+               const response = await ApiUser.postLogin('', {
+                   data: {
+                       username: username,
+                       password: password
+                   }
+               });
+               console.log('Kết quả:', response);
+               // Xử lý kết quả tại đây, ví dụ: chuyển hướng người dùng nếu đăng nhập thành công
+           } catch (error) {
+               console.error('Đã xảy ra lỗi khi đăng nhập:', error);
+               // Xử lý lỗi tại đây, ví dụ: hiển thị thông báo lỗi cho người dùng
+           }
      }
      return (
           <Container
