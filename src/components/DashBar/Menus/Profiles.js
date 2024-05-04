@@ -8,6 +8,9 @@ import Box from '@mui/material/Box'
 import IconButton from '@mui/material/IconButton'
 import Settings from '@mui/icons-material/Settings'
 import Logout from '@mui/icons-material/Logout'
+import { useDispatch } from 'react-redux'
+import { logout } from '../../../store/admin/userSlice'
+import { useNavigate } from 'react-router-dom'
 
 function Profiles() {
   const [anchorEl, setAnchorEl] = React.useState(null)
@@ -15,8 +18,17 @@ function Profiles() {
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget)
   }
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const handleClose = () => {
     setAnchorEl(null)
+  }
+  const handleLogout = (event) => {
+    event.preventDefault();
+    dispatch(
+      logout()
+    )
+    navigate('/login')
   }
 
   return (
@@ -51,7 +63,7 @@ function Profiles() {
           </ListItemIcon>
           Settings
         </MenuItem>
-        <MenuItem>
+        <MenuItem onClick={handleLogout}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
