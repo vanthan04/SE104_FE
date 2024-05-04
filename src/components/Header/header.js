@@ -45,7 +45,7 @@ function AppBar() {
           id='basic-button-login'
           variant='contained'
           startIcon={<LoginIcon />}>
-            <Link to='login'>Login</Link>
+            <Link to='/login'>Login</Link>
           </Button>
       </Box>
     </Box>
