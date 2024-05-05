@@ -1,14 +1,20 @@
 import React from 'react'
-import { Container } from '@mui/material'
+import { Container, Box } from '@mui/material'
 import AppBar from '../../components/Header/header'
+import { Outlet } from 'react-router-dom'
 // import BoardContent from '../BoardContent/index'
-function Home() {
+function HomePage() {
   return (
     <Container disableGutters maxWidth='flex'
       sx={{ height: '100vh' }}>
-      <AppBar/>
+      <Box>
+        <AppBar />
+      </Box>
+      <Box >
+        <Outlet />
+      </Box>
     </Container>
   )
 }
 
-export default Home
+export default HomePage
