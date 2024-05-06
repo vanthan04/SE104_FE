@@ -5,10 +5,6 @@ class UserService {
         const response = await axios.post(path, options);
         return response;
     }
-    postAddReader = async (path, options = {}) => {
-        const response = await axios.post(path, options);
-        return response;
-    }
 }
 
 const ApiUser = new UserService();

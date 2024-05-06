@@ -2,6 +2,7 @@ import { Container, Typography, Grid, Button, TextField, MenuItem } from '@mui/m
 import { useFormik } from 'formik'
 import React from 'react'
 import * as Yup from "yup"
+import ReaderApi from '../../../../../untils/api/Reader'
 
 
 
@@ -25,11 +26,17 @@ function DangKiDocGia() {
                ngaylapthe: Yup.date().required("Bắt buộc")
           }),
 
-          onSubmit: (values) => {
-               console.log(values)
+          onSubmit: async (values) => {
+               console.log(values);
           }
      })
+     const handleOnSubmit = async (event) => {
+          event.preventDefault();
+          const res = await ReaderApi.createNewReader('reader_manage/createNewReader', formik.values);
+          console.log(res);
+     }
 
+      
      return (
           <Container component="main" maxWidth="xs" onSubmit={formik.handleSubmit} sx={{ border: 'solid 1px', borderRadius: '20px', mt: '30px' }}>
                <Typography component="h1" variant="h5" sx={{ mt: 2, mb: 2, textAlign: 'center' }}>
@@ -112,6 +119,7 @@ function DangKiDocGia() {
                          </Grid>
                          <Grid item xs={12}>
                               <Button
+                                   onClick={handleOnSubmit}
                                    type="submit"
                                    fullWidth
                                    variant="contained"
