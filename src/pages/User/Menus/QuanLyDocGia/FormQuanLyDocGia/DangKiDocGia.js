@@ -17,8 +17,12 @@ function DangKiDocGia() {
                ngaylapthe: ''
           },
           validationSchema: Yup.object({
-               hoten: Yup.string().required("Required").min(4, 'Độ dài tối thiểu là 4'),
-               email: Yup.string().required("Required").matches(/^[\w\-.]+@([\w-]+\.)+[\w-]{2,}$/, 'Địa chỉ email không hợp lệ'),
+               hoten: Yup.string().required("Bắt buộc").min(4, 'Độ dài tối thiểu là 4'),
+               email: Yup.string().required("Bắt buộc").matches(/^[\w\-.]+@([\w-]+\.)+[\w-]{2,}$/, 'Địa chỉ email không hợp lệ'),
+               ngaysinh: Yup.date().required("Bắt buộc"),
+               loaidocgia: Yup.string().required("Bắt buộc"),
+               diachi: Yup.string().required("Bắt buộc"),
+               ngaylapthe: Yup.date().required("Bắt buộc")
           }),
 
           onSubmit: (values) => {
@@ -26,10 +30,8 @@ function DangKiDocGia() {
           }
      })
 
-     console.log(formik.errors.email)
-
      return (
-          <Container component="main" maxWidth="xs" onSubmit={formik.handleSubmit} sx={{border: 'solid 1px', borderRadius: '20px', mt: '30px'}}>
+          <Container component="main" maxWidth="xs" onSubmit={formik.handleSubmit} sx={{ border: 'solid 1px', borderRadius: '20px', mt: '30px' }}>
                <Typography component="h1" variant="h5" sx={{ mt: 2, mb: 2, textAlign: 'center' }}>
                     Đăng kí thẻ độc giả
                </Typography>
@@ -44,7 +46,7 @@ function DangKiDocGia() {
                                    onChange={formik.handleChange}
                               />
                               {formik.errors.hoten && (
-                                   <Typography sx={{color:'red'}}>{formik.errors.hoten}</Typography>
+                                   <Typography sx={{ color: 'red' }}>{formik.errors.hoten}</Typography>
                               )}
                          </Grid>
                          <Grid item xs={12}>
@@ -57,7 +59,7 @@ function DangKiDocGia() {
                                    onChange={formik.handleChange}
                               />
                               {formik.errors.email && (
-                                   <Typography sx={{color:'red'}}>{formik.errors.email}</Typography>
+                                   <Typography sx={{ color: 'red' }}>{formik.errors.email}</Typography>
                               )}
                          </Grid>
                          <Grid item xs={12}>
@@ -113,7 +115,7 @@ function DangKiDocGia() {
                                    type="submit"
                                    fullWidth
                                    variant="contained"
-                                   sx={{ mt: 3, mb: 2 }}
+                                   sx={{ mt: 1, mb: 2 }}
                               >
                                    Đăng ký
                               </Button>
