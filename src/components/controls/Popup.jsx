@@ -6,25 +6,28 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 
 const Popup = (props) => {
-  const { title, children, openPopup, setOpenPopup, onClose } = props;
+  const { title, children, openPopup, setOpenPopup } = props;
+
+  const [close, setClose] = useState(false);
+  const handleClose = () => {
+    setOpenPopup(false);
+  };
   return (
-    <Dialog open={openPopup} onClose={onClose}>
+    <Dialog open={openPopup} onClose={handleClose} maxWidth="md">
       <DialogTitle display="flex">
-        <Typography variant="h4" flexGrow={1}>
+        <Typography variant="h5" component="div" flexGrow={1}>
           {title}
         </Typography>
-        <IconButton color="error">
+        <IconButton color="error" onClick={handleClose}>
           <HighlightOffOutlinedIcon />
         </IconButton>
       </DialogTitle>
-      <DialogContent>
-        <div>Content here</div>
-      </DialogContent>
+      <DialogContent>{children}</DialogContent>
     </Dialog>
   );
 };

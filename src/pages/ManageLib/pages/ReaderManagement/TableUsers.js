@@ -9,6 +9,9 @@ import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import { Button, TablePagination, styled } from '@mui/material';
 
+import DeleteIcon from '@mui/icons-material/Delete';
+import EditIcon from '@mui/icons-material/Edit';
+
 
 const rows = [
      { id: 1, madg: 'Snow1', hoten: 'Jon1', ngaysinh: '01/01/2004', loai: 'X', diachi: '1', email: 'test1@gmail.com', ngaylapthe: '01/01/2024' },
@@ -45,7 +48,7 @@ export const TableUser = () => {
 
      return (
           <Box sx={{ height: "100%", width: '100%' }}>
-               <TableContainer component={Paper} sx={{ maxHeight: 400, overflow: 'auto' }}>
+               <TableContainer component={Paper} sx={{ maxHeight: 'sm', overflow: 'auto' }}>
                     <Table>
                          <TableHead>
                               <TableRow>
@@ -79,13 +82,13 @@ export const TableUser = () => {
                                                   variant='contained'
                                                   sx={{ mx: 2 }} color='warning'
                                              >
-                                                  Edit
+                                                  <EditIcon />
                                              </Button>
                                              <Button
                                                   variant='contained'
                                                   color='error'
                                              >
-                                                  Delete
+                                                  <DeleteIcon />
                                              </Button>
                                         </TableCell>
                                    </TableRow>

@@ -7,6 +7,7 @@ import { TableUser } from './TableUsers';
 import { Box, AppBar, Button, InputBase, Toolbar, Typography, styled } from '@mui/material';
 //Local
 import Popup from '../../../../components/controls/Popup';
+import FormAddReader from './FormAddReader';
 
 
 const StyledToolbar = styled(Toolbar)({
@@ -29,7 +30,7 @@ export const ReaderManagementPage = () => {
     <Box sx={{ height: 400, width: '100%', mt: 5 }}>
       <AppBar position='static'>
         <StyledToolbar>
-          <Typography variant='h7'>Libary Management - Table Reader</Typography>
+          <Typography variant='h6'>Libary Management - Table Reader</Typography>
           <Search><InputBase placeholder='seacrh reader...' sx={{ width: "100%" }} /></Search>
           <Button
             color='success'
@@ -43,9 +44,12 @@ export const ReaderManagementPage = () => {
       </AppBar>
       <TableUser />
       <Popup
-        title='Tamanh'
+        title='Form Add Reader'
         openPopup={openPopup}
-      />
+        setOpenPopup={setOpenPopup}
+      >
+        <FormAddReader/>
+      </Popup>
     </Box>
   );
 }
