@@ -19,7 +19,7 @@ const Popup = (props) => {
   };
   return (
     <Dialog open={openPopup} onClose={handleClose} maxWidth="md">
-      <DialogTitle display="flex">
+      <DialogTitle display="flex" sx={{alignItems:'center'}}>
         <Typography variant="h5" component="div" flexGrow={1}>
           {title}
         </Typography>

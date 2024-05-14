@@ -48,7 +48,7 @@ export const ReaderManagementPage = () => {
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
       >
-        <FormAddReader/>
+        <FormAddReader />
       </Popup>
     </Box>
   );
