@@ -2,6 +2,7 @@ import { Container, Typography, Grid, Button, TextField, MenuItem } from '@mui/m
 import { useFormik } from 'formik'
 import React from 'react'
 import * as Yup from "yup"
+import ReaderApi from '../../../../../untils/api/Reader'
 
 
 
@@ -25,11 +26,17 @@ function FormAddUser() {
                ngaylapthe: Yup.date().required("Bắt buộc")
           }),
 
-          onSubmit: (values) => {
-               console.log(values)
+          onSubmit: async (values) => {
+               console.log(values);
           }
      })
+     const handleOnSubmit = async (event) => {
+          event.preventDefault();
+          const res = await ReaderApi.createNewReader('reader_manage/createNewReader', formik.values);
+          console.log(res);
+     }
 
+      
      return (
           <Container component="main" maxWidth="xs" onSubmit={formik.handleSubmit} sx={{ mt: '10px' }}>
                <form>
@@ -109,6 +116,7 @@ function FormAddUser() {
                          </Grid>
                          <Grid item xs={12}>
                               <Button
+                                   onClick={handleOnSubmit}
                                    type="submit"
                                    fullWidth
                                    variant="contained"
