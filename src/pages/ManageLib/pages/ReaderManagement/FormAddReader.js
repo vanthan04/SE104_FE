@@ -43,7 +43,7 @@ function FormAddUser() {
                                    onChange={formik.handleChange}
                               />
                               {formik.errors.hoten && (
-                                   <Typography sx={{ color: 'red' }}>{formik.errors.hoten}</Typography>
+                                   <Typography component='div' sx={{ color: 'red' }}>{formik.errors.hoten}</Typography>
                               )}
                          </Grid>
                          <Grid item xs={12}>
@@ -56,7 +56,7 @@ function FormAddUser() {
                                    onChange={formik.handleChange}
                               />
                               {formik.errors.email && (
-                                   <Typography sx={{ color: 'red' }}>{formik.errors.email}</Typography>
+                                   <Typography component='div' sx={{ color: 'red' }}>{formik.errors.email}</Typography>
                               )}
                          </Grid>
                          <Grid item xs={12}>

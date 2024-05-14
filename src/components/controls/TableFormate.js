@@ -13,10 +13,6 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
 
-
-
-
-
 export const TableFormate = (props) => {
      const { rows } = props
      const columns = Object.keys(rows[0])
@@ -37,22 +33,13 @@ export const TableFormate = (props) => {
      const emptyRows = rowsPerPage - Math.min(rowsPerPage, rows.length - page * rowsPerPage);
 
      return (
-          <Box sx={{ height: "100%", width: '100%' }}>
-               <TableContainer component={Paper} sx={{ maxHeight: 'sm', overflow: 'auto' }}>
+          <Box sx={{ height: '100%', width: '100%' }}>
+               <TableContainer component={Paper} sx={{ maxHeight: '400px', overflow: 'auto' }}>
                     <Table>
                          <TableHead>
                               <TableRow>
-                                   {/* <TableCell align='center'>ID</TableCell>
-                                   <TableCell align='center'>Mã độc giả</TableCell>
-                                   <TableCell align='center'>Họ tên</TableCell>
-                                   <TableCell align='center'>Ngày sinh</TableCell>
-                                   <TableCell align='center'>Loại độc giả</TableCell>
-                                   <TableCell align='center'>Email</TableCell>
-                                   <TableCell align='center'>Địa chỉ</TableCell>
-                                   <TableCell align='center'>Ngày lập thẻ</TableCell>
-                                   <TableCell align='center'>Active</TableCell> */}
-                                   {columns.map(column => (
-                                        <TableCell align='center'>{column}</TableCell>
+                                   {columns.map((column, index) => (
+                                        <TableCell key={index + 'column'} align='center'>{column}</TableCell>
                                    ))}
                                    <TableCell align='center'>Active</TableCell>
                               </TableRow>
@@ -63,20 +50,12 @@ export const TableFormate = (props) => {
                                    : rows
                               ).map((row) => (
                                    <TableRow key={row.id}>
-                                        {columns.map((column) => {
+                                        {columns.map((column, index) => {
                                              const value = row[column]
                                              return (
-                                                  <TableCell align='right'>{value}</TableCell>
+                                                  <TableCell key={index + 'column'} align='right'>{value}</TableCell>
                                              )
                                         })}
-                                        {/* <TableCell align='right'>{row.id}</TableCell>
-                                        <TableCell align='right'>{row.madg}</TableCell>
-                                        <TableCell align='right'>{row.hoten}</TableCell>
-                                        <TableCell align='right'>{row.ngaysinh}</TableCell>
-                                        <TableCell align='right'>{row.loai}</TableCell>
-                                        <TableCell align='right'>{row.email}</TableCell>
-                                        <TableCell align='right'>{row.diachi}</TableCell>
-                                        <TableCell align='right'>{row.ngaylapthe}</TableCell> */}
                                         <TableCell>
                                              <Button
                                                   variant='contained'
