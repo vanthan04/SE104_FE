@@ -3,7 +3,7 @@ import { useState } from 'react';
 //Icon
 import PersonAddAlt1OutlinedIcon from '@mui/icons-material/PersonAddAlt1Outlined';
 //Components
-import { TableFormate, TableUser } from '../../../../components/controls/TableFormate';
+import { TableFormate } from '../../../../components/controls/TableFormate';
 import { Box, AppBar, Button, InputBase, Toolbar, Typography, styled } from '@mui/material';
 //Local
 import Popup from '../../../../components/controls/Popup';

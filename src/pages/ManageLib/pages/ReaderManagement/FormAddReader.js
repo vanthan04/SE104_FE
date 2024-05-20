@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Button, MenuItem, Grid, Container, Typography } from '@mui/material';
+import { TextField, Button, MenuItem, Grid, Container } from '@mui/material';
 
 const FormAddReader = (props) => {
      const { closePopup } = props
@@ -29,7 +29,7 @@ const FormAddReader = (props) => {
      return (
           <Container component="main" maxWidth="xs">
                <form onSubmit={handleSubmit}>
-                    <Grid container spacing={2}>
+                    <Grid container spacing={2} mt={1}>
                          <Grid item xs={12}>
                               <TextField
                                    variant="outlined"
