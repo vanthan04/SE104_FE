@@ -7,7 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Button, TablePagination, styled } from '@mui/material';
+import { Button, TablePagination, Tooltip } from '@mui/material';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
@@ -56,19 +56,23 @@ export const TableFormate = (props) => {
                                                   <TableCell key={index + 'column'} align='right'>{value}</TableCell>
                                              )
                                         })}
-                                        <TableCell>
-                                             <Button
-                                                  variant='contained'
-                                                  sx={{ mx: 2 }} color='warning'
-                                             >
-                                                  <EditIcon />
-                                             </Button>
-                                             <Button
-                                                  variant='contained'
-                                                  color='error'
-                                             >
-                                                  <DeleteIcon />
-                                             </Button>
+                                        <TableCell align='center'>
+                                             <Tooltip title="Edit" arrow placement='top'>
+                                                  <Button
+                                                       variant='contained'
+                                                       sx={{ mr: 2 }} color='warning'
+                                                  >
+                                                       <EditIcon />
+                                                  </Button>
+                                             </Tooltip>
+                                             <Tooltip title="Delete" arrow placement='top'>
+                                                  <Button
+                                                       variant='contained'
+                                                       color='error'
+                                                  >
+                                                       <DeleteIcon />
+                                                  </Button>
+                                             </Tooltip>
                                         </TableCell>
                                    </TableRow>
                               ))}

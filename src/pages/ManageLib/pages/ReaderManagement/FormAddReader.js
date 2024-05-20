@@ -1,72 +1,58 @@
-import { Container, Typography, Grid, Button, TextField, MenuItem } from '@mui/material'
-import { useFormik } from 'formik'
-import React from 'react'
-import * as Yup from "yup"
+import React, { useState } from 'react';
+import { TextField, Button, MenuItem, Grid, Container, Typography } from '@mui/material';
 
+const FormAddReader = (props) => {
+     const { closePopup } = props
+     const [formData, setFormData] = useState({
+          hoten: '',
+          loaidocgia: '',
+          ngaysinh: '',
+          diachi: '',
+          email: '',
+          ngaylapthe: '',
+     });
 
+     const handleChange = (e) => {
+          const { name, value } = e.target;
+          setFormData({
+               ...formData,
+               [name]: value,
+          });
+     };
 
-
-function FormAddUser() {
-     const formik = useFormik({
-          initialValues: {
-               hoten: '',
-               loaidocgia: '',
-               ngaysinh: '',
-               diachi: '',
-               email: '',
-               ngaylapthe: ''
-          },
-          validationSchema: Yup.object({
-               hoten: Yup.string().required("Bắt buộc").min(4, 'Độ dài tối thiểu là 4'),
-               email: Yup.string().required("Bắt buộc").matches(/^[\w\-.]+@([\w-]+\.)+[\w-]{2,}$/, 'Địa chỉ email không hợp lệ'),
-               ngaysinh: Yup.date().required("Bắt buộc"),
-               loaidocgia: Yup.string().required("Bắt buộc"),
-               diachi: Yup.string().required("Bắt buộc"),
-               ngaylapthe: Yup.date().required("Bắt buộc")
-          }),
-
-          onSubmit: (values) => {
-               console.log(values)
-          }
-     })
+     const handleSubmit = (e) => {
+          e.preventDefault();
+          // Xử lý dữ liệu form ở đây
+          console.log(formData);
+     };
 
      return (
-          <Container component="main" maxWidth="xs" onSubmit={formik.handleSubmit} sx={{ mt: '10px' }}>
-               <form>
+          <Container component="main" maxWidth="xs">
+               <form onSubmit={handleSubmit}>
                     <Grid container spacing={2}>
                          <Grid item xs={12}>
                               <TextField
+                                   variant="outlined"
+                                   required
                                    fullWidth
-                                   label="Tên đầy đủ"
+                                   id="hoten"
+                                   label="Họ Tên"
                                    name="hoten"
-                                   value={formik.values.hoten}
-                                   onChange={formik.handleChange}
+                                   value={formData.hoten}
+                                   onChange={handleChange}
                               />
-                              {formik.errors.hoten && (
-                                   <Typography component='div' sx={{ color: 'red' }}>{formik.errors.hoten}</Typography>
-                              )}
                          </Grid>
                          <Grid item xs={12}>
                               <TextField
-                                   fullWidth
-                                   label="Email"
-                                   name="email"
-                                   type="email"
-                                   value={formik.values.email}
-                                   onChange={formik.handleChange}
-                              />
-                              {formik.errors.email && (
-                                   <Typography component='div' sx={{ color: 'red' }}>{formik.errors.email}</Typography>
-                              )}
-                         </Grid>
-                         <Grid item xs={12}>
-                              <TextField
-                                   fullWidth
                                    select
-                                   label="Loại Độc giả"
+                                   variant="outlined"
+                                   required
+                                   fullWidth
+                                   id="loaidocgia"
+                                   label="Loại Độc Giả"
                                    name="loaidocgia"
-                                   value={formik.values.loaidocgia}
-                                   onChange={formik.handleChange}
+                                   value={formData.loaidocgia}
+                                   onChange={handleChange}
                               >
                                    <MenuItem value="X">X</MenuItem>
                                    <MenuItem value="Y">Y</MenuItem>
@@ -74,37 +60,55 @@ function FormAddUser() {
                          </Grid>
                          <Grid item xs={12}>
                               <TextField
+                                   variant="outlined"
+                                   required
                                    fullWidth
-                                   label="Ngày sinh"
+                                   id="ngaysinh"
+                                   label="Ngày Sinh"
                                    name="ngaysinh"
                                    type="date"
-                                   InputLabelProps={{
-                                        shrink: true,
-                                   }}
-                                   value={formik.values.ngaysinh}
-                                   onChange={formik.handleChange}
+                                   InputLabelProps={{ shrink: true }}
+                                   value={formData.ngaysinh}
+                                   onChange={handleChange}
                               />
                          </Grid>
                          <Grid item xs={12}>
                               <TextField
+                                   variant="outlined"
+                                   required
                                    fullWidth
-                                   label="Địa chỉ"
+                                   id="diachi"
+                                   label="Địa Chỉ"
                                    name="diachi"
-                                   value={formik.values.diachi}
-                                   onChange={formik.handleChange}
+                                   value={formData.diachi}
+                                   onChange={handleChange}
                               />
                          </Grid>
                          <Grid item xs={12}>
                               <TextField
+                                   variant="outlined"
+                                   required
                                    fullWidth
-                                   label="Ngày lập thẻ"
+                                   id="email"
+                                   label="Email"
+                                   name="email"
+                                   type="email"
+                                   value={formData.email}
+                                   onChange={handleChange}
+                              />
+                         </Grid>
+                         <Grid item xs={12}>
+                              <TextField
+                                   variant="outlined"
+                                   required
+                                   fullWidth
+                                   id="ngaylapthe"
+                                   label="Ngày Lập Thẻ"
                                    name="ngaylapthe"
                                    type="date"
-                                   InputLabelProps={{
-                                        shrink: true,
-                                   }}
-                                   value={formik.values.ngaylapthe}
-                                   onChange={formik.handleChange}
+                                   InputLabelProps={{ shrink: true }}
+                                   value={formData.ngaylapthe}
+                                   onChange={handleChange}
                               />
                          </Grid>
                          <Grid item xs={12}>
@@ -112,15 +116,16 @@ function FormAddUser() {
                                    type="submit"
                                    fullWidth
                                    variant="contained"
-                                   sx={{ mt: 1, mb: 2 }}
+                                   color="primary"
+                                   onClick={closePopup}
                               >
-                                   Đăng ký
+                                   Đăng Ký
                               </Button>
                          </Grid>
                     </Grid>
                </form>
           </Container>
-     )
-}
+     );
+};
 
-export default FormAddUser
+export default FormAddReader;
