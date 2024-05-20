@@ -7,11 +7,21 @@ import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 
 import React from 'react'
-import { Link, NavLink } from 'react-router-dom';
+import { Link, NavLink, useNavigate } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
+import { logout } from '../../../../store/admin/userSlice';
 
 
 
 const SideBarML = () => {
+     const dispatch = useDispatch();
+     const navigate = useNavigate();
+
+     const handleLogOut = (event) => {
+          event.preventDefault();
+          dispatch(logout);
+          navigate('/login')
+     }
      return (
           <Box
                flex={1} p={2}
@@ -66,7 +76,7 @@ const SideBarML = () => {
                          </ListItemButton>
                     </ListItem>
                     <Divider />
-                    <ListItem>
+                    <ListItem onClick={handleLogOut}>
                          <ListItemButton>
                               <ListItemIcon>
                                    <LogoutOutlinedIcon />

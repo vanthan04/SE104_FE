@@ -40,7 +40,7 @@ const LoginForm = () => {
                            token: response.accessToken,
                          })
                        );
-                    navigate('/users')
+                    navigate('/librarian/reader')
                }
                console.log('Kết quả:', response);
                // Xử lý kết quả tại đây, ví dụ: chuyển hướng người dùng nếu đăng nhập thành công
