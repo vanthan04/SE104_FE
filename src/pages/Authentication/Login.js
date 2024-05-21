@@ -1,17 +1,23 @@
-<<<<<<< Updated upstream
-=======
 import { Box, Container, TextField, Typography, Button } from '@mui/material'
 import React, { useState } from 'react'
 import ApiUser from '../../untils/api/user'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
+import { login, logout } from '../../store/user/userSlice'
 
 const LoginForm = () => {
      const [data, setData] = useState({
           username: '',
           password: ''
      })
-     const navigate = useNavigate()
-     const { username, password } = data
+     const location = useLocation()
+     const navigate = useNavigate();
+     const dispatch = useDispatch();
+     const { username, password } = data;
+
+     if (location.pathname === '/login'){
+          dispatch(logout())
+     } 
      const handleChange = (event) => {
           setData({
                ...data,
@@ -26,21 +32,29 @@ const LoginForm = () => {
                return
           }
           try {
-               // Gọi phương thức postLogin từ ApiUser với đường dẫn và dữ liệu đăng nhập
-               const response = await ApiUser.postLogin('/user/loginAdmin', {
-                       username: username,
-                       password: password
-               });
-               console.log('Kết quả:', response);
-               if (response.success){
-                    navigate('/dashbar')
+               const user = {
+                    username: username,
+                    password: password
                }
+               // Gọi phương thức postLogin từ ApiUser với đường dẫn và dữ liệu đăng nhập
+               const response = await ApiUser.postLogin('/user/loginAdmin', user);
+               if (response.success){
+                    dispatch(
+                         login({
+                           isLoggin: true,
+                           token: response.accessToken,
+                         })
+                       );
+                    navigate('/librarian/reader')
+               }
+               console.log('Kết quả:', response);
                // Xử lý kết quả tại đây, ví dụ: chuyển hướng người dùng nếu đăng nhập thành công
            } catch (error) {
                console.error('Đã xảy ra lỗi khi đăng nhập:', error);
                // Xử lý lỗi tại đây, ví dụ: hiển thị thông báo lỗi cho người dùng
            }
      }
+
      return (
           <Container
                sx={{ height: '60vh' }}
@@ -71,6 +85,7 @@ const LoginForm = () => {
                               name='username'
                               autoFocus
                               value={username}
+                              autoComplete='username'
                               onChange={handleChange} />
 
                          <TextField
@@ -81,6 +96,7 @@ const LoginForm = () => {
                               type='password'
                               name='password'
                               value={password}
+                              autoComplete='current-password'
                               onChange={handleChange}
                          />
                          <Button
@@ -100,4 +116,3 @@ const LoginForm = () => {
 }
 
 export default LoginForm
->>>>>>> Stashed changes
