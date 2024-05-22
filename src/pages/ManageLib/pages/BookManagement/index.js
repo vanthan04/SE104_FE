@@ -6,7 +6,7 @@ import BookmarkAddIcon from '@mui/icons-material/BookmarkAdd';
 //Components
 
 import { Box, AppBar, Button, InputBase, Toolbar, Typography, styled, Tooltip } from '@mui/material';
-import { TableFormate } from '../../../../components/controls/TableFormate';
+import { TableFormate } from '../ReaderManagement/TableReaders';
 //Local
 // import Popup from '../../../../components/controls/Popup';
 // import FormAddReader from './FormAddReader';
@@ -62,14 +62,6 @@ export const BookManagementPage = () => {
                          </Tooltip>
                     </StyledToolbar>
                </AppBar>
-               <TableFormate rows={data} />
-               {/* <Popup
-                    title='Form Add Reader'
-                    openPopup={openPopup}
-                    setOpenPopup={setOpenPopup}
-               >
-                    <FormAddReader />
-               </Popup> */}
           </Box>
      );
 }

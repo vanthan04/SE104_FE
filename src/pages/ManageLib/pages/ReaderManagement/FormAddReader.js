@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TextField, Button, MenuItem, Grid, Container } from '@mui/material';
-
+import ApiUser from '../../../../untils/api/user';
 const FormAddReader = (props) => {
      const { closePopup } = props
      const [formData, setFormData] = useState({
@@ -20,10 +20,13 @@ const FormAddReader = (props) => {
           });
      };
 
+
      const handleSubmit = (e) => {
           e.preventDefault();
           // Xử lý dữ liệu form ở đây
+          ApiUser.postAddReader("/readerManage/createNewReader", formData)
           console.log(formData);
+          closePopup()
      };
 
      return (
@@ -117,7 +120,7 @@ const FormAddReader = (props) => {
                                    fullWidth
                                    variant="contained"
                                    color="primary"
-                                   onClick={closePopup}
+                                   onClick={handleSubmit}
                               >
                                    Đăng Ký
                               </Button>

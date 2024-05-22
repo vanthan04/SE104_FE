@@ -1,12 +1,11 @@
 import {
-  Button,
   Dialog,
   DialogContent,
   DialogTitle,
   IconButton,
   Typography,
 } from "@mui/material";
-import React, { useState } from "react";
+import React from "react";
 
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 

@@ -7,14 +7,14 @@ import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 
 import React from 'react'
-import { Link, NavLink } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 
 
 
 const SideBarML = () => {
      return (
           <Box
-               flex={1} p={2}
+               flex={1 / 5} p={2}
                sx={{ display: { xs: 'none', sm: 'block' } }}
           >
                <List>

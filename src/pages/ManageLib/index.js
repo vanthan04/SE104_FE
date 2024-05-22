@@ -10,13 +10,13 @@ const ManageLibPage = () => {
      return (
           <>
                <NavBar />
-               <Stack direction='row' spacing={2} justifyContent='space-between'>
+               <Box display='flex' spacing={2} justifyContent='space-between'>
                     <SideBarML />
                     <Box flex={4}>
                          <Outlet />
                     </Box>
 
-               </Stack>
+               </Box>
           </>
      )
 }
