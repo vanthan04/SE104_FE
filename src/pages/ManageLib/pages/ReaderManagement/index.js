@@ -3,40 +3,36 @@ import { useEffect, useState } from 'react';
 //Icon
 import PersonAddAlt1OutlinedIcon from '@mui/icons-material/PersonAddAlt1Outlined';
 //Components
-import { Box, AppBar, Button, InputBase, Toolbar, Typography, styled } from '@mui/material';
+import { Box, AppBar, Button, InputBase, Typography, styled } from '@mui/material';
 //Local
 import Popup from '../../../../components/controls/Popup';
 import FormAddReader from './FormAddReader';
 import ApiUser from '../../../../untils/api/user';
 import { TableReaders } from './TableReaders';
+import { StyledToolbar, Search } from '../../components';
 
 
 
-const StyledToolbar = styled(Toolbar)({
-  display: 'flex',
-  justifyContent: 'space-between'
-}
-)
-
-const Search = styled('div')(({ theme }) => ({
-  backgroundColor: "white",
-  padding: '0 10px',
-  borderRadius: theme.shape.borderRadius,
-  width: '40%',
-}))
 
 export const ReaderManagementPage = () => {
   const [openPopup, setOpenPopup] = useState(false)
   const [data, setData] = useState([]);
 
+
   useEffect(() => {
-    const fetchData = async () => {
-      const response = await ApiUser.getAllReader('/readerManage/getAllReaders')
-      setData(response.data);
-      console.log(response)
-    };
     fetchData();
   }, []);
+
+  const fetchData = async () => {
+    const response = await ApiUser.getAllReader('/readerManage/getAllReaders');
+    if (response.data) {
+      setData(response.data);
+    }
+  };
+
+  const handleAddReaderSuccess = async () => {
+    await fetchData();
+  };
 
 
   return (
@@ -61,7 +57,10 @@ export const ReaderManagementPage = () => {
         openPopup={openPopup}
         setOpenPopup={setOpenPopup}
       >
-        <FormAddReader closePopup={() => setOpenPopup(!openPopup)} />
+        <FormAddReader
+          closePopup={() => setOpenPopup(false)}
+          onAddReader={handleAddReaderSuccess}
+        />
       </Popup>
     </Box>
   );

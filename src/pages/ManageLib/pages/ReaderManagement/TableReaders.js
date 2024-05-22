@@ -58,7 +58,7 @@ export const TableReaders = (props) => {
                         {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
                             <TableRow key={row._id}>
                                 {columns.map((column) => (
-                                    <TableCell key={column.id} align='justify'>
+                                    <TableCell key={column.id} align='center'>
                                         {row[column.id]}
                                     </TableCell>
                                 ))}

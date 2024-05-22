@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import { TextField, Button, MenuItem, Grid, Container } from '@mui/material';
 import ApiUser from '../../../../untils/api/user';
+import { toast } from 'react-toastify';
 const FormAddReader = (props) => {
-     const { closePopup } = props
+     const { closePopup, onAddReader } = props
      const [formData, setFormData] = useState({
           hoten: '',
           loaidocgia: '',
@@ -21,12 +22,24 @@ const FormAddReader = (props) => {
      };
 
 
-     const handleSubmit = (e) => {
+     const handleSubmit = async (e) => {
           e.preventDefault();
-          // Xử lý dữ liệu form ở đây
-          ApiUser.postAddReader("/readerManage/createNewReader", formData)
-          console.log(formData);
-          closePopup()
+          let response = await ApiUser.postAddReader("/readerManage/createNewReader", formData);
+          if (response && response.data) {
+               toast.success(`${response.message}`)
+               onAddReader();
+               setFormData({
+                    hoten: '',
+                    loaidocgia: '',
+                    ngaysinh: '',
+                    diachi: '',
+                    email: '',
+                    ngaylapthe: '',
+               });
+          } else {
+               toast.error(`${response.message}`)
+          }
+
      };
 
      return (
