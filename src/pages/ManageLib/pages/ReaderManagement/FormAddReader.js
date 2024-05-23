@@ -3,7 +3,7 @@ import { TextField, Button, MenuItem, Grid, Container } from '@mui/material';
 import ApiUser from '../../../../untils/api/user';
 import { toast } from 'react-toastify';
 const FormAddReader = (props) => {
-     const { closePopup, onAddReader } = props
+     const { onAddReader } = props
      const [formData, setFormData] = useState({
           hoten: '',
           loaidocgia: '',
@@ -21,13 +21,12 @@ const FormAddReader = (props) => {
           });
      };
 
-
      const handleSubmit = async (e) => {
           e.preventDefault();
           let response = await ApiUser.postAddReader("/readerManage/createNewReader", formData);
           if (response && response.data) {
-               toast.success(`${response.message}`)
-               onAddReader();
+               toast.success(`${response.message}`) //Thông báo thành công
+               onAddReader();//Cập nhật lại dữ liệu của table khi add thành công
                setFormData({
                     hoten: '',
                     loaidocgia: '',
@@ -37,7 +36,7 @@ const FormAddReader = (props) => {
                     ngaylapthe: '',
                });
           } else {
-               toast.error(`${response.message}`)
+               toast.error(`${response.message}`) //Thông báo lỗi
           }
 
      };
@@ -82,7 +81,7 @@ const FormAddReader = (props) => {
                                    id="ngaysinh"
                                    label="Ngày Sinh"
                                    name="ngaysinh"
-                                   placeholder='ví dụ: 03/12/2024'
+                                   type='data'
                                    InputLabelProps={{ shrink: true }}
                                    value={formData.ngaysinh}
                                    onChange={handleChange}
@@ -121,7 +120,7 @@ const FormAddReader = (props) => {
                                    id="ngaylapthe"
                                    label="Ngày Lập Thẻ"
                                    name="ngaylapthe"
-                                   placeholder='ví dụ: 03/12/2004'
+                                   type='data'
                                    InputLabelProps={{ shrink: true }}
                                    value={formData.ngaylapthe}
                                    onChange={handleChange}
