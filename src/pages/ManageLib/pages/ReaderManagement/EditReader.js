@@ -9,10 +9,10 @@ const EditReader = (props) => {
     MaDG: user.MaDG,
     hoten: user.hoten,
     loaidocgia: user.loaidocgia,
-    ngaysinh: user.ngaysinh,
+    ngaysinh: user.ngaysinhtoUpdate,
     diachi: user.diachi,
     email: user.email,
-    ngaylapthe: user.ngaylapthe,
+    ngaylapthe: user.ngaylapthetoUpdate,
   });
 
   const handleChange = (event) => {
@@ -94,6 +94,7 @@ const EditReader = (props) => {
               name='ngaysinh'
               InputLabelProps={{ shrink: true }}
               fullWidth
+              type='date'
               value={formUser.ngaysinh}
               onChange={handleChange}
             />
@@ -106,6 +107,7 @@ const EditReader = (props) => {
               name='ngaylapthe'
               InputLabelProps={{ shrink: true }}
               fullWidth
+              type='date'
               value={formUser.ngaylapthe}
               onChange={handleChange}
             />

@@ -21,11 +21,11 @@ import EditReader from './EditReader';
 const columns = [
     { id: 'MaDG', label: 'MaDG' },
     { id: 'hoten', label: 'Họ và tên' },
-    { id: 'ngaysinh', label: 'Ngày sinh' },
+    { id: 'ngaysinhtoShow', label: 'Ngày sinh' },
     { id: 'email', label: 'Email' },
     { id: 'loaidocgia', label: 'Loại độc giả' },
     { id: 'diachi', label: 'Địa chỉ' },
-    { id: 'ngaylapthe', label: 'Ngày Lập thẻ' },
+    { id: 'ngaylapthetoShow', label: 'Ngày Lập thẻ' },
     { id: 'tongno', label: 'Tổng nợ' }
 ];
 
@@ -72,7 +72,7 @@ export const TableReaders = (props) => {
                             {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
                                 <TableRow key={row._id}>
                                     {columns.map((column) => (
-                                        <TableCell key={column.id} align='center'>
+                                        <TableCell key={`${row._id}-${column.id}`} align='center'>
                                             {row[column.id]}
                                         </TableCell>
                                     ))}

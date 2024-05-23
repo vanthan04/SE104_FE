@@ -25,6 +25,7 @@ export const ReaderManagementPage = () => {
 
   const fetchData = async () => {
     const response = await ApiUser.getAllReader('/readerManage/getAllReaders');
+    console.log(response);
     if (response.data) {
       setData(response.data);
     }
