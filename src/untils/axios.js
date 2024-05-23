@@ -7,6 +7,13 @@ const instance = axios.create({
 // Thêm một bộ đón chặn request
 instance.interceptors.request.use(function (config) {
     // Làm gì đó trước khi request được gửi đi
+    const accessToken  = localStorage.getItem('token');
+    if (accessToken && typeof(accessToken) === "string"){
+      config.headers = {
+        Authorization: `Bearer ${accessToken}`,
+      };
+      return config;
+    } else 
     return config;
   }, function (error) {
     // Làm gì đó khi lỗi
