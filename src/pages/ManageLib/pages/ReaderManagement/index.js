@@ -29,7 +29,7 @@ export const ReaderManagementPage = () => {
       setData(response.data);
     }
   };
-
+  //fetch lại data table khi thực hiện thành công 1 chức năng
   const handleDataSuccess = async () => {
     await fetchData();
   };
@@ -61,7 +61,6 @@ export const ReaderManagementPage = () => {
         setOpenPopup={setOpenPopupAdd}
       >
         <FormAddReader
-          closePopup={() => setOpenPopupAdd(false)}
           onAddReader={handleDataSuccess}
         />
       </Popup>
