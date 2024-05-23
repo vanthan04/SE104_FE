@@ -2,7 +2,7 @@ import { Box, Container, TextField, Typography, Button } from '@mui/material'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { login } from '../../../store/admin/userSlice'
+import { login } from '../../../store/user/userSlice'
 import ApiUser from '../../../untils/api/user'
 
 const LoginForm = () => {

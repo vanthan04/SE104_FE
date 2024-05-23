@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-export const adminSlice = createSlice({
-  name: 'admin',
+export const userSlice = createSlice({
+  name: 'user',
   initialState: {
     isLoggin: false,
     token: null,
@@ -19,12 +19,9 @@ export const adminSlice = createSlice({
         state.token = null;
         localStorage.clear();
     },
-    clearMessage: (state) => {
-      state.mes = "";
-    },
   },
 
 });
 
-export const { login, logout, clearMessage } = adminSlice.actions;
-export default adminSlice.reducer;
+export const { login, logout, clearMessage } = userSlice.actions;
+export default userSlice.reducer;

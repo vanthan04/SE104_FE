@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 //Icon
 import PersonAddAlt1OutlinedIcon from '@mui/icons-material/PersonAddAlt1Outlined';
 //Components
-import { Box, AppBar, Button, InputBase, Typography, styled } from '@mui/material';
+import { Box, AppBar, Button, InputBase, Typography } from '@mui/material';
 //Local
 import Popup from '../../../../components/controls/Popup';
 import FormAddReader from './FormAddReader';
@@ -15,7 +15,7 @@ import { StyledToolbar, Search } from '../../components';
 
 
 export const ReaderManagementPage = () => {
-  const [openPopup, setOpenPopup] = useState(false)
+  const [openPopupAdd, setOpenPopupAdd] = useState(false)
   const [data, setData] = useState([]);
 
 
@@ -25,12 +25,13 @@ export const ReaderManagementPage = () => {
 
   const fetchData = async () => {
     const response = await ApiUser.getAllReader('/readerManage/getAllReaders');
+    console.log(response);
     if (response.data) {
       setData(response.data);
     }
   };
-
-  const handleAddReaderSuccess = async () => {
+  //fetch lại data table khi thực hiện thành công 1 chức năng
+  const handleDataSuccess = async () => {
     await fetchData();
   };
 
@@ -45,21 +46,23 @@ export const ReaderManagementPage = () => {
             color='success'
             variant='contained'
             startIcon={<PersonAddAlt1OutlinedIcon />}
-            onClick={() => setOpenPopup(!openPopup)}
+            onClick={() => setOpenPopupAdd(!openPopupAdd)}
           >
             Add
           </Button>
         </StyledToolbar>
       </AppBar>
-      <TableReaders data={data} />
+      <TableReaders
+        data={data}
+        handleDataSuccess={handleDataSuccess}
+      />
       <Popup
         title='Form Add Reader'
-        openPopup={openPopup}
-        setOpenPopup={setOpenPopup}
+        openPopup={openPopupAdd}
+        setOpenPopup={setOpenPopupAdd}
       >
         <FormAddReader
-          closePopup={() => setOpenPopup(false)}
-          onAddReader={handleAddReaderSuccess}
+          onAddReader={handleDataSuccess}
         />
       </Popup>
     </Box>

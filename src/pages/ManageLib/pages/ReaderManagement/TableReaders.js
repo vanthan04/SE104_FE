@@ -1,34 +1,47 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Table from '@mui/material/Table';
-import TableBody from '@mui/material/TableBody';
-import TableCell from '@mui/material/TableCell';
-import TableContainer from '@mui/material/TableContainer';
-import TableHead from '@mui/material/TableHead';
-import TableRow from '@mui/material/TableRow';
-import Paper from '@mui/material/Paper';
-import { Button, TablePagination, Tooltip } from '@mui/material';
+import { useState } from 'react'
+import {
+    Box,
+    Table,
+    Button,
+    TablePagination,
+    Tooltip, Paper,
+    TableBody,
+    TableCell,
+    TableHead,
+    TableContainer,
+    TableRow
+}
+    from '@mui/material';
 
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import Popup from '../../../../components/controls/Popup';
+import EditReader from './EditReader';
 
 const columns = [
     { id: 'MaDG', label: 'MaDG' },
     { id: 'hoten', label: 'Họ và tên' },
-    { id: 'ngaysinh', label: 'Ngày sinh' },
+    { id: 'ngaysinhtoShow', label: 'Ngày sinh' },
     { id: 'email', label: 'Email' },
     { id: 'loaidocgia', label: 'Loại độc giả' },
     { id: 'diachi', label: 'Địa chỉ' },
-    { id: 'ngaylapthe', label: 'Ngày Lập thẻ' },
+    { id: 'ngaylapthetoShow', label: 'Ngày Lập thẻ' },
     { id: 'tongno', label: 'Tổng nợ' }
 ];
 
 export const TableReaders = (props) => {
-    const { data } = props;
+    const { data, handleDataSuccess } = props;
 
-    const [page, setPage] = React.useState(0);
-    const [rowsPerPage, setRowsPerPage] = React.useState(5);
+    const [openEdit, setOpenEdit] = useState(false)
+    const [page, setPage] = useState(0);
+    const [rowsPerPage, setRowsPerPage] = useState(5);
 
+    const [dataUserEdit, setDataUserEdit] = useState({})
+
+    const handleEdit = (user) => {
+        setOpenEdit(true)
+        setDataUserEdit(user)
+    }
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -41,60 +54,81 @@ export const TableReaders = (props) => {
     const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
 
     return (
-        <Box sx={{ height: '100%', width: '100%' }}>
-            <TableContainer component={Paper} sx={{ maxHeight: '400px', overflow: 'auto' }}>
-                <Table stickyHeader>
-                    <TableHead>
-                        <TableRow>
-                            {columns.map((column) => (
-                                <TableCell key={column.id} align='center'>
-                                    {column.label}
-                                </TableCell>
-                            ))}
-                            <TableCell align='center'>Actions</TableCell>
-                        </TableRow>
-                    </TableHead>
-                    <TableBody>
-                        {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
-                            <TableRow key={row._id}>
+        <>
+            <Box sx={{ height: '100%', width: '100%' }}>
+                <TableContainer component={Paper} sx={{ maxHeight: '400px', overflow: 'auto' }}>
+                    <Table stickyHeader>
+                        <TableHead>
+                            <TableRow>
                                 {columns.map((column) => (
                                     <TableCell key={column.id} align='center'>
-                                        {row[column.id]}
+                                        {column.label}
                                     </TableCell>
                                 ))}
-                                <TableCell>
-                                    <Box display='flex'>
-                                        <Tooltip title="Edit" arrow placement='top'>
-                                            <Button variant='contained' sx={{ mr: 1 }} color='warning' >
-                                                <EditIcon fontSize='small' />
-                                            </Button>
-                                        </Tooltip>
-                                        <Tooltip title="Delete" arrow placement='top'>
-                                            <Button variant='contained' color='error'>
-                                                <DeleteIcon fontSize='small' />
-                                            </Button>
-                                        </Tooltip>
-                                    </Box>
-                                </TableCell>
+                                <TableCell align='center'>Actions</TableCell>
                             </TableRow>
-                        ))}
-                        {emptyRows > 0 && (
-                            <TableRow style={{ height: 53 * emptyRows }}>
-                                <TableCell colSpan={columns.length + 1} />
-                            </TableRow>
-                        )}
-                    </TableBody>
-                </Table>
-            </TableContainer>
-            <TablePagination
-                component="div"
-                count={data.length}
-                page={page}
-                onPageChange={handleChangePage}
-                rowsPerPage={rowsPerPage}
-                onRowsPerPageChange={handleChangeRowsPerPage}
-                rowsPerPageOptions={[5, 10, 15]}
-            />
-        </Box>
+                        </TableHead>
+                        <TableBody>
+                            {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
+                                <TableRow key={row._id}>
+                                    {columns.map((column) => (
+                                        <TableCell key={`${row._id}-${column.id}`} align='center'>
+                                            {row[column.id]}
+                                        </TableCell>
+                                    ))}
+                                    <TableCell>
+                                        <Box display='flex'>
+                                            <Tooltip title="Edit" arrow placement='top'>
+                                                <Button
+                                                    variant='contained'
+                                                    sx={{ mr: 1 }}
+                                                    color='warning'
+                                                    onClick={() => handleEdit(row)}
+                                                >
+                                                    <EditIcon fontSize='small' />
+                                                </Button>
+                                            </Tooltip>
+                                            <Tooltip title="Delete" arrow placement='top'>
+                                                <Button
+                                                    variant='contained'
+                                                    color='error'
+                                                >
+                                                    <DeleteIcon fontSize='small' />
+                                                </Button>
+                                            </Tooltip>
+                                        </Box>
+                                    </TableCell>
+                                </TableRow>
+                            ))}
+                            {emptyRows > 0 && (
+                                <TableRow style={{ height: 53 * emptyRows }}>
+                                    <TableCell colSpan={columns.length + 1} />
+                                </TableRow>
+                            )}
+                        </TableBody>
+                    </Table>
+                </TableContainer>
+                <TablePagination
+                    component="div"
+                    count={data.length}
+                    page={page}
+                    onPageChange={handleChangePage}
+                    rowsPerPage={rowsPerPage}
+                    onRowsPerPageChange={handleChangeRowsPerPage}
+                    rowsPerPageOptions={[5, 10, 15]}
+                />
+            </Box>
+
+            <Popup
+                title='Form Add Reader'
+                openPopup={openEdit}
+                setOpenPopup={setOpenEdit}
+            >
+                <EditReader
+                    user={dataUserEdit}
+                    editUserSuccess={handleDataSuccess}
+                />
+            </Popup>
+        </>
     );
 }
