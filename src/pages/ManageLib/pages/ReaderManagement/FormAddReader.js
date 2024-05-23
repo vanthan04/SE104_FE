@@ -3,7 +3,7 @@ import { TextField, Button, MenuItem, Grid, Container } from '@mui/material';
 import ApiUser from '../../../../untils/api/user';
 import { toast } from 'react-toastify';
 const FormAddReader = (props) => {
-     const { closePopup, onAddReader } = props
+     const { onAddReader } = props
      const [formData, setFormData] = useState({
           hoten: '',
           loaidocgia: '',
@@ -21,15 +21,26 @@ const FormAddReader = (props) => {
           });
      };
 
-
-     const handleSubmit = (e) => {
+     const handleSubmit = async (e) => {
           e.preventDefault();
-          // Xử lý dữ liệu form ở đây
-          ApiUser.postAddReader("/readerManage/createNewReader", formData)
-          console.log(formData);
-          closePopup()
+          let response = await ApiUser.postAddReader("/readerManage/createNewReader", formData);
+          if (response && response.data) {
+               toast.success(`${response.message}`) //Thông báo thành công
+               onAddReader();//Cập nhật lại dữ liệu của table khi add thành công
+               setFormData({
+                    hoten: '',
+                    loaidocgia: '',
+                    ngaysinh: '',
+                    diachi: '',
+                    email: '',
+                    ngaylapthe: '',
+               });
+          } else {
+               toast.error(`${response.message}`) //Thông báo lỗi
+          }
+
      };
-     
+
      return (
           <Container component="main" maxWidth="xs">
                <form onSubmit={handleSubmit}>
@@ -44,8 +55,6 @@ const FormAddReader = (props) => {
                                    name="hoten"
                                    value={formData.hoten}
                                    onChange={handleChange}
-                                   error={error && !formData.hoten}
-                                   helperText={error && !formData.hoten && 'Vui lòng nhập Họ Tên'}
                               />
                          </Grid>
                          <Grid item xs={12}>
@@ -59,8 +68,6 @@ const FormAddReader = (props) => {
                                    name="loaidocgia"
                                    value={formData.loaidocgia}
                                    onChange={handleChange}
-                                   error={error && !formData.loaidocgia} 
-                                   helperText={error && !formData.loaidocgia && 'Vui lòng chọn Loại Độc Giả'}
                               >
                                    <MenuItem value="X">X</MenuItem>
                                    <MenuItem value="Y">Y</MenuItem>
@@ -74,12 +81,10 @@ const FormAddReader = (props) => {
                                    id="ngaysinh"
                                    label="Ngày Sinh"
                                    name="ngaysinh"
-                                   type="date"
+                                   type='data'
                                    InputLabelProps={{ shrink: true }}
                                    value={formData.ngaysinh}
                                    onChange={handleChange}
-                                   error={error && !formData.ngaysinh}
-                                   helperText={error && !formData.ngaysinh && 'Vui lòng nhập Ngày Sinh'}
                               />
                          </Grid>
                          <Grid item xs={12}>
@@ -92,8 +97,6 @@ const FormAddReader = (props) => {
                                    name="diachi"
                                    value={formData.diachi}
                                    onChange={handleChange}
-                                   error={error && !formData.diachi}
-                                   helperText={error && !formData.diachi && 'Vui lòng nhập Địa chỉ'}
                               />
                          </Grid>
                          <Grid item xs={12}>
@@ -102,13 +105,11 @@ const FormAddReader = (props) => {
                                    required
                                    fullWidth
                                    id="email"
-                                   label="Email"  
+                                   label="Email"
                                    name="email"
                                    type="email"
                                    value={formData.email}
                                    onChange={handleChange}
-                                   error={error && !formData.email}
-                                   helperText={error && !formData.email && 'Vui lòng nhập Email'}
                               />
                          </Grid>
                          <Grid item xs={12}>
@@ -119,12 +120,10 @@ const FormAddReader = (props) => {
                                    id="ngaylapthe"
                                    label="Ngày Lập Thẻ"
                                    name="ngaylapthe"
-                                   type="date"
+                                   type='data'
                                    InputLabelProps={{ shrink: true }}
                                    value={formData.ngaylapthe}
                                    onChange={handleChange}
-                                   error={error && !formData.ngaylapthe}
-                                   helperText={error && !formData.ngaylapthe && 'Vui lòng nhập Ngày lập thẻ'}
                               />
                          </Grid>
                          <Grid item xs={12}>
