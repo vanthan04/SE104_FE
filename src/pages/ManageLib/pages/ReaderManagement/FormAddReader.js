@@ -82,7 +82,7 @@ const FormAddReader = (props) => {
                                    id="ngaysinh"
                                    label="Ngày Sinh"
                                    name="ngaysinh"
-                                   type="date"
+                                   placeholder='ví dụ: 03/12/2024'
                                    InputLabelProps={{ shrink: true }}
                                    value={formData.ngaysinh}
                                    onChange={handleChange}
@@ -121,7 +121,7 @@ const FormAddReader = (props) => {
                                    id="ngaylapthe"
                                    label="Ngày Lập Thẻ"
                                    name="ngaylapthe"
-                                   type="date"
+                                   placeholder='ví dụ: 03/12/2004'
                                    InputLabelProps={{ shrink: true }}
                                    value={formData.ngaylapthe}
                                    onChange={handleChange}
