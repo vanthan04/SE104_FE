@@ -17,6 +17,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import Popup from '../../../../components/controls/Popup';
 import EditReader from './EditReader';
+import ConfirmDeleteReader from './ConfirmDeleteReader';
 
 const columns = [
     { id: 'MaDG', label: 'MaDG' },
@@ -33,11 +34,16 @@ export const TableReaders = (props) => {
     const { data, handleDataSuccess } = props;
 
     const [openEdit, setOpenEdit] = useState(false)
+    const [openDelete, setOpenDelete] = useState(false)
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
     const [dataUserEdit, setDataUserEdit] = useState({})
-
+    const [dataUserDelete, setDataUserDelete] = useState()
+    const handleDelete = (madg) => {
+        setOpenDelete(true)
+        setDataUserDelete(madg)
+    }
     const handleEdit = (user) => {
         setOpenEdit(true)
         setDataUserEdit(user)
@@ -92,6 +98,7 @@ export const TableReaders = (props) => {
                                                 <Button
                                                     variant='contained'
                                                     color='error'
+                                                    onClick={() => handleDelete(row.MaDG)}
                                                 >
                                                     <DeleteIcon fontSize='small' />
                                                 </Button>
@@ -127,6 +134,19 @@ export const TableReaders = (props) => {
                 <EditReader
                     user={dataUserEdit}
                     editUserSuccess={handleDataSuccess}
+                    closePopup={() => setOpenEdit(false)}
+                />
+            </Popup>
+
+            <Popup
+                title='Confirm delete a reader'
+                openPopup={openDelete}
+                setOpenPopup={setOpenDelete}
+            >
+                <ConfirmDeleteReader
+                    MaDG={dataUserDelete}
+                    closePopup={() => setOpenDelete(false)}
+                    deleteReaderSuccess={handleDataSuccess}
                 />
             </Popup>
         </>
