@@ -17,6 +17,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import Popup from '../../../../components/controls/Popup';
 import EditReader from './EditReader';
+import ConfirmDeleteReader from './ConfirmDeleteReader';
+import { useReaderContext } from '../../../../Context/ReaderContext';
 
 const columns = [
     { id: 'MaDG', label: 'MaDG' },
@@ -29,18 +31,26 @@ const columns = [
     { id: 'tongno', label: 'Tổng nợ' }
 ];
 
-export const TableReaders = (props) => {
-    const { data, handleDataSuccess } = props;
-
+export const TableReaders = () => {
+    const { data } = useReaderContext()
     const [openEdit, setOpenEdit] = useState(false)
+    const [openDelete, setOpenDelete] = useState(false)
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
 
     const [dataUserEdit, setDataUserEdit] = useState({})
-
+    const [dataUserDelete, setDataUserDelete] = useState()
+    const handleDelete = (madg) => {
+        setOpenDelete(true)
+        setDataUserDelete(madg)
+    }
     const handleEdit = (user) => {
         setOpenEdit(true)
         setDataUserEdit(user)
+    }
+    const handleClosePopup = () => {
+        setOpenDelete(false)
+        setOpenEdit(false)
     }
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -55,8 +65,8 @@ export const TableReaders = (props) => {
 
     return (
         <>
-            <Box sx={{ height: '100%', width: '100%' }}>
-                <TableContainer component={Paper} sx={{ maxHeight: '400px', overflow: 'auto' }}>
+            <Box sx={{ height: '500px', width: '100%' }}>
+                <TableContainer component={Paper} sx={{ maxHeight: '480px', overflow: 'auto' }}>
                     <Table stickyHeader>
                         <TableHead>
                             <TableRow>
@@ -92,6 +102,7 @@ export const TableReaders = (props) => {
                                                 <Button
                                                     variant='contained'
                                                     color='error'
+                                                    onClick={() => handleDelete(row.MaDG)}
                                                 >
                                                     <DeleteIcon fontSize='small' />
                                                 </Button>
@@ -115,7 +126,7 @@ export const TableReaders = (props) => {
                     onPageChange={handleChangePage}
                     rowsPerPage={rowsPerPage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
-                    rowsPerPageOptions={[5, 10, 15]}
+                    rowsPerPageOptions={[10, 15, 20]}
                 />
             </Box>
 
@@ -126,7 +137,18 @@ export const TableReaders = (props) => {
             >
                 <EditReader
                     user={dataUserEdit}
-                    editUserSuccess={handleDataSuccess}
+                    closePopup={handleClosePopup}
+                />
+            </Popup>
+
+            <Popup
+                title='Confirm delete a reader'
+                openPopup={openDelete}
+                setOpenPopup={setOpenDelete}
+            >
+                <ConfirmDeleteReader
+                    MaDG={dataUserDelete}
+                    closePopup={handleClosePopup}
                 />
             </Popup>
         </>
