@@ -24,7 +24,7 @@ const FormAddReader = (props) => {
      const handleSubmit = async (e) => {
           e.preventDefault();
           let response = await ApiUser.postAddReader("/readerManage/createNewReader", formData);
-          if (response && response.data) {
+          if (response && response.success) {
                toast.success(`${response.message}`) //Thông báo thành công
                onAddReader();//Cập nhật lại dữ liệu của table khi add thành công
                setFormData({

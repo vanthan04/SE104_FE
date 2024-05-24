@@ -34,7 +34,7 @@ export const TableReaders = (props) => {
 
     const [openEdit, setOpenEdit] = useState(false)
     const [page, setPage] = useState(0);
-    const [rowsPerPage, setRowsPerPage] = useState(5);
+    const [rowsPerPage, setRowsPerPage] = useState(10);
 
     const [dataUserEdit, setDataUserEdit] = useState({})
 
@@ -55,8 +55,8 @@ export const TableReaders = (props) => {
 
     return (
         <>
-            <Box sx={{ height: '100%', width: '100%' }}>
-                <TableContainer component={Paper} sx={{ maxHeight: '400px', overflow: 'auto' }}>
+            <Box sx={{ height: '500px', width: '100%' }}>
+                <TableContainer component={Paper} sx={{ maxHeight: '480px', overflow: 'auto' }}>
                     <Table stickyHeader>
                         <TableHead>
                             <TableRow>
@@ -115,7 +115,7 @@ export const TableReaders = (props) => {
                     onPageChange={handleChangePage}
                     rowsPerPage={rowsPerPage}
                     onRowsPerPageChange={handleChangeRowsPerPage}
-                    rowsPerPageOptions={[5, 10, 15]}
+                    rowsPerPageOptions={[10, 15, 20]}
                 />
             </Box>
 
