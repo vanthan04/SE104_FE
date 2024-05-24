@@ -1,5 +1,5 @@
 //React
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 //Icon
 import PersonAddAlt1OutlinedIcon from '@mui/icons-material/PersonAddAlt1Outlined';
 //Components
@@ -7,7 +7,6 @@ import { Box, AppBar, Button, InputBase, Typography } from '@mui/material';
 //Local
 import Popup from '../../../../components/controls/Popup';
 import FormAddReader from './FormAddReader';
-import ApiUser from '../../../../untils/api/user';
 import { TableReaders } from './TableReaders';
 import { StyledToolbar, Search } from '../../components';
 import { ReaderProvider } from '../../../../Context/ReaderContext';
@@ -35,13 +34,13 @@ export const ReaderManagementPage = () => {
             </Button>
           </StyledToolbar>
         </AppBar>
-        <TableReaders/>
+        <TableReaders />
         <Popup
           title='Form Add Reader'
           openPopup={openPopupAdd}
           setOpenPopup={setOpenPopupAdd}
         >
-          <FormAddReader/>
+          <FormAddReader />
         </Popup>
       </Box>
     </ReaderProvider>
