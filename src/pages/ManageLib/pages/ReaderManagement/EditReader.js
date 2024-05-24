@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import { Container, Grid, TextField, Box, MenuItem, Button } from '@mui/material';
 import ApiUser from '../../../../untils/api/user';
 import { toast } from 'react-toastify';
+import { useReaderContext } from '../../../../Context/ReaderContext';
 
 const EditReader = (props) => {
-  const { user, editUserSuccess, closePopup } = props;
+  const { user, closePopup } = props;
+  const { handleDataSuccess } = useReaderContext()
   const [formUser, setFormUser] = useState({
     MaDG: user.MaDG,
     hoten: user.hoten,
@@ -28,7 +30,7 @@ const EditReader = (props) => {
     const response = await ApiUser.putUpdateReader("/readerManage/updateReader", formUser);
     if (response && response.data) {
       toast.success(`${response.message}`);
-      editUserSuccess()
+      handleDataSuccess()
       closePopup()
     } else {
       toast.error(`${response.message}`);

@@ -18,6 +18,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import Popup from '../../../../components/controls/Popup';
 import EditReader from './EditReader';
 import ConfirmDeleteReader from './ConfirmDeleteReader';
+import { useReaderContext } from '../../../../Context/ReaderContext';
 
 const columns = [
     { id: 'MaDG', label: 'MaDG' },
@@ -30,9 +31,8 @@ const columns = [
     { id: 'tongno', label: 'Tổng nợ' }
 ];
 
-export const TableReaders = (props) => {
-    const { data, handleDataSuccess } = props;
-
+export const TableReaders = () => {
+    const { data } = useReaderContext()
     const [openEdit, setOpenEdit] = useState(false)
     const [openDelete, setOpenDelete] = useState(false)
     const [page, setPage] = useState(0);
@@ -47,6 +47,10 @@ export const TableReaders = (props) => {
     const handleEdit = (user) => {
         setOpenEdit(true)
         setDataUserEdit(user)
+    }
+    const handleClosePopup = () => {
+        setOpenDelete(false)
+        setOpenEdit(false)
     }
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
@@ -133,8 +137,7 @@ export const TableReaders = (props) => {
             >
                 <EditReader
                     user={dataUserEdit}
-                    editUserSuccess={handleDataSuccess}
-                    closePopup={() => setOpenEdit(false)}
+                    closePopup={handleClosePopup}
                 />
             </Popup>
 
@@ -145,8 +148,7 @@ export const TableReaders = (props) => {
             >
                 <ConfirmDeleteReader
                     MaDG={dataUserDelete}
-                    closePopup={() => setOpenDelete(false)}
-                    deleteReaderSuccess={handleDataSuccess}
+                    closePopup={handleClosePopup}
                 />
             </Popup>
         </>

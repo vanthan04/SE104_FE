@@ -2,15 +2,16 @@ import { Box, Button, Container, Typography } from '@mui/material'
 import React from 'react'
 import ApiUser from '../../../../untils/api/user'
 import { toast } from 'react-toastify'
+import { useReaderContext } from '../../../../Context/ReaderContext'
 
 const ConfirmDeleteReader = (props) => {
-     const { MaDG, closePopup, deleteReaderSuccess } = props
-
+     const { MaDG, closePopup } = props
+     const { handleDataSuccess } = useReaderContext()
      const handleDelete = async () => {
           const res = await ApiUser.postDeleteReader('/readerManage/deleteReader', { MaDG })
           if (res.success && res) {
                toast.success(`${res.message}`)
-               deleteReaderSuccess()
+               handleDataSuccess()
                closePopup()
           }
           else {
