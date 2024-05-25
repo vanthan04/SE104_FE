@@ -1,27 +1,32 @@
-import { createSlice } from "@reduxjs/toolkit";
-export const userSlice = createSlice({
-  name: 'user',
-  initialState: {
-    isLoggin: false,
+import { createSlice } from '@reduxjs/toolkit';
+
+const initialState = {
     token: null,
-    isLoading: false,
-    mes: "",
-  },
+    expiresAt: null,
+    isLoggin: false,
+};
 
-  reducers: {
-    login: (state, action) => {
-        state.isLoggin = action.payload.isLoggin;
-        state.token = action.payload.token;
-        localStorage.setItem("token", action.payload.token);
+const userSlice = createSlice({
+    name: 'user',
+    initialState,
+    reducers: {
+        loginSuccess: (state, action) => {
+            state.token = action.payload.token;
+            state.expiresAt = action.payload.expiresAt;
+            state.isLoggin = true;
+            localStorage.setItem("token", action.payload.token)
+        },
+        logout: (state) => {
+            state.token = null;
+            state.expiresAt = null;
+            state.isLoggin = false;
+            localStorage.clear()
+        },
+        extendSession: (state, action) => {
+            state.expiresAt = action.payload.expiresAt;
+        }
     },
-    logout: (state, action) => {
-        state.isLoggin = false;
-        state.token = null;
-        localStorage.clear();
-    },
-  },
-
 });
 
-export const { login, logout, clearMessage } = userSlice.actions;
+export const { loginSuccess, logout, extendSession } = userSlice.actions;
 export default userSlice.reducer;

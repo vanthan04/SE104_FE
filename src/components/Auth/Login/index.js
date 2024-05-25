@@ -2,7 +2,7 @@ import { Box, Container, TextField, Typography, Button } from '@mui/material'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { login } from '../../../store/user/userSlice'
+import { login, loginSuccess } from '../../../store/user/userSlice'
 import ApiUser from '../../../untils/api/user'
 
 const LoginForm = () => {
@@ -33,14 +33,12 @@ const LoginForm = () => {
       }
       // Gọi phương thức postLogin từ ApiUser với đường dẫn và dữ liệu đăng nhập
       const response = await ApiUser.postLogin('/user/login', user);
-      console.log(response)
       if (response.success) {
+        const expiresAt = new Date(new Date().getTime() + parseInt(response.expiresAt)  * 1000);
         dispatch(
-          login({
-            isLoggin: true,
-            token: response.accessToken,
-          })
+          loginSuccess({ token: response.accessToken, expiresAt: expiresAt.toISOString()})
         );
+        console.log(expiresAt);
         navigate('/librarian')
       }
       console.log('Kết quả:', response);
