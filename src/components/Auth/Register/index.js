@@ -27,7 +27,7 @@ const RegisterForm = () => {
   const handleRegister = async (event) => {
     event.preventDefault()
     let hasEmptyFields = false;
-    let isValidEmail = false;
+    const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     setError('');
     for (const field in data) {
       if (!data[field]) {
@@ -36,8 +36,8 @@ const RegisterForm = () => {
         break; // Exit loop after first empty field is found (optional)
       }
     }
-    if (/\s/.test(data.email)) {
-      toast.error('Email không được có khoảng trắng.')
+    if (!emailPattern.test(data.email)) {
+      toast.error('Định dạng email chưa đúng')
       return
     }
     if (/\s/.test(data.password)) {
