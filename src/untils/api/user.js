@@ -15,11 +15,15 @@ class UserService {
     }
     putUpdateReader = async (path, options = {}) => {
         const response = await axios.put(path, options)
-        return response
+        return response;
     }
     postDeleteReader = async (path, options = {}) => {
         const response = await axios.post(path, options)
         return response
+    }
+    GetRefreshToken = async () => {
+        const response = await axios.get('user/get-refresh-token');
+        return response;
     }
 }
 

@@ -1,37 +1,94 @@
-import  { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
-import { logout, extendSession } from '../store/user/userSlice';
+import { logout, clearStorage, loginSuccess } from '../store/user/userSlice';
+import Popup from '../components/controls/Popup';
+import { Button, Box } from '@mui/material';
+import ApiUser from '../untils/api/user';
+import { Navigate } from 'react-router-dom';
 
-const SessionChecker = () => {
+const SessionChecker = ({ children }) => {
     const dispatch = useDispatch();
+    const isLoggin = useSelector((state) => state.user.isLoggin); // Thay thế bằng logic kiểm tra đăng nhập thực tế
     const expiresAt = useSelector((state) => state.user.expiresAt);
+    const [toggle, setToggle] = useState(false);
+    const [isSessionValid, setIsSessionValid] = useState(true);
 
     useEffect(() => {
         if (!expiresAt) return;
 
-        const timeLeft = new Date(expiresAt) - new Date();
-        if (timeLeft <= 0) {
-            dispatch(logout());
-            toast.error('Đã hết phiên đăng nhập. Vui lòng đăng nhập lại');
-            return;
-        }
+        const checkSession = () => {
+            console.log("Checking session...")
+            const timeLeft = new Date(expiresAt) - new Date();
+            if (timeLeft <= 0) {
+                dispatch(logout());
+                toast.error('Đã hết phiên đăng nhập. Vui lòng đăng nhập lại!');
+                setIsSessionValid(false);
+                return;
+            }
+            if (timeLeft <= 10 * 1000) { // 10 seconds before expiry
+                setToggle(true);
+            }
+        };
 
-        const timeoutId = setTimeout(() => {
-            toast.info('Bạn có muốn mở rộng phiên làm việc?', {
-                onClose: () => {
-                    const newExpiresAt = new Date(new Date().getTime() + 30 * 60 * 1000); // Extend by 1 hour
-                    dispatch(extendSession({ expiresAt: newExpiresAt.toISOString() }));
-                },
-                autoClose: false,
-                closeOnClick: false,
-            });
-        }, timeLeft - 10000); // 10s before expiry
+        checkSession(); // Initial check
+        const intervalId = setInterval(checkSession, 1 * 1000); // Check every 1 second
 
-        return () => clearTimeout(timeoutId);
+        return () => clearInterval(intervalId);
     }, [expiresAt, dispatch]);
 
-    return null;
+    const handleExtendSession = async () => {
+        try {
+            const response = await ApiUser.GetRefreshToken();
+            if (response.success) {
+                dispatch(clearStorage());
+                dispatch(loginSuccess({
+                    token: response.accessToken,
+                    expiresAt: new Date(new Date().getTime() + response.expiresAt * 1000).toISOString()
+                }));
+                setToggle(false);
+            } else {
+                toast.error(response.message || 'Đã hết phiên đăng nhập. Vui lòng đăng nhập lại');
+                setToggle(false);
+                dispatch(logout());
+                setIsSessionValid(false);
+            }
+        } catch (error) {
+            console.error("Error while refreshing token:", error);
+            toast.error('Đã hết phiên đăng nhập. Vui lòng đăng nhập lại');
+            setToggle(false);
+            dispatch(logout());
+            setIsSessionValid(false);
+        }
+    };
+
+    const handleDeleteSession = () => {
+        dispatch(logout());
+        setToggle(false);
+        setIsSessionValid(false);
+    };
+
+    if (!isSessionValid || !isLoggin) {
+        return <Navigate to="/" />;
+    }
+
+    return (
+        <>
+            {children}
+            <Popup
+                title="Phiên đăng nhập đã hết hạn. Bạn có muốn mở rộng phiên làm việc?"
+                openPopup={toggle}
+                setOpenPopup={setToggle}
+            >
+                <div>
+                    <Box display='flex' justifyContent='center'>
+                        <Button color='success' onClick={handleExtendSession}>Yes</Button>
+                        <Button color='error' onClick={handleDeleteSession}>No</Button>
+                    </Box>
+                </div>
+            </Popup>
+        </>
+    );
 };
 
 export default SessionChecker;

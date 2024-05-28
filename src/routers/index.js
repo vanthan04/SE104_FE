@@ -1,47 +1,48 @@
 import React from 'react';
-import { createBrowserRouter } from 'react-router-dom';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ManageLibPage from "../pages/ManageLib";
 import { ReaderManagementPage } from "../pages/ManageLib/pages/ReaderManagement";
 import LoginForm from "../components/Auth/Login";
-import PrivateRoute from './PrivateRoute'; // Import PrivateRoute
 import BookManagementPage from '../pages/ManageLib/pages/BookManagement';
+import SessionChecker from './SessionChecker';
 
-const isAuthenticated = true; // Thay thế bằng logic kiểm tra đăng nhập thực tế
 
-const router = createBrowserRouter([
-     {
-          path: '/',
-          element: <LoginForm />
-     },
-     {
-          path: '/librarian',
-          element: (
-              <PrivateRoute
-                  element={ManageLibPage}
-                  isAuthenticated={isAuthenticated}
-              />
-          ),
-          children: [
-               {
-                    path: '/librarian/book',
+const AppRoutes = () => {
+
+    const router = createBrowserRouter([
+        {
+            path: '/',
+            element: <LoginForm />
+        },
+        {
+            path: '/librarian',
+            element: (
+                <SessionChecker>
+                    <ManageLibPage />
+                </SessionChecker>
+            ),
+            children: [
+                {
+                    path: 'book', // Use relative path
                     element: (
-                        <PrivateRoute
-                            element={BookManagementPage} // Giả sử bạn có trang quản lý sách
-                            isAuthenticated={isAuthenticated}
-                        />
+                        <SessionChecker>
+                            <BookManagementPage />
+                        </SessionChecker>
                     )
-               },
-               {
-                    path: '/librarian/reader',
+                },
+                {
+                    path: 'reader', // Use relative path
                     element: (
-                        <PrivateRoute
-                            element={ReaderManagementPage}
-                            isAuthenticated={isAuthenticated}
-                        />
+                        <SessionChecker>
+                            <ReaderManagementPage />
+                        </SessionChecker>
                     )
-               },
-          ]
-     }
-]);
+                },
+            ]
+        }
+    ]);
 
-export default router;
+    return <RouterProvider router={router} />;
+};
+
+export default AppRoutes;

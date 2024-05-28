@@ -2,8 +2,9 @@ import { Box, Container, TextField, Typography, Button } from '@mui/material'
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { login, loginSuccess } from '../../../store/user/userSlice'
+import { loginSuccess } from '../../../store/user/userSlice'
 import ApiUser from '../../../untils/api/user'
+import { toast } from 'react-toastify';
 
 const LoginForm = () => {
   const [data, setData] = useState({
@@ -26,27 +27,23 @@ const LoginForm = () => {
       alert('Username/Password is required')
       return
     }
-    try {
       const user = {
         username: username,
         password: password
       }
       // Gọi phương thức postLogin từ ApiUser với đường dẫn và dữ liệu đăng nhập
       const response = await ApiUser.postLogin('/user/login', user);
+      console.log(response);
       if (response.success) {
-        const expiresAt = new Date(new Date().getTime() + parseInt(response.expiresAt)  * 1000);
+        toast.success(response.message);
+        const expiresAt = new Date(new Date().getTime() + parseInt(response.expiresAt) * 500);
         dispatch(
           loginSuccess({ token: response.accessToken, expiresAt: expiresAt.toISOString()})
-        );
-        console.log(expiresAt);
+        );      
         navigate('/librarian')
+      } else {
+        toast.error(response.message)
       }
-      console.log('Kết quả:', response);
-      // Xử lý kết quả tại đây, ví dụ: chuyển hướng người dùng nếu đăng nhập thành công
-    } catch (error) {
-      console.error('Đã xảy ra lỗi khi đăng nhập:', error);
-      // Xử lý lỗi tại đây, ví dụ: hiển thị thông báo lỗi cho người dùng
-    }
   }
 
   return (
