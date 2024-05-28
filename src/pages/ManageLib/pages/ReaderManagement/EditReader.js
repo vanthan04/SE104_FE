@@ -40,7 +40,7 @@ const EditReader = (props) => {
   return (
     <Container component='main-edit-reader' maxWidth='xs'>
       <Box component='form' autoComplete='off'>
-        <Grid container spacing={2} my={1}>
+        <Grid container spacing={2} my={1} maxWidth='sm'>
           <Grid item xs={4}>
             <TextField
               variant='outlined'

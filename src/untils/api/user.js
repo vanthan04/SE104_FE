@@ -21,6 +21,18 @@ class UserService {
         const response = await axios.post(path, options)
         return response
     }
+    getSearchHoten = async (path) => {
+        const response = await axios.get(path)
+        return response
+    }
+    getSearchMaDG = async (path) => {
+        const response = await axios.get(path)
+        return response
+    }
+    getSearchEmail = async (path, options = {}) => {
+        const response = await axios.get(path)
+        return response;
+      
     GetRefreshToken = async () => {
         const response = await axios.get('user/get-refresh-token');
         return response;

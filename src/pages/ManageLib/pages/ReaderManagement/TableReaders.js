@@ -131,7 +131,7 @@ export const TableReaders = () => {
             </Box>
 
             <Popup
-                title='Form Add Reader'
+                title='Chỉnh sửa độc giả'
                 openPopup={openEdit}
                 setOpenPopup={setOpenEdit}
             >
@@ -142,7 +142,7 @@ export const TableReaders = () => {
             </Popup>
 
             <Popup
-                title='Confirm delete a reader'
+                title='Xác nhận'
                 openPopup={openDelete}
                 setOpenPopup={setOpenDelete}
             >
