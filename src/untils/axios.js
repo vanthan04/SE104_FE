@@ -2,15 +2,21 @@ import axios from "axios";
 
 const instance = axios.create({
   // baseURL: "https://quanlithuvien.onrender.com/api/",
-  baseURL: "http://localhost:8000/api/"
+  baseURL: "http://localhost:8000/api/",
+  withCredentials: true
 });
 
 // Thêm một bộ đón chặn request
 instance.interceptors.request.use(
   function (config) {
     // Làm gì đó trước khi request được gửi đi
-    const accessToken = localStorage.getItem("token");
-    if (accessToken && typeof accessToken === "string") {
+    let localStorageData = window.localStorage.getItem(
+      "persist:qltv/user"
+    );
+    if (localStorageData && typeof localStorageData === "string") {
+     
+      localStorageData = JSON.parse(localStorageData);
+      const accessToken = JSON.parse(localStorageData?.token);
       config.headers = {
         Authorization: `Bearer ${accessToken}`,
       };
@@ -31,10 +37,14 @@ instance.interceptors.response.use(
     return response.data;
   },
   function (error) {
-    // Bất kì mã trạng thái nào lọt ra ngoài tầm 2xx đều khiến hàm này được trigger\
-    // Làm gì đó với lỗi response
+    if (error.response) {
+      if (error.response.status === 401) {
+        window.localStorage.removeItem("persist:qltv/user");
+        window.location.reload();
+      }    
     return error.response.data;
   }
+}
 );
 
 export default instance;

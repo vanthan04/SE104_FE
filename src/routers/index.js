@@ -1,34 +1,47 @@
-import { createBrowserRouter } from "react-router-dom";
+import React from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ManageLibPage from "../pages/ManageLib";
 import { ReaderManagementPage } from "../pages/ManageLib/pages/ReaderManagement";
 import LoginForm from "../components/Auth/Login";
-import RegisterForm from "../components/Auth/Register";
+import BookManagementPage from '../pages/ManageLib/pages/BookManagement';
+import SessionChecker from './SessionChecker';
 
-const router = createBrowserRouter([
-     {
-          path: '/',
-          element: <LoginForm />,
-     },
-     {
-          path: '/register',
-          element: <RegisterForm />
-     }
-     ,
-     {
-          path: '/librarian',
-          element: <ManageLibPage />,
-          children: [
-               {
-                    path: '/librarian/book',
-                    // element: <BookManagementPage />
-               },
-               {
-                    path: '/librarian/reader',
-                    element: <ReaderManagementPage />
-               },
+const AppRoutes = () => {
 
-          ]
-     }
-])
+    const router = createBrowserRouter([
+        {
+            path: '/',
+            element: <LoginForm />
+        },
+        {
+            path: '/librarian',
+            element: (
+                <SessionChecker>
+                    <ManageLibPage />
+                </SessionChecker>
+            ),
+            children: [
+                {
+                    path: 'book', // Use relative path
+                    element: (
+                        <SessionChecker>
+                            <BookManagementPage />
+                        </SessionChecker>
+                    )
+                },
+                {
+                    path: 'reader', // Use relative path
+                    element: (
+                        <SessionChecker>
+                            <ReaderManagementPage />
+                        </SessionChecker>
+                    )
+                },
+            ]
+        }
+    ]);
 
-export default router
+    return <RouterProvider router={router} />;
+};
+
+export default AppRoutes;
