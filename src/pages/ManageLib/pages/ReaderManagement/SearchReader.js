@@ -60,7 +60,7 @@ const SearchReader = React.memo((props) => {
                          formattedResults = [{ ...formatReaderData(res.data), isNew: true }];
                     }
                     const updatedPrevResults = searchResults.map(item => ({ ...item, isNew: false }));
-                    setSearchResults((prevResults) => [...formattedResults, ...updatedPrevResults]);
+                    setSearchResults([...formattedResults, ...updatedPrevResults]);
                     toast.success(res.message);
                } else {
                     toast.error(res.message);
