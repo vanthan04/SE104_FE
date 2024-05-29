@@ -7,15 +7,19 @@ import ApiUser from '../../../untils/api/user'
 
 const RegisterForm = () => {
   const [data, setData] = useState({
+    fullname: "",
     email: "",
     password: "",
     confirmPassword: "",
   });
 
-  const navigate = useNavigate();
-  const dispatch = useDispatch();
-
-  const [error, setError] = useState("");
+  const [error, setError] = useState(false);
+  const [errorMessages, setErrorMessages] = useState({
+    fullname: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
 
   const handleChange = (event) => {
     setData({
@@ -28,49 +32,57 @@ const RegisterForm = () => {
     event.preventDefault();
     let hasEmptyFields = false;
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    setError("");
+    setError(false);
+    setErrorMessages({
+      fullname: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    });
+
     for (const field in data) {
       if (!data[field]) {
         hasEmptyFields = true;
-        setError("Chỗ trống còn thiếu."); // Set general error message
-        break; // Exit loop after first empty field is found (optional)
+        setError(true);
+        setErrorMessages(prevState => ({
+          ...prevState,
+          [field]: "This field is required",
+        }));
       }
     }
+
     if (!emailPattern.test(data.email)) {
       toast.error("Định dạng email chưa đúng");
       return;
     }
     if (/\s/.test(data.password)) {
-      toast.error("Password không được có khoảng trắng.");
+      toast.error("Password không được có khoảng trắng");
       return;
     }
     if (data.password !== data.confirmPassword) {
-      toast.error("Mật khẩu không trùng khớp.");
+      toast.error("Mật khẩu không trùng khớp");
       return;
     }
     try {
-      const {confirmPassword, ...user} = data;
-      // Call your API function for user registration (replace with your actual implementation)
-      const response = await ApiUser.registerUser(user)
+      const { confirmPassword, ...user } = data;
+      const response = await ApiUser.postRegister(user);
       if (response.success) {
-        console.log('Đăng kí thành công:', response)
-        // if (navigate) {
-        //   navigate('/loginAdmin')
-        // }
+        console.log('Đăng kí thành công:', response);
+        toast.success(response.message);
       } else {
-        console.error('Đăng kí thất bại:', response)
-        // Handle registration failure (e.g., display error message)
+        console.error('Đăng kí thất bại:', response);
+        toast.error(response.message)
       }
     } catch (error) {
       console.error("Error during registration:", error);
-      // Handle errors during registration
     }
   };
+
   const handleKeyDown = (event) => {
     if (event.key === "Enter") {
       handleRegister(event);
     }
-  }
+  };
 
   return (
     <Container sx={{ height: "60vh" }} component="main" maxWidth="sm">
@@ -87,10 +99,24 @@ const RegisterForm = () => {
         }}
       >
         <Typography component="h1" variant="h3">
-          Registration Form
+          Đăng ký
         </Typography>
 
         <Box component="form" noValidate sx={{ mt: 1 }}>
+          <TextField
+            required
+            margin="normal"
+            fullWidth
+            id="fullname"
+            label="Full Name"
+            name="fullname"
+            type="text"
+            value={data.fullname}
+            autoComplete="fullname"
+            onChange={handleChange}
+            error={error && !data.fullname}
+            helperText={error && !data.fullname && errorMessages.fullname}
+          />
           <TextField
             required
             margin="normal"
@@ -103,7 +129,7 @@ const RegisterForm = () => {
             autoComplete="email"
             onChange={handleChange}
             error={error && !data.email}
-            helperText={error && !data.email && "Vui lòng nhập Email"}
+            helperText={error && !data.email && errorMessages.email}
           />
 
           <TextField
@@ -118,7 +144,7 @@ const RegisterForm = () => {
             autoComplete="current-password"
             onChange={handleChange}
             error={error && !data.password}
-            helperText={error && !data.password && "Vui lòng nhập Password"}
+            helperText={error && !data.password && errorMessages.password}
           />
 
           <TextField
@@ -134,9 +160,7 @@ const RegisterForm = () => {
             onChange={handleChange}
             onKeyDown={handleKeyDown}
             error={error && !data.confirmPassword}
-            helperText={
-              error && !data.confirmPassword && "Vui lòng xác thực Password"
-            }
+            helperText={error && !data.confirmPassword && errorMessages.confirmPassword}
           />
 
           <Button

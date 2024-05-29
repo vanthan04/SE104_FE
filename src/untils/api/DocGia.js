@@ -18,7 +18,7 @@ class DocGiaService {
         return response;
     }
     getSearchHoten = async (fullname) => {
-        const response = await axios.get(`readerManage/findReaderByFullname/fullname=${fullname}`)
+        const response = await axios.get(`readerManage/findReaderByFullname/hoten=${fullname}`)
         return response
     }
     getSearchMaDG = async (MaDG) => {

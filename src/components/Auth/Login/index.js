@@ -8,12 +8,12 @@ import { toast } from 'react-toastify';
 
 const LoginForm = () => {
   const [data, setData] = useState({
-    username: '',
+    email: '',
     password: ''
   })
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { username, password } = data
+  const { email, password } = data
   const handleChange = (event) => {
     setData({
       ...data,
@@ -23,12 +23,12 @@ const LoginForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (!username || !password) {
+    if (!email || !password) {
       alert('Username/Password is required')
       return
     }
       const user = {
-        username: username,
+        email: email,
         password: password
       }
       // Gọi phương thức postLogin từ ApiUser với đường dẫn và dữ liệu đăng nhập
@@ -36,7 +36,7 @@ const LoginForm = () => {
       console.log(response);
       if (response.success) {
         toast.success(response.message);
-        const expiresAt = new Date(new Date().getTime() + parseInt(response.expiresAt) * 500);
+        const expiresAt = new Date(new Date().getTime() + parseInt(response.expiresAt) * 60 * 1000);
         dispatch(
           loginSuccess({ token: response.accessToken, expiresAt: expiresAt.toISOString()})
         );      
@@ -71,12 +71,12 @@ const LoginForm = () => {
           <TextField
             margin='normal'
             fullWidth
-            id='username'
-            label='Username'
-            name='username'
+            id='email'
+            label='Email'
+            name='email'
             autoFocus
-            value={username}
-            autoComplete='username'
+            value={email}
+            autoComplete='email'
             onChange={handleChange} />
 
           <TextField
@@ -96,7 +96,7 @@ const LoginForm = () => {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
             onClick={handleSubmit}
-            disabled={username && password ? false : true}
+            disabled={email && password ? false : true}
           >
             Sign In
           </Button>
