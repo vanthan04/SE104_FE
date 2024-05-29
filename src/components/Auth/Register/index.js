@@ -6,6 +6,7 @@ import { toast } from "react-toastify";
 import ApiUser from '../../../untils/api/user'
 
 const RegisterForm = () => {
+  const navigate = useNavigate();
   const [data, setData] = useState({
     fullname: "",
     email: "",
@@ -69,6 +70,7 @@ const RegisterForm = () => {
       if (response.success) {
         console.log('Đăng kí thành công:', response);
         toast.success(response.message);
+        navigate('/')
       } else {
         console.error('Đăng kí thất bại:', response);
         toast.error(response.message)
