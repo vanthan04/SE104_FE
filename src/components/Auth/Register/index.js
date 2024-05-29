@@ -1,7 +1,6 @@
 import { Box, Container, TextField, Typography, Button } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import ApiUser from '../../../untils/api/user'
 
@@ -31,7 +30,6 @@ const RegisterForm = () => {
 
   const handleRegister = async (event) => {
     event.preventDefault();
-    let hasEmptyFields = false;
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     setError(false);
     setErrorMessages({
@@ -43,7 +41,6 @@ const RegisterForm = () => {
 
     for (const field in data) {
       if (!data[field]) {
-        hasEmptyFields = true;
         setError(true);
         setErrorMessages(prevState => ({
           ...prevState,
