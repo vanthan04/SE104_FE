@@ -14,16 +14,60 @@ const FormAddReader = () => {
           ngaylapthe: '',
      });
 
+     const [error, setError] = useState({
+          formateEmail: '',
+          fields: {
+               hoten: false,
+               loaidocgia: false,
+               ngaysinh: false,
+               diachi: false,
+               email: false,
+               ngaylapthe: false,
+          }
+     });
+
      const handleChange = (e) => {
           const { name, value } = e.target;
           setFormData({
                ...formData,
                [name]: value,
           });
+          setError({
+               ...error,
+               fields: { ...error.fields, [name]: false }
+          });
      };
 
      const handleSubmit = async (e) => {
           e.preventDefault();
+          // Validation
+          let hasEmptyFields = false;
+          let invalidEmail = false;
+          let newFieldErrors = { ...error.fields };
+
+          for (const field in formData) {
+               if (!formData[field]) {
+                    hasEmptyFields = true;
+                    newFieldErrors[field] = true;
+               }
+          }
+
+          if (formData.email) {
+               const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+               if (!emailPattern.test(formData.email)) {
+                    invalidEmail = true;
+                    newFieldErrors.email = true;
+               }
+          }
+
+          if (hasEmptyFields || invalidEmail) {
+               setError({
+                    formateEmail: invalidEmail ? 'Địa chỉ email không hợp lệ.' : 'Vui lòng nhập Email',
+                    fields: newFieldErrors
+               });
+               return;
+          }
+
           let response = await ApiDocGia.postAddReader(formData);
           if (response && response.success) {
                toast.success(`${response.message}`) //Thông báo thành công
