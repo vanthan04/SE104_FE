@@ -1,5 +1,5 @@
 import { TextField, Button, Grid, Container, Box, BottomNavigationAction, BottomNavigation } from '@mui/material';
-import { useState } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import ApiDocGia from '../../../../untils/api/DocGia'
 import { toast } from "react-toastify";
 import renderSearchResults from "./renderSearchResults";
@@ -22,7 +22,7 @@ const formatReaderData = (reader) => {
      };
 };
 
-const SearchReader = (props) => {
+const SearchReader = React.memo((props) => {
      const { closePopup } = props;
      const [dataSearch, setDataSearch] = useState({
           hoten: '',
@@ -32,34 +32,51 @@ const SearchReader = (props) => {
      const [searchResults, setSearchResults] = useState([]);
      const [value, setValue] = useState(0);
 
-
-     const handleChange = (event) => {
+     const handleChange = useCallback((event) => {
           const { name, value } = event.target;
-          setDataSearch({
-               ...dataSearch,
+          setDataSearch((prevData) => ({
+               ...prevData,
                [name]: value
-          });
-     };
+          }));
+     }, []);
 
-     const handleSubmit = async () => {
-          if (dataSearch.email) {
-               const res = await ApiDocGia.getSearchEmail(dataSearch.email);
-               if (res && res.success && res.data._id) {
-                    setSearchResults(prevResults => [formatReaderData(res.data), ...prevResults]);
-                    toast.success(`${res.message}`);
-               } else {
-                    toast.error(`${res.message}`);
+     const handleSubmit = useCallback(async (event) => {
+          event.preventDefault();
+          try {
+               let res;
+               if (dataSearch.email) {
+                    res = await ApiDocGia.getSearchEmail(dataSearch.email);
+               } else if (dataSearch.MaDG) {
+                    res = await ApiDocGia.getSearchMaDG(dataSearch.MaDG);
+               } else if (dataSearch.hoten) {
+                    res = await ApiDocGia.getSearchHoten(dataSearch.hoten);
                }
-          } else if (dataSearch.MaDG) {
-               const res = await ApiDocGia.getSearchMaDG(dataSearch.MaDG);
-               if (res && res.success && res.data._id) {
-                    setSearchResults(prevResults => [formatReaderData(res.data), ...prevResults]);
-                    toast.success(`${res.message}`);
+
+               if (res && res.success) {
+                    let formattedResults = [];
+                    if (Array.isArray(res.data)) {
+                         formattedResults = res.data.map(reader => ({ ...formatReaderData(reader), isNew: true }));
+                    } else if (res.data._id) {
+                         formattedResults = [{ ...formatReaderData(res.data), isNew: true }];
+                    }
+                    const updatedPrevResults = searchResults.map(item => ({ ...item, isNew: false }));
+                    setSearchResults((prevResults) => [...formattedResults, ...updatedPrevResults]);
+                    toast.success(res.message);
                } else {
-                    toast.error(`${res.message}`);
+                    toast.error(res.message);
                }
+          } catch (error) {
+               toast.error("Vui lòng nhập dữ liệu tìm kiếm");
           }
-     };
+          finally {
+               setDataSearch({ hoten: '', email: '', MaDG: '' }); // Reset fields after making the API call
+          }
+     }, [dataSearch, searchResults]);
+     // Reset the dataSearch when the navigation value changes
+     useEffect(() => {
+          setDataSearch({ hoten: '', email: '', MaDG: '' });
+     }, [value]);
+     console.log(searchResults)
      return (
           <Container component='main-edit-reader' maxWidth='lg'>
                <Box component='form' autoComplete='off' onSubmit={handleSubmit}>
@@ -85,6 +102,7 @@ const SearchReader = (props) => {
                                         id='MaDG'
                                         name='MaDG'
                                         fullWidth
+                                        value={dataSearch.MaDG}
                                         onChange={handleChange}
                                    />
                               </Grid>}
@@ -97,6 +115,7 @@ const SearchReader = (props) => {
                                         name='email'
                                         type='email'
                                         fullWidth
+                                        value={dataSearch.email}
                                         onChange={handleChange}
                                    />
                               </Grid>}
@@ -108,6 +127,7 @@ const SearchReader = (props) => {
                                         id='hoten'
                                         name='hoten'
                                         fullWidth
+                                        value={dataSearch.hoten}
                                         onChange={handleChange}
                                    />
                               </Grid>}
@@ -124,6 +144,6 @@ const SearchReader = (props) => {
                {renderSearchResults({ data: searchResults })}
           </Container>
      )
-}
+})
 
 export default SearchReader;

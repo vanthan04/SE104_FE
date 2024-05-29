@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "https://quanlithuvien.onrender.com/api/",
-  // baseURL: "http://localhost:8000/api/",
+  // baseURL: "https://quanlithuvien.onrender.com/api/",
+  baseURL: "http://localhost:8000/api/",
   withCredentials: true
 });
 
@@ -14,7 +14,7 @@ instance.interceptors.request.use(
       "persist:qltv/user"
     );
     if (localStorageData && typeof localStorageData === "string") {
-     
+
       localStorageData = JSON.parse(localStorageData);
       const accessToken = JSON.parse(localStorageData?.token);
       config.headers = {
@@ -41,10 +41,10 @@ instance.interceptors.response.use(
       if (error.response.status === 401) {
         window.localStorage.removeItem("persist:qltv/user");
         window.location.reload();
-      }    
-    return error.response.data;
+      }
+      return error.response.data;
+    }
   }
-}
 );
 
 export default instance;
