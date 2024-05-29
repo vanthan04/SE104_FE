@@ -26,25 +26,25 @@ const SessionChecker = ({ children }) => {
                 setIsSessionValid(false);
                 return;
             }
-            if (timeLeft <= 10 * 1000) { // 10 seconds before expiry
+            if (timeLeft <= 60 * 1000) { // 10 seconds before expiry
                 setToggle(true);
             }
         };
 
         checkSession(); // Initial check
-        const intervalId = setInterval(checkSession, 1 * 1000); // Check every 1 second
+        const intervalId = setInterval(checkSession, 5 * 60 * 1000); // Check every 1 second
 
         return () => clearInterval(intervalId);
     }, [expiresAt, dispatch]);
 
     const handleExtendSession = async () => {
         try {
-            const response = await ApiUser.GetRefreshToken();
+            const response = await ApiUser.getRefreshToken();
             if (response.success) {
                 dispatch(clearStorage());
                 dispatch(loginSuccess({
                     token: response.accessToken,
-                    expiresAt: new Date(new Date().getTime() + response.expiresAt * 1000).toISOString()
+                    expiresAt: new Date(new Date().getTime() + response.expiresAt * 60 * 1000).toISOString()
                 }));
                 setToggle(false);
             } else {

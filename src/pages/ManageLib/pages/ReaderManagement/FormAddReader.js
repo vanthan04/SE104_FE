@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TextField, Button, MenuItem, Grid, Container } from '@mui/material';
-import ApiUser from '../../../../untils/api/user';
+import ApiDocGia from '../../../../untils/api/DocGia'
 import { toast } from 'react-toastify';
 import { useReaderContext } from '../../../../Context/ReaderContext';
 const FormAddReader = () => {
@@ -24,7 +24,7 @@ const FormAddReader = () => {
 
      const handleSubmit = async (e) => {
           e.preventDefault();
-          let response = await ApiUser.postAddReader("/readerManage/createNewReader", formData);
+          let response = await ApiDocGia.postAddReader(formData);
           if (response && response.success) {
                toast.success(`${response.message}`) //Thông báo thành công
                handleDataSuccess();//Cập nhật lại dữ liệu của table khi add thành công

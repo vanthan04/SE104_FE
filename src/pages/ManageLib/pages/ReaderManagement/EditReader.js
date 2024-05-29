@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Container, Grid, TextField, Box, MenuItem, Button } from '@mui/material';
-import ApiUser from '../../../../untils/api/user';
+import ApiDocGia from '../../../../untils/api/DocGia'
 import { toast } from 'react-toastify';
 import { useReaderContext } from '../../../../Context/ReaderContext';
 
@@ -27,7 +27,7 @@ const EditReader = (props) => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    const response = await ApiUser.putUpdateReader("/readerManage/updateReader", formUser);
+    const response = await ApiDocGia.putUpdateReader(formUser);
     if (response && response.data) {
       toast.success(`${response.message}`);
       handleDataSuccess()

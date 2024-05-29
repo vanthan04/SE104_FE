@@ -5,6 +5,7 @@ import { ReaderManagementPage } from "../pages/ManageLib/pages/ReaderManagement"
 import LoginForm from "../components/Auth/Login";
 import BookManagementPage from '../pages/ManageLib/pages/BookManagement';
 import SessionChecker from './SessionChecker';
+import RegisterForm from '../components/Auth/Register';
 
 const AppRoutes = () => {
 
@@ -12,6 +13,10 @@ const AppRoutes = () => {
         {
             path: '/',
             element: <LoginForm />
+        },
+        {
+            path: '/register',
+            element: <RegisterForm/>
         },
         {
             path: '/librarian',

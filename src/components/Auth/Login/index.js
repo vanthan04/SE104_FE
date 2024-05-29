@@ -32,7 +32,7 @@ const LoginForm = () => {
         password: password
       }
       // Gọi phương thức postLogin từ ApiUser với đường dẫn và dữ liệu đăng nhập
-      const response = await ApiUser.postLogin('/user/login', user);
+      const response = await ApiUser.postLogin(user);
       console.log(response);
       if (response.success) {
         toast.success(response.message);

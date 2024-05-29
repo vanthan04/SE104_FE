@@ -1,5 +1,5 @@
 import { createContext, useContext, useState, useEffect } from "react";
-import ApiUser from '../untils/api/user';
+import ApiDocGia from '../untils/api/DocGia';
 
 const ReaderContext = createContext()
 
@@ -15,7 +15,7 @@ export const ReaderProvider = ({ children }) => {
      }, []);
 
      const fetchData = async () => {
-          const response = await ApiUser.getAllReader('/readerManage/getAllReaders');
+          const response = await ApiDocGia.getAllReader();
           if (response.data) {
                setData(response.data);
           }

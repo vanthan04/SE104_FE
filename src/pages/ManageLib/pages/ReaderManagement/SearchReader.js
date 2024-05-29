@@ -1,6 +1,6 @@
 import { TextField, Button, Grid, Container, Box, BottomNavigationAction, BottomNavigation } from '@mui/material';
 import { useState } from "react";
-import ApiUser from "../../../../untils/api/user";
+import ApiDocGia from '../../../../untils/api/DocGia'
 import { toast } from "react-toastify";
 import renderSearchResults from "./renderSearchResults";
 
@@ -43,7 +43,7 @@ const SearchReader = (props) => {
 
      const handleSubmit = async () => {
           if (dataSearch.email) {
-               const res = await ApiUser.getSearchEmail(`/readerManage/findReaderByEmail?email=${dataSearch.email}`);
+               const res = await ApiDocGia.getSearchEmail(dataSearch.email);
                if (res && res.success && res.data._id) {
                     setSearchResults(prevResults => [formatReaderData(res.data), ...prevResults]);
                     toast.success(`${res.message}`);
@@ -51,7 +51,7 @@ const SearchReader = (props) => {
                     toast.error(`${res.message}`);
                }
           } else if (dataSearch.MaDG) {
-               const res = await ApiUser.getSearchMaDG(`/readerManage/findReaderByMaDG?MaDG=${dataSearch.MaDG}`);
+               const res = await ApiDocGia.getSearchMaDG(dataSearch.MaDG);
                if (res && res.success && res.data._id) {
                     setSearchResults(prevResults => [formatReaderData(res.data), ...prevResults]);
                     toast.success(`${res.message}`);
