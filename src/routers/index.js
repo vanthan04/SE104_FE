@@ -6,47 +6,56 @@ import LoginForm from "../components/Auth/Login";
 import BookManagementPage from '../pages/ManageLib/pages/BookManagement';
 import SessionChecker from './SessionChecker';
 import RegisterForm from '../components/Auth/Register';
+import RegulationPage from '../pages/ManageLib/pages/Regulation';
 
 const AppRoutes = () => {
 
-    const router = createBrowserRouter([
-        {
-            path: '/',
-            element: <LoginForm />
-        },
-        {
-            path: '/register',
-            element: <RegisterForm/>
-        },
-        {
-            path: '/librarian',
-            element: (
-                <SessionChecker>
-                    <ManageLibPage />
-                </SessionChecker>
-            ),
-            children: [
-                {
-                    path: 'book', // Use relative path
-                    element: (
-                        <SessionChecker>
-                            <BookManagementPage />
-                        </SessionChecker>
-                    )
-                },
-                {
-                    path: 'reader', // Use relative path
-                    element: (
-                        <SessionChecker>
-                            <ReaderManagementPage />
-                        </SessionChecker>
-                    )
-                },
-            ]
-        }
-    ]);
+     const router = createBrowserRouter([
+          {
+               path: '/',
+               element: <LoginForm />
+          },
+          {
+               path: '/register',
+               element: <RegisterForm />
+          },
+          {
+               path: '/librarian',
+               element: (
+                    <SessionChecker>
+                         <ManageLibPage />
+                    </SessionChecker>
+               ),
+               children: [
+                    {
+                         path: 'book', // Use relative path
+                         element: (
+                              <SessionChecker>
+                                   <BookManagementPage />
+                              </SessionChecker>
+                         )
+                    },
+                    {
+                         path: 'reader', // Use relative path
+                         element: (
+                              <SessionChecker>
+                                   <ReaderManagementPage />
+                              </SessionChecker>
+                         )
+                    },
+                    {
+                         path: 'regulation',
+                         element: (
+                              <SessionChecker>
+                                   <RegulationPage />
+                              </SessionChecker>
+                         )
+                    }
+               ]
+          }
+     ]);
 
-    return <RouterProvider router={router} />;
+     return <RouterProvider router={router} />;
 };
 
 export default AppRoutes;

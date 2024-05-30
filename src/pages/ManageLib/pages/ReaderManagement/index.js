@@ -4,12 +4,12 @@ import { useState } from 'react';
 import PersonAddAlt1OutlinedIcon from '@mui/icons-material/PersonAddAlt1Outlined';
 import SearchIcon from '@mui/icons-material/Search';
 //Components
-import { Box, AppBar, Button, InputBase, Typography } from '@mui/material';
+import { Box, AppBar, Button, Typography } from '@mui/material';
 //Local
 import Popup from '../../../../components/controls/Popup';
 import FormAddReader from './FormAddReader';
 import { TableReaders } from './TableReaders';
-import { StyledToolbar, Search } from '../../components';
+import { StyledToolbar } from '../../components';
 import { ReaderProvider } from '../../../../Context/ReaderContext';
 import SearchReader from './SearchReader';
 
