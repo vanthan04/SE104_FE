@@ -3,6 +3,7 @@ import ManageLibPage from "../pages/ManageLib";
 import { BookManagementPage } from "../pages/ManageLib/pages/BookManagement";
 import { ReaderManagementPage } from "../pages/ManageLib/pages/ReaderManagement";
 import LoginForm from "../components/Auth/Login";
+import QuiDinhPage from "../pages/ManageLib/pages/Quydinh";
 
 const router = createBrowserRouter([
      {
@@ -21,7 +22,10 @@ const router = createBrowserRouter([
                     path: '/librarian/reader',
                     element: <ReaderManagementPage />
                },
-
+               {
+                    path: '/librarian/quidinh',
+                    element: <QuiDinhPage />
+               }
           ]
      }
 ])
