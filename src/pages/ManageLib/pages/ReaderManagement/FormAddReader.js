@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { TextField, Button, MenuItem, Grid, Container } from '@mui/material';
-import ApiUser from '../../../../untils/api/user';
-const FormAddReader = (props) => {
-     const { closePopup } = props
+import ApiDocGia from '../../../../untils/api/DocGia'
+import { toast } from 'react-toastify';
+import { useReaderContext } from '../../../../Context/ReaderContext';
+const FormAddReader = () => {
+     const { handleDataSuccess } = useReaderContext()
      const [formData, setFormData] = useState({
           hoten: '',
           loaidocgia: '',
@@ -11,33 +13,79 @@ const FormAddReader = (props) => {
           email: '',
           ngaylapthe: '',
      });
-     const [error, setError] = useState('');
-     const handleChange = (event) => {
-          setFormData({ ...formData, [event.target.name]: event.target.value });
-        };
 
+     const [error, setError] = useState({
+          formateEmail: '',
+          fields: {
+               hoten: false,
+               loaidocgia: false,
+               ngaysinh: false,
+               diachi: false,
+               email: false,
+               ngaylapthe: false,
+          }
+     });
 
-     const handleSubmit = (event) => {
-          event.preventDefault();
+     const handleChange = (e) => {
+          const { name, value } = e.target;
+          setFormData({
+               ...formData,
+               [name]: value,
+          });
+          setError({
+               ...error,
+               fields: { ...error.fields, [name]: false }
+          });
+     };
+
+     const handleSubmit = async (e) => {
+          e.preventDefault();
+          // Validation
           let hasEmptyFields = false;
-          setError(''); // Clear previous errors before re-validation
+          let invalidEmail = false;
+          let newFieldErrors = { ...error.fields };
 
           for (const field in formData) {
                if (!formData[field]) {
-               hasEmptyFields = true;
-               setError('Vui lòng điền đầy đủ các trường.'); // Set general error message
-               break; // Exit loop after first empty field is found (optional)
+                    hasEmptyFields = true;
+                    newFieldErrors[field] = true;
                }
           }
-          // Xử lý dữ liệu form ở đây
-          if (!hasEmptyFields){
-          ApiUser.postAddReader("/readerManage/createNewReader", formData)
-          console.log(formData);
-          closePopup()
+
+          if (formData.email) {
+               const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+               if (!emailPattern.test(formData.email)) {
+                    invalidEmail = true;
+                    newFieldErrors.email = true;
+               }
+          }
+
+          if (hasEmptyFields || invalidEmail) {
+               setError({
+                    formateEmail: invalidEmail ? 'Địa chỉ email không hợp lệ.' : 'Vui lòng nhập Email',
+                    fields: newFieldErrors
+               });
+               return;
+          }
+
+          let response = await ApiDocGia.postAddReader(formData);
+          if (response && response.success) {
+               toast.success(`${response.message}`) //Thông báo thành công
+               handleDataSuccess();//Cập nhật lại dữ liệu của table khi add thành công
+               setFormData({
+                    hoten: '',
+                    loaidocgia: '',
+                    ngaysinh: '',
+                    diachi: '',
+                    email: '',
+                    ngaylapthe: '',
+               });
+          } else {
+               toast.error(`${response.message}`) //Thông báo lỗi
           }
 
      };
-     
+
      return (
           <Container component="main" maxWidth="xs">
                <form onSubmit={handleSubmit}>
@@ -52,8 +100,6 @@ const FormAddReader = (props) => {
                                    name="hoten"
                                    value={formData.hoten}
                                    onChange={handleChange}
-                                   error={error && !formData.hoten}
-                                   helperText={error && !formData.hoten && 'Vui lòng nhập Họ Tên'}
                               />
                          </Grid>
                          <Grid item xs={12}>
@@ -67,8 +113,6 @@ const FormAddReader = (props) => {
                                    name="loaidocgia"
                                    value={formData.loaidocgia}
                                    onChange={handleChange}
-                                   error={error && !formData.loaidocgia} 
-                                   helperText={error && !formData.loaidocgia && 'Vui lòng chọn Loại Độc Giả'}
                               >
                                    <MenuItem value="X">X</MenuItem>
                                    <MenuItem value="Y">Y</MenuItem>
@@ -82,12 +126,10 @@ const FormAddReader = (props) => {
                                    id="ngaysinh"
                                    label="Ngày Sinh"
                                    name="ngaysinh"
-                                   type="date"
+                                   type='date'
                                    InputLabelProps={{ shrink: true }}
                                    value={formData.ngaysinh}
                                    onChange={handleChange}
-                                   error={error && !formData.ngaysinh}
-                                   helperText={error && !formData.ngaysinh && 'Vui lòng nhập Ngày Sinh'}
                               />
                          </Grid>
                          <Grid item xs={12}>
@@ -100,8 +142,6 @@ const FormAddReader = (props) => {
                                    name="diachi"
                                    value={formData.diachi}
                                    onChange={handleChange}
-                                   error={error && !formData.diachi}
-                                   helperText={error && !formData.diachi && 'Vui lòng nhập Địa chỉ'}
                               />
                          </Grid>
                          <Grid item xs={12}>
@@ -110,13 +150,11 @@ const FormAddReader = (props) => {
                                    required
                                    fullWidth
                                    id="email"
-                                   label="Email"  
+                                   label="Email"
                                    name="email"
                                    type="email"
                                    value={formData.email}
                                    onChange={handleChange}
-                                   error={error && !formData.email}
-                                   helperText={error && !formData.email && 'Vui lòng nhập Email'}
                               />
                          </Grid>
                          <Grid item xs={12}>
@@ -127,12 +165,10 @@ const FormAddReader = (props) => {
                                    id="ngaylapthe"
                                    label="Ngày Lập Thẻ"
                                    name="ngaylapthe"
-                                   type="date"
+                                   type='date'
                                    InputLabelProps={{ shrink: true }}
                                    value={formData.ngaylapthe}
                                    onChange={handleChange}
-                                   error={error && !formData.ngaylapthe}
-                                   helperText={error && !formData.ngaylapthe && 'Vui lòng nhập Ngày lập thẻ'}
                               />
                          </Grid>
                          <Grid item xs={12}>

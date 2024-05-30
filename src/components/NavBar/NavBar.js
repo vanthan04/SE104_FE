@@ -1,5 +1,5 @@
 import React from 'react'
-import { AppBar, Box, Stack, Toolbar, Typography, styled } from '@mui/material'
+import { AppBar, Toolbar, Typography, styled } from '@mui/material'
 
 const StyledToolBar = styled(Toolbar)({
   display: 'flex',

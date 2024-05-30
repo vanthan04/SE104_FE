@@ -1,18 +1,19 @@
 import { Box, Container, TextField, Typography, Button } from '@mui/material'
 import React, { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
-import { login } from '../../../store/admin/userSlice'
+import { loginSuccess } from '../../../store/user/userSlice'
 import ApiUser from '../../../untils/api/user'
+import { toast } from 'react-toastify';
 
 const LoginForm = () => {
   const [data, setData] = useState({
-    username: '',
+    email: '',
     password: ''
   })
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { username, password } = data
+  const { email, password } = data
   const handleChange = (event) => {
     setData({
       ...data,
@@ -22,31 +23,26 @@ const LoginForm = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (!username || !password) {
+    if (!email || !password) {
       alert('Username/Password is required')
       return
     }
-    try {
-      const user = {
-        username: username,
-        password: password
-      }
-      // Gọi phương thức postLogin từ ApiUser với đường dẫn và dữ liệu đăng nhập
-      const response = await ApiUser.postLogin('/user/loginAdmin', user);
-      if (response.success) {
-        dispatch(
-          login({
-            isLoggin: true,
-            token: response.accessToken,
-          })
-        );
-        navigate('/librarian')
-      }
-      console.log('Kết quả:', response);
-      // Xử lý kết quả tại đây, ví dụ: chuyển hướng người dùng nếu đăng nhập thành công
-    } catch (error) {
-      console.error('Đã xảy ra lỗi khi đăng nhập:', error);
-      // Xử lý lỗi tại đây, ví dụ: hiển thị thông báo lỗi cho người dùng
+    const user = {
+      email: email,
+      password: password
+    }
+    // Gọi phương thức postLogin từ ApiUser với đường dẫn và dữ liệu đăng nhập
+    const response = await ApiUser.postLogin(user);
+    console.log(response);
+    if (response.success) {
+      toast.success(response.message);
+      const expiresAt = new Date(new Date().getTime() + parseInt(response.expiresAt) * 60 * 1000);
+      dispatch(
+        loginSuccess({ token: response.accessToken, expiresAt: expiresAt.toISOString() })
+      );
+      navigate('/librarian')
+    } else {
+      toast.error(response.message)
     }
   }
 
@@ -75,12 +71,12 @@ const LoginForm = () => {
           <TextField
             margin='normal'
             fullWidth
-            id='username'
-            label='Username'
-            name='username'
+            id='email'
+            label='Email'
+            name='email'
             autoFocus
-            value={username}
-            autoComplete='username'
+            value={email}
+            autoComplete='email'
             onChange={handleChange} />
 
           <TextField
@@ -100,10 +96,21 @@ const LoginForm = () => {
             variant="contained"
             sx={{ mt: 3, mb: 2 }}
             onClick={handleSubmit}
-            disabled={username && password ? false : true}
+            disabled={email && password ? false : true}
           >
             Sign In
           </Button>
+          <Box
+            sx={{
+              display: 'flex',
+              justifyContent: 'flex-end',
+              width: '100%'
+            }}
+          >
+            <Typography component='p' variant='body2'>
+              Don't have an account? <Link to="/register">Register here</Link>
+            </Typography>
+          </Box>
         </Box>
       </Box>
     </Container >

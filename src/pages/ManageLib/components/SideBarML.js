@@ -6,31 +6,15 @@ import FeedOutlinedIcon from '@mui/icons-material/FeedOutlined';
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 
-import React, { useEffect } from 'react'
-import { Link, NavLink, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import { logout } from '../../../../store/user/userSlice';
+import React from 'react'
+import { NavLink } from 'react-router-dom';
 
 
 
 const SideBarML = () => {
-     const dispatch = useDispatch();
-     const navigate = useNavigate();
-     const  {isLoggin}  = useSelector((state) => state.user);
-     useEffect(() => {
-          if (!isLoggin) {
-            navigate("/login");
-          }
-     }, [isLoggin]);
-     
-     const handleLogOut = (event) => {
-          event.preventDefault();
-          dispatch(logout());
-          navigate('/login')
-     }
      return (
           <Box
-               flex={1} p={2}
+               flex={1 / 5} p={2}
                sx={{ display: { xs: 'none', sm: 'block' } }}
           >
                <List>
@@ -82,7 +66,7 @@ const SideBarML = () => {
                          </ListItemButton>
                     </ListItem>
                     <Divider />
-                    <ListItem onClick={handleLogOut}>
+                    <ListItem>
                          <ListItemButton>
                               <ListItemIcon>
                                    <LogoutOutlinedIcon />

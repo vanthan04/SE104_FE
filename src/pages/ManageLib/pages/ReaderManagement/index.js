@@ -1,68 +1,69 @@
 //React
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 //Icon
 import PersonAddAlt1OutlinedIcon from '@mui/icons-material/PersonAddAlt1Outlined';
+import SearchIcon from '@mui/icons-material/Search';
 //Components
-import { Box, AppBar, Button, InputBase, Toolbar, Typography, styled } from '@mui/material';
+import { Box, AppBar, Button, InputBase, Typography } from '@mui/material';
 //Local
 import Popup from '../../../../components/controls/Popup';
 import FormAddReader from './FormAddReader';
-import ApiUser from '../../../../untils/api/user';
 import { TableReaders } from './TableReaders';
+import { StyledToolbar, Search } from '../../components';
+import { ReaderProvider } from '../../../../Context/ReaderContext';
+import SearchReader from './SearchReader';
 
 
 
-const StyledToolbar = styled(Toolbar)({
-  display: 'flex',
-  justifyContent: 'space-between'
-}
-)
-
-const Search = styled('div')(({ theme }) => ({
-  backgroundColor: "white",
-  padding: '0 10px',
-  borderRadius: theme.shape.borderRadius,
-  width: '40%',
-}))
 
 export const ReaderManagementPage = () => {
-  const [openPopup, setOpenPopup] = useState(false)
-  const [data, setData] = useState([]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      const response = await ApiUser.getAllReader('/readerManage/getAllReaders')
-      setData(response.data);
-      console.log(response)
-    };
-    fetchData();
-  }, []);
-
+  const [openPopupAdd, setOpenPopupAdd] = useState(false)
+  const [openPopupSearch, setOpenPopupSearch] = useState(false)
 
   return (
-    <Box sx={{ height: 400, width: '100%', mt: 5 }}>
-      <AppBar position='static'>
-        <StyledToolbar>
-          <Typography variant='h6'>Libary Management - Table Reader</Typography>
-          <Search><InputBase placeholder='seacrh reader...' sx={{ width: "100%" }} /></Search>
-          <Button
-            color='success'
-            variant='contained'
-            startIcon={<PersonAddAlt1OutlinedIcon />}
-            onClick={() => setOpenPopup(!openPopup)}
-          >
-            Add
-          </Button>
-        </StyledToolbar>
-      </AppBar>
-      <TableReaders data={data} />
-      <Popup
-        title='Form Add Reader'
-        openPopup={openPopup}
-        setOpenPopup={setOpenPopup}
-      >
-        <FormAddReader closePopup={() => setOpenPopup(!openPopup)} />
-      </Popup>
-    </Box>
+    <ReaderProvider>
+      <Box sx={{ height: 400, width: '100%', mt: 5 }}>
+        <AppBar position='static'>
+          <StyledToolbar>
+            <Typography variant='h6'>Libary Management - Table Reader</Typography>
+            <Box component='div' sx={{ width: '20%', display: 'flex', justifyContent: 'space-around' }}>
+              <Button
+                color='secondary'
+                variant='contained'
+                startIcon={<SearchIcon />}
+                onClick={() => setOpenPopupSearch(true)}
+              >
+                Search
+              </Button>
+              <Button
+                color='success'
+                variant='contained'
+                startIcon={<PersonAddAlt1OutlinedIcon />}
+                onClick={() => setOpenPopupAdd(true)}
+              >
+                Add
+              </Button>
+            </Box>
+          </StyledToolbar>
+        </AppBar>
+        <TableReaders />
+        <Popup
+          title='Đăng kí độc giả mới'
+          openPopup={openPopupAdd}
+          setOpenPopup={setOpenPopupAdd}
+        >
+          <FormAddReader />
+        </Popup>
+        <Popup
+          title="Tìm kiếm độc giả theo ..."
+          openPopup={openPopupSearch}
+          setOpenPopup={setOpenPopupSearch}
+        >
+          <SearchReader
+            closePopup={() => setOpenPopupSearch(false)}
+          />
+        </Popup>
+      </Box>
+    </ReaderProvider>
   );
 }

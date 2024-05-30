@@ -1,33 +1,52 @@
-import { createBrowserRouter } from "react-router-dom";
+import React from 'react';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ManageLibPage from "../pages/ManageLib";
-import { BookManagementPage } from "../pages/ManageLib/pages/BookManagement";
 import { ReaderManagementPage } from "../pages/ManageLib/pages/ReaderManagement";
 import LoginForm from "../components/Auth/Login";
-import QuiDinhPage from "../pages/ManageLib/pages/Quydinh";
+import BookManagementPage from '../pages/ManageLib/pages/BookManagement';
+import SessionChecker from './SessionChecker';
+import RegisterForm from '../components/Auth/Register';
 
-const router = createBrowserRouter([
-     {
-          path: '/',
-          element: <LoginForm />
-     },
-     {
-          path: '/librarian',
-          element: <ManageLibPage />,
-          children: [
-               {
-                    path: '/librarian/book',
-                    element: <BookManagementPage />
-               },
-               {
-                    path: '/librarian/reader',
-                    element: <ReaderManagementPage />
-               },
-               {
-                    path: '/librarian/quidinh',
-                    element: <QuiDinhPage />
-               }
-          ]
-     }
-])
+const AppRoutes = () => {
 
-export default router
+    const router = createBrowserRouter([
+        {
+            path: '/',
+            element: <LoginForm />
+        },
+        {
+            path: '/register',
+            element: <RegisterForm/>
+        },
+        {
+            path: '/librarian',
+            element: (
+                <SessionChecker>
+                    <ManageLibPage />
+                </SessionChecker>
+            ),
+            children: [
+                {
+                    path: 'book', // Use relative path
+                    element: (
+                        <SessionChecker>
+                            <BookManagementPage />
+                        </SessionChecker>
+                    )
+                },
+                {
+                    path: 'reader', // Use relative path
+                    element: (
+                        <SessionChecker>
+                            <ReaderManagementPage />
+                        </SessionChecker>
+                    )
+                },
+            ]
+        }
+    ]);
+
+    return <RouterProvider router={router} />;
+};
+
+export default AppRoutes;

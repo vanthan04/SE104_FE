@@ -1,8 +1,9 @@
 import { Box } from '@mui/material'
 import React from 'react'
-import SideBarML from './components/SideBar/SideBarML'
+import SideBarML from './components/SideBarML'
 import { Outlet } from 'react-router-dom'
 import NavBar from '../../components/NavBar/NavBar'
+
 
 
 
