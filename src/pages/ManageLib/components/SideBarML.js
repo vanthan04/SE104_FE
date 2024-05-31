@@ -5,6 +5,7 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import FeedOutlinedIcon from '@mui/icons-material/FeedOutlined';
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
+import AnnouncementOutlinedIcon from '@mui/icons-material/AnnouncementOutlined';
 
 import React from 'react'
 import { NavLink } from 'react-router-dom';
@@ -64,6 +65,16 @@ const SideBarML = () => {
                               </ListItemIcon>
                               <ListItemText primary='Report preparation' />
                          </ListItemButton>
+                    </ListItem>
+                    <ListItem>
+                         <NavLink to="/librarian/regulation" style={{ textDecoration: 'none', color: 'inherit' }}>
+                              <ListItemButton>
+                                   <ListItemIcon>
+                                        <AnnouncementOutlinedIcon />
+                                   </ListItemIcon>
+                                   <ListItemText primary='Regulation Page' />
+                              </ListItemButton>
+                         </NavLink>
                     </ListItem>
                     <Divider />
                     <ListItem>

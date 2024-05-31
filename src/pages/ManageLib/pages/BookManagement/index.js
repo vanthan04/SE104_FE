@@ -44,7 +44,7 @@ export const BookManagementPage = () => {
       <AppBar position='static'>
         <StyledToolbar>
           <Typography variant='h6'>Library Management - Table Reader</Typography>
-          <Search><InputBase placeholder='seacrh reader...' sx={{ width: "100%" }} /></Search>
+          <Search><InputBase placeholder='seacrh book...' sx={{ width: "100%" }} /></Search>
           <Button
             color='success'
             variant='contained'

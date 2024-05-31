@@ -3,7 +3,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ManageLibPage from "../pages/ManageLib";
 import { ReaderManagementPage } from "../pages/ManageLib/pages/ReaderManagement";
 import LoginForm from "../components/Auth/Login";
-import BookManagementPage from '../pages/ManageLib/pages/BookManagement';
+import { BookManagementPage} from '../pages/ManageLib/pages/BookManagement';
 import SessionChecker from './SessionChecker';
 import RegisterForm from '../components/Auth/Register';
 import RegulationPage from '../pages/ManageLib/pages/Regulation';
