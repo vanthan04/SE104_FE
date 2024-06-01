@@ -1,8 +1,8 @@
 import { Box, Container, TextField, Typography, Button } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { toast } from "react-toastify";
 import ApiUser from '../../../untils/api/user'
+import { toast } from "react-toastify";
 
 const RegisterForm = () => {
   const navigate = useNavigate();
@@ -13,7 +13,6 @@ const RegisterForm = () => {
     confirmPassword: "",
   });
 
-  const [error, setError] = useState(false);
   const [errorMessages, setErrorMessages] = useState({
     fullname: "",
     email: "",
@@ -26,55 +25,61 @@ const RegisterForm = () => {
       ...data,
       [event.target.name]: event.target.value,
     });
+    setErrorMessages({
+      ...errorMessages,
+      [event.target.name]: "", // Clear the error message when the user types
+    });
   };
 
   const handleRegister = async (event) => {
     event.preventDefault();
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    setError(false);
-    setErrorMessages({
+    let valid = true;
+
+    const newErrorMessages = {
       fullname: "",
       email: "",
       password: "",
       confirmPassword: "",
-    });
+    };
 
     for (const field in data) {
       if (!data[field]) {
-        setError(true);
-        setErrorMessages(prevState => ({
-          ...prevState,
-          [field]: "This field is required",
-        }));
+        valid = false;
+        newErrorMessages[field] = "This field is required";
       }
     }
 
-    if (!emailPattern.test(data.email)) {
-      toast.error("Định dạng email chưa đúng");
-      return;
+    if (data.email && !emailPattern.test(data.email)) {
+      valid = false;
+      newErrorMessages.email = "Invalid email format";
     }
-    if (/\s/.test(data.password)) {
-      toast.error("Password không được có khoảng trắng");
-      return;
+
+    if (data.password && /\s/.test(data.password)) {
+      valid = false;
+      newErrorMessages.password = "Password should not contain spaces";
     }
+
     if (data.password !== data.confirmPassword) {
-      toast.error("Mật khẩu không trùng khớp");
-      return;
+      valid = false;
+      newErrorMessages.confirmPassword = "Passwords do not match";
     }
-    try {
-      const { confirmPassword, ...user } = data;
-      const response = await ApiUser.postRegister(user);
-      if (response.success) {
-        console.log('Đăng kí thành công:', response);
-        toast.success(response.message);
-        navigate('/')
-      } else {
-        console.error('Đăng kí thất bại:', response);
-        toast.error(response.message)
-      }
-    } catch (error) {
-      console.error("Error during registration:", error);
+
+    setErrorMessages(newErrorMessages);
+
+    if (!valid) return;
+
+
+    const { confirmPassword, ...user } = data;
+    const response = await ApiUser.postRegister(user);
+    if (response.success) {
+      toast.success(`${response.message}`);
+      navigate('/')
+    } else {
+      toast.error(`${response.message}`);
+      return
     }
+
   };
 
   const handleKeyDown = (event) => {
@@ -104,7 +109,7 @@ const RegisterForm = () => {
         <Box component="form" noValidate sx={{ mt: 1 }}>
           <TextField
             required
-            margin="normal"
+            margin="dense" // Adjust this to change the vertical spacing
             fullWidth
             id="fullname"
             label="Full Name"
@@ -113,12 +118,14 @@ const RegisterForm = () => {
             value={data.fullname}
             autoComplete="fullname"
             onChange={handleChange}
-            error={error && !data.fullname}
-            helperText={error && !data.fullname && errorMessages.fullname}
+            error={Boolean(errorMessages.fullname)}
+            helperText={errorMessages.fullname}
+            FormHelperTextProps={{ style: { whiteSpace: 'nowrap' } }}
+            sx={{ minHeight: '80px' }}
           />
           <TextField
             required
-            margin="normal"
+            margin="dense" // Adjust this to change the vertical spacing
             fullWidth
             id="email"
             label="Email"
@@ -127,13 +134,15 @@ const RegisterForm = () => {
             value={data.email}
             autoComplete="email"
             onChange={handleChange}
-            error={error && !data.email}
-            helperText={error && !data.email && errorMessages.email}
+            error={Boolean(errorMessages.email)}
+            helperText={errorMessages.email}
+            FormHelperTextProps={{ style: { whiteSpace: 'nowrap' } }}
+            sx={{ minHeight: '80px' }}
           />
 
           <TextField
             required
-            margin="normal"
+            margin="dense" // Adjust this to change the vertical spacing
             fullWidth
             id="password"
             label="Password"
@@ -142,13 +151,15 @@ const RegisterForm = () => {
             value={data.password}
             autoComplete="current-password"
             onChange={handleChange}
-            error={error && !data.password}
-            helperText={error && !data.password && errorMessages.password}
+            error={Boolean(errorMessages.password)}
+            helperText={errorMessages.password}
+            FormHelperTextProps={{ style: { whiteSpace: 'nowrap' } }}
+            sx={{ minHeight: '80px' }}
           />
 
           <TextField
             required
-            margin="normal"
+            margin="dense" // Adjust this to change the vertical spacing
             fullWidth
             id="confirmPassword"
             label="Confirm Password"
@@ -158,8 +169,10 @@ const RegisterForm = () => {
             autoComplete="current-password"
             onChange={handleChange}
             onKeyDown={handleKeyDown}
-            error={error && !data.confirmPassword}
-            helperText={error && !data.confirmPassword && errorMessages.confirmPassword}
+            error={Boolean(errorMessages.confirmPassword)}
+            helperText={errorMessages.confirmPassword}
+            FormHelperTextProps={{ style: { whiteSpace: 'nowrap' } }}
+            sx={{ minHeight: '80px' }}
           />
 
           <Button
