@@ -8,6 +8,7 @@ import renderSearchResults from "./renderSearchResults";
 import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
 import DrawOutlinedIcon from '@mui/icons-material/DrawOutlined';
 import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined';
+import { BottomNav } from '../../../../components/controls';
 
 // Hàm định dạng dữ liệu độc giả
 const formatReaderData = (reader) => {
@@ -21,7 +22,21 @@ const formatReaderData = (reader) => {
           diachi: reader.diachi
      };
 };
-
+// Labels cho thanh Nav
+const labels = [
+     {
+          title: 'Mã độc giả',
+          Icon: <PermIdentityOutlinedIcon />
+     },
+     {
+          title: 'Email',
+          Icon: <MailOutlineOutlinedIcon />
+     },
+     {
+          title: 'Họ và tên',
+          Icon: <DrawOutlinedIcon />
+     }
+]
 // Thành phần tìm kiếm độc giả
 const SearchReader = React.memo((props) => {
      const { closePopup } = props; // Nhận hàm đóng popup từ props
@@ -87,19 +102,9 @@ const SearchReader = React.memo((props) => {
           <Container component='main-edit-reader' maxWidth='lg'>
                <Box component='form' autoComplete='off' onSubmit={handleSubmit}>
                     <Box component='div'>
-                         <BottomNavigation
-                              showLabels
-                              value={value}
-                              onChange={(event, newValue) => {
-                                   setValue(newValue);
-                              }}
-                         >
-                              <BottomNavigationAction label="Mã độc giả" icon={<PermIdentityOutlinedIcon />} />
-                              <BottomNavigationAction label="Email" icon={<MailOutlineOutlinedIcon />} />
-                              <BottomNavigationAction label="Họ tên" icon={<DrawOutlinedIcon />} />
-                         </BottomNavigation>
+                         <BottomNav value={value} setValue={setValue} labels={labels} />
                     </Box>
-                    <Grid container spacing={2} my={1}>
+                    <Grid container spacing={2} my={2}>
                          {value === 0 &&
                               <Grid item xs={12}>
                                    <TextField
@@ -138,7 +143,7 @@ const SearchReader = React.memo((props) => {
                                    />
                               </Grid>}
                     </Grid>
-                    <Box display='flex' justifyContent='end'>
+                    <Box display='flex' justifyContent='end' margin={2}>
                          <Button variant="contained" color="error" onClick={closePopup}>
                               Cancel
                          </Button>
