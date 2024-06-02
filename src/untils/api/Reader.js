@@ -1,6 +1,6 @@
 import axios from "../axios";
 
-class DocGiaService {
+class ReaderService {
     postAddReader = async (options = {}) => {
         const response = await axios.post('readerManage/createNewReader', options);
         return response;
@@ -31,5 +31,5 @@ class DocGiaService {
     }
 }
 
-const ApiDocGia = new DocGiaService();
-export default ApiDocGia;
+const ApiReader = new ReaderService();
+export default ApiReader;

@@ -8,7 +8,7 @@ import { TextField, Button, Grid, Container, Box } from '@mui/material';
 import { toast } from "react-toastify";
 
 import renderSearchResults from "./renderSearchResults";
-import ApiDocGia from '../../../../untils/api/DocGia'
+import ApiReader from '../../../../untils/api/Reader'
 import { BottomNav } from '../../../../components/controls';
 
 // Hàm định dạng dữ liệu độc giả
@@ -64,11 +64,11 @@ const SearchReader = React.memo((props) => {
           try {
                let res;
                if (dataSearch.email) {
-                    res = await ApiDocGia.getSearchEmail(dataSearch.email); // Tìm kiếm theo email
+                    res = await ApiReader.getSearchEmail(dataSearch.email); // Tìm kiếm theo email
                } else if (dataSearch.MaDG) {
-                    res = await ApiDocGia.getSearchMaDG(dataSearch.MaDG); // Tìm kiếm theo mã độc giả
+                    res = await ApiReader.getSearchMaDG(dataSearch.MaDG); // Tìm kiếm theo mã độc giả
                } else if (dataSearch.hoten) {
-                    res = await ApiDocGia.getSearchHoten(dataSearch.hoten); // Tìm kiếm theo họ tên
+                    res = await ApiReader.getSearchHoten(dataSearch.hoten); // Tìm kiếm theo họ tên
                }
 
                if (res && res.success) {
@@ -96,8 +96,6 @@ const SearchReader = React.memo((props) => {
      useEffect(() => {
           setDataSearch({ hoten: '', email: '', MaDG: '' });
      }, [value]);
-
-     console.log(searchResults);
 
      return (
           <Container component='main-edit-reader' maxWidth='lg'>

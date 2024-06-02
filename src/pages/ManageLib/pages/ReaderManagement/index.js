@@ -9,6 +9,7 @@ import { TableReaders } from './TableReaders';
 import { StyledAppBar } from '../../components';
 import { ReaderProvider } from '../../../../Context';
 import SearchReader from './SearchReader';
+import RegReader from './RegReader';
 
 
 
@@ -16,6 +17,7 @@ import SearchReader from './SearchReader';
 export const ReaderManagementPage = () => {
   const [openPopupAdd, setOpenPopupAdd] = useState(false)
   const [openPopupSearch, setOpenPopupSearch] = useState(false)
+  const [openPopupReg, setOpenPopupReg] = useState(false)
 
   return (
     <ReaderProvider>
@@ -23,6 +25,7 @@ export const ReaderManagementPage = () => {
         <StyledAppBar
           setOpenPopupAdd={() => setOpenPopupAdd(true)}
           setOpenPopupSearch={() => setOpenPopupSearch(true)}
+          setOpenPopupReg={() => setOpenPopupReg(true)}
           title={'Libary Management - Table Reader'}
         />
         <TableReaders />
@@ -42,6 +45,16 @@ export const ReaderManagementPage = () => {
             closePopup={() => setOpenPopupSearch(false)}
           />
         </Popup>
+        <Popup
+          title="Quy định của độc giả"
+          openPopup={openPopupReg}
+          setOpenPopup={setOpenPopupReg}
+        >
+          <RegReader
+            closePopup={() => setOpenPopupReg(false)}
+          />
+        </Popup>
+
       </Box>
     </ReaderProvider>
   );

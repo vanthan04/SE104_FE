@@ -4,7 +4,7 @@ import { TextField, Button, MenuItem, Grid, Container } from '@mui/material';
 
 import { toast } from 'react-toastify';
 
-import ApiDocGia from '../../../../untils/api/DocGia';
+import ApiReader from '../../../../untils/api/Reader';
 import { useReaderContext } from '../../../../Context';
 
 const FormAddReader = () => {
@@ -72,7 +72,7 @@ const FormAddReader = () => {
                return;
           }
 
-          let response = await ApiDocGia.postAddReader(formData);
+          let response = await ApiReader.postAddReader(formData);
           if (response && response.success) {
                toast.success(`${response.message}`); // Thông báo thành công
                handleDataSuccess(); // Cập nhật lại dữ liệu của table khi add thành công

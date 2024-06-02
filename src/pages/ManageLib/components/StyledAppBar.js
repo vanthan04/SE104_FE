@@ -7,7 +7,7 @@ import { Box, AppBar, Button, Typography } from '@mui/material';
 //Local
 import StyledToolbar from './StyledToolbar';
 
-const StyledAppBar = ({ setOpenPopupAdd, setOpenPopupSearch, title }) => {
+const StyledAppBar = ({ setOpenPopupAdd, setOpenPopupSearch, setOpenPopupReg, title }) => {
      return (
           <AppBar position='static'>
                <StyledToolbar>
@@ -30,12 +30,12 @@ const StyledAppBar = ({ setOpenPopupAdd, setOpenPopupSearch, title }) => {
                               Add
                          </Button>
                          <Button
-                              color='success'
+                              color='warning'
                               variant='contained'
                               startIcon={<ReportProblemOutlinedIcon />}
-                              onClick={setOpenPopupAdd}
+                              onClick={setOpenPopupReg}
                          >
-                              Reg
+                              Reguls
                          </Button>
                     </Box>
                </StyledToolbar>
