@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Container, Grid, TextField, Box, MenuItem, Button } from '@mui/material';
 import ApiDocGia from '../../../../untils/api/DocGia'
 import { toast } from 'react-toastify';
-import { useReaderContext } from '../../../../Context/ReaderContext';
+import { useReaderContext } from '../../../../Context';
 
 const EditReader = (props) => {
   const { user, closePopup } = props;

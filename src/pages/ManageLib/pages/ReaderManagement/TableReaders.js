@@ -1,24 +1,14 @@
 import { useState } from 'react'
-import {
-    Box,
-    Table,
-    Button,
-    TablePagination,
-    Tooltip, Paper,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableContainer,
-    TableRow
-}
-    from '@mui/material';
 
+import { Box, Table, Button, TablePagination, Tooltip, Paper, TableBody, TableCell, TableHead, TableContainer, TableRow } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import Popup from '../../../../components/controls/Popup';
+
+import { Popup } from '../../../../components/controls';
+import { useReaderContext } from '../../../../Context';
+
 import EditReader from './EditReader';
 import ConfirmDeleteReader from './ConfirmDeleteReader';
-import { useReaderContext } from '../../../../Context/ReaderContext';
 
 const columns = [
     { id: 'MaDG', label: 'MaDG' },

@@ -2,7 +2,7 @@ import { Box, Button, Container, Typography } from '@mui/material'
 import React from 'react'
 import ApiDocGia from '../../../../untils/api/DocGia'
 import { toast } from 'react-toastify'
-import { useReaderContext } from '../../../../Context/ReaderContext'
+import { useReaderContext } from '../../../../Context'
 
 const ConfirmDeleteReader = (props) => {
      const { MaDG, closePopup } = props
