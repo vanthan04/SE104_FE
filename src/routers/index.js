@@ -6,7 +6,6 @@ import LoginForm from "../components/Auth/Login";
 import BookManagementPage from '../pages/ManageLib/pages/BookManagement';
 import SessionChecker from './SessionChecker';
 import RegisterForm from '../components/Auth/Register';
-import RegulationPage from '../pages/ManageLib/pages/Regulation';
 
 const AppRoutes = () => {
 
@@ -30,25 +29,13 @@ const AppRoutes = () => {
                 {
                     path: 'book', // Use relative path
                     element: (
-                        <SessionChecker>
-                            <BookManagementPage />
-                        </SessionChecker>
+                        <BookManagementPage />
                     )
                 },
                 {
                     path: 'reader', // Use relative path
                     element: (
-                        <SessionChecker>
-                            <ReaderManagementPage />
-                        </SessionChecker>
-                    )
-                },
-                {
-                    path: 'regulation', // Use relative path
-                    element: (
-                        <SessionChecker>
-                            <RegulationPage />
-                        </SessionChecker>
+                        <ReaderManagementPage />
                     )
                 },
             ]

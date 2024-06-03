@@ -75,11 +75,13 @@ export const TableReaders = () => {
                                     {columns.map((column) => (
                                         <TableCell key={`${row._id}-${column.id}`} align='center'>
                                             {column.id === 'isLocked' ? (
-                                                <Typography
-                                                    color={row[column.id] ? 'error' : 'green'}
-                                                >
-                                                    {row[column.id] ? 'Đã khóa' : 'Đang hoạt động'}
-                                                </Typography>
+                                                <Tooltip title={row.isLocked ? row.reasonLocked : ''}>
+                                                    <Typography
+                                                        color={row[column.id] ? 'error' : 'green'}
+                                                    >
+                                                        {row[column.id] ? 'Đã khóa' : 'Đang hoạt động'}
+                                                    </Typography>
+                                                </Tooltip>
                                             ) : (
                                                 row[column.id]
                                             )}
