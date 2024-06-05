@@ -9,6 +9,10 @@ class RegulationService {
           const response = await axios.put('ruleManage/updateReaderRule', option)
           return response
      }
+     getGenres = async () => {
+          const response = await axios.get('ruleManage/getGenres')
+          return response
+     }
 }
 
 const ApiReg = new RegulationService()

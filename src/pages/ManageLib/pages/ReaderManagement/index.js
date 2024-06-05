@@ -21,7 +21,7 @@ export const ReaderManagementPage = () => {
 
   return (
     <ReaderProvider>
-      <Box sx={{ height: 400, width: '100%', mt: 5 }}>
+      <Box sx={{ height: "100%", width: '100%', mt: 5 }}>
         <StyledAppBar
           setOpenPopupAdd={() => setOpenPopupAdd(true)}
           setOpenPopupSearch={() => setOpenPopupSearch(true)}

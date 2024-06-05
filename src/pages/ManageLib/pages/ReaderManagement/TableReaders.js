@@ -23,7 +23,7 @@ const columns = [
 ];
 
 export const TableReaders = () => {
-    const { data } = useReaderContext()
+    const { data = [] } = useReaderContext()
     const [openEdit, setOpenEdit] = useState(false)
     const [openDelete, setOpenDelete] = useState(false)
     const [page, setPage] = useState(0);
@@ -88,7 +88,7 @@ export const TableReaders = () => {
                                         </TableCell>
                                     ))}
                                     <TableCell>
-                                        <Box display='flex'>
+                                        <Box display='flex' justifyContent='center'>
                                             <Tooltip title="Edit" arrow placement='top'>
                                                 <Button
                                                     variant='contained'

@@ -15,9 +15,16 @@ export const ReaderProvider = ({ children }) => {
      }, []);
 
      const fetchData = async () => {
-          const response = await ApiReader.getAllReader();
-          if (response.data) {
-               setData(response.data);
+          try {
+               const response = await ApiReader.getAllReader();
+               if (response.data && Array.isArray(response.data)) {
+                    setData(response.data);
+               } else {
+                    setData([]);
+               }
+          } catch (error) {
+               console.error("Failed to fetch books data:", error);
+               setData([]);
           }
      };
      //fetch lại data table khi thực hiện thành công 1 chức năng
