@@ -48,6 +48,7 @@ export const BookProvider = ({ children }) => {
      //fetch lại data table khi thực hiện thành công 1 chức năng
      const handleDataSuccess = async () => {
           await fetchData();
+          await fetchBoookGeners()
      };
 
      return (

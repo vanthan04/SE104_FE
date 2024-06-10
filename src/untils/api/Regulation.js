@@ -13,6 +13,19 @@ class RegulationService {
           const response = await axios.get('ruleManage/getGenres')
           return response
      }
+     updateGenres = async (option = {}) => {
+          const response = await axios.put('ruleManage/updateGenre', option)
+          return response
+     }
+     getBookRule = async () => {
+          const response = await axios.get('ruleManage/getBookRule')
+          return response
+     }
+     updatePulishYearDistance = async (option = {}) => {
+          const response = await axios.put('ruleManage/updatePulishYearDistance', option)
+          return response
+     }
+
 }
 
 const ApiReg = new RegulationService()

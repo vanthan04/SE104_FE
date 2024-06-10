@@ -1,14 +1,12 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import {
      Box, Table, Button, TablePagination, Tooltip, Paper, TableBody,
      TableCell, TableHead, TableContainer, TableRow
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import EditIcon from '@mui/icons-material/Edit';
-
 import { useBookContext } from '../../../../Context';
 import Popup from '../../../../components/controls/Popup';
-import ConfirmDeleteReader from './ConfirmDeleteBook'
+import ConfirmDeleteBook from './ConfirmDeleteBook';
 
 const columns = [
      { id: 'stt', label: 'STT' },
@@ -22,12 +20,9 @@ const columns = [
 export const TableBooks = () => {
      const { data = [] } = useBookContext(); // Lấy dữ liệu sách từ context
 
-     const [openEdit, setOpenEdit] = useState(false);
      const [openDelete, setOpenDelete] = useState(false);
      const [page, setPage] = useState(0);
      const [rowsPerPage, setRowsPerPage] = useState(10);
-
-     const [dataBookEdit, setDataBookEdit] = useState({});
      const [dataBookDelete, setDataBookDelete] = useState();
 
      const handleDelete = (MaSach) => {
@@ -35,14 +30,8 @@ export const TableBooks = () => {
           setOpenDelete(true);
      };
 
-     const handleEdit = (book) => {
-          setDataBookEdit(book);
-          setOpenEdit(true);
-     };
-
      const handleClosePopup = () => {
           setOpenDelete(false);
-          setOpenEdit(false);
      };
 
      const handleChangePage = (event, newPage) => {
@@ -55,6 +44,10 @@ export const TableBooks = () => {
      };
 
      const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
+
+     const getStatusColor = (status) => {
+          return status === 'Còn Trống' ? 'green' : 'red';
+     };
 
      return (
           <Box sx={{ height: '500px', width: '100%' }}>
@@ -75,7 +68,11 @@ export const TableBooks = () => {
                                    <TableRow key={row._id}>
                                         <TableCell align='center'>{page * rowsPerPage + index + 1}</TableCell>
                                         {columns.slice(1).map((column) => (
-                                             <TableCell key={`${row._id}-${column.id}`} align='center'>
+                                             <TableCell
+                                                  key={`${row._id}-${column.id}`}
+                                                  align='center'
+                                                  style={column.id === 'tinhtrang' ? { color: getStatusColor(row[column.id]) } : {}}
+                                             >
                                                   {column.id === 'listtacgia'
                                                        ? row[column.id].join(', ')
                                                        : row[column.id]}
@@ -83,16 +80,6 @@ export const TableBooks = () => {
                                         ))}
                                         <TableCell>
                                              <Box display='flex' justifyContent='center'>
-                                                  <Tooltip title="Edit" arrow placement='top'>
-                                                       <Button
-                                                            variant='contained'
-                                                            sx={{ mr: 1 }}
-                                                            color='warning'
-                                                            onClick={() => handleEdit(row)}
-                                                       >
-                                                            <EditIcon fontSize='small' />
-                                                       </Button>
-                                                  </Tooltip>
                                                   <Tooltip title="Delete" arrow placement='top'>
                                                        <Button
                                                             variant='contained'
@@ -128,7 +115,7 @@ export const TableBooks = () => {
                     openPopup={openDelete}
                     setOpenPopup={setOpenDelete}
                >
-                    <ConfirmDeleteReader
+                    <ConfirmDeleteBook
                          MaSach={dataBookDelete}
                          closePopup={handleClosePopup}
                     />

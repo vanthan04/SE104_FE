@@ -10,6 +10,7 @@ import { BookProvider } from '../../../../Context';
 import { TableBooks } from './TableBooks';
 import FormAddBook from './FormAddBook';
 import SearchBook from './SearchBook';
+import RegBook from './RegBook';
 
 
 const BookManagementPage = () => {
@@ -50,7 +51,9 @@ const BookManagementPage = () => {
                     openPopup={openPopupReg}
                     setOpenPopup={setOpenPopupReg}
                >
-                    <h1>Quy định về sách</h1>
+                    <RegBook
+                         closePopup={() => setOpenPopupReg(false)}
+                    />
                </Popup>
           </BookProvider>
      );
