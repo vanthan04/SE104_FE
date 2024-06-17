@@ -8,7 +8,6 @@ import { toast } from "react-toastify";
 
 import { BottomNav } from '../../../../components/controls';
 import { useBookContext } from "../../../../Context";
-import renderSearchBook from "./renderSearchBook";
 import ApiBook from "../../../../untils/api/Book";
 
 // Labels cho thanh Nav

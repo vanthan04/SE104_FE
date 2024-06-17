@@ -1,18 +1,40 @@
-//Icon
+import React from 'react';
+import { Box, AppBar, Button, Typography, styled } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import ReportProblemOutlinedIcon from '@mui/icons-material/ReportProblemOutlined';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
-//Components
-import { Box, AppBar, Button, Typography } from '@mui/material';
-//Local
 import StyledToolbar from './StyledToolbar';
 
-const StyledAppBar = ({ setOpenPopupAdd, setOpenPopupSearch, setOpenPopupReg, title }) => {
+// Styled button for custom button
+const CustomButton = styled(Button)(({ theme }) => ({
+     color: 'white',
+     backgroundColor: theme.palette.success.light,
+     '&:hover': {
+          backgroundColor: theme.palette.success.dark,
+     },
+}));
+
+const StyledAppBar = ({ setOpenPopupAdd, setOpenPopupSearch, setOpenPopupReg, setOpenPopupCustom, title, customButton }) => {
      return (
           <AppBar position='static'>
                <StyledToolbar>
                     <Typography variant='h6'>{title}</Typography>
-                    <Box component='div' sx={{ width: '25%', display: 'flex', justifyContent: 'space-between' }}>
+                    <Box component='div'
+                         sx={{
+                              width: customButton ? '40%' : '25%', // Conditional width for Box
+                              display: 'flex',
+                              justifyContent: 'space-between',
+                         }}
+                    >
+                         {customButton && (
+                              <CustomButton
+                                   variant='contained'
+                                   startIcon={customButton.icon}
+                                   onClick={customButton.onClick}
+                              >
+                                   {customButton.label}
+                              </CustomButton>
+                         )}
                          <Button
                               color='secondary'
                               variant='contained'
@@ -40,7 +62,7 @@ const StyledAppBar = ({ setOpenPopupAdd, setOpenPopupSearch, setOpenPopupReg, ti
                     </Box>
                </StyledToolbar>
           </AppBar>
-     )
+     );
 }
 
-export default StyledAppBar
+export default StyledAppBar;

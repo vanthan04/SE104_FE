@@ -9,7 +9,7 @@ export const useReaderContext = () => {
 
 export const ReaderProvider = ({ children }) => {
      const [data, setData] = useState([]);
-     const [maDGList, setMaDGList] = useState([]);
+     const [hotenList, setHotenList] = useState([]);
 
      useEffect(() => {
           fetchData();
@@ -20,16 +20,16 @@ export const ReaderProvider = ({ children }) => {
                const response = await ApiReader.getAllReader();
                if (response.data && Array.isArray(response.data)) {
                     setData(response.data);
-                    const maDGArray = response.data.map(item => item.MaDG);
-                    setMaDGList(maDGArray);
+                    const hotenArray = response.data.map(item => item.hoten);
+                    setHotenList(hotenArray);
                } else {
                     setData([]);
-                    setMaDGList([]);
+                    setHotenList([]);
                }
           } catch (error) {
                console.error("Failed to fetch reader data:", error);
                setData([]);
-               setMaDGList([]);
+               setHotenList([]);
           }
      };
 
@@ -38,7 +38,7 @@ export const ReaderProvider = ({ children }) => {
      };
 
      return (
-          <ReaderContext.Provider value={{ data, maDGList, handleDataSuccess }}>
+          <ReaderContext.Provider value={{ data, hotenList, handleDataSuccess }}>
                {children}
           </ReaderContext.Provider>
      );

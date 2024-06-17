@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import {
     Box, Table, Button, TablePagination, Tooltip, Paper,
     TableBody, TableCell, TableHead, TableContainer, TableRow, Typography
@@ -35,20 +35,20 @@ export const TableReaders = ({ dataSearch }) => {
     const [dataUserEdit, setDataUserEdit] = useState({});
     const [dataUserDelete, setDataUserDelete] = useState();
 
-    const prevDataLength = useRef(data.length);
 
     const updateTableData = useCallback(() => {
-        if (data.length !== prevDataLength.current) {
-            setSearchData(data);
-        } else if (dataSearch.length > 0) {
+        if (dataSearch.length > 0) {
             setSearchData(dataSearch);
         }
-        prevDataLength.current = data.length;
-    }, [dataSearch, data]);
+    }, [dataSearch]);
 
     useEffect(() => {
         updateTableData();
-    }, [dataSearch, data, updateTableData]);
+    }, [dataSearch, updateTableData]);
+
+    useEffect(() => {
+        setSearchData(data)
+    }, [data])
 
     const handleDelete = (madg) => {
         setOpenDelete(true);
