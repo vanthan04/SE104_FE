@@ -110,6 +110,7 @@ const FormAddBook = ({ closePopup }) => {
 
           // Gọi API để thêm sách mới
           let response = await ApiBook.createNewBook(formData);
+          let response = await ApiBook.createNewBook(formData);
           if (response && response.success) {
                toast.success(`${response.message}`); // Thông báo thành công
                handleDataSuccess(); // Cập nhật lại dữ liệu của table khi thêm thành công

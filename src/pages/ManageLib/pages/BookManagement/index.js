@@ -2,6 +2,7 @@
 import { useState } from 'react';
 //Components
 import { Box } from '@mui/material';
+import MenuBookIcon from '@mui/icons-material/MenuBook';
 //Local
 import Popup from '../../../../components/controls/Popup';
 import { StyledAppBar } from '../../components';
@@ -17,7 +18,17 @@ const BookManagementPage = () => {
      const [openPopupAdd, setOpenPopupAdd] = useState(false)
      const [openPopupSearch, setOpenPopupSearch] = useState(false)
      const [openPopupReg, setOpenPopupReg] = useState(false)
+     const [openPopupLoanBook, setOpenPopupLoanBook] = useState(false)
      const [dataSearch, setDataSearch] = useState([]);
+     const handleCustomButtonClick = () => {
+          setOpenPopupLoanBook(true)
+     };
+
+     const customButton = {
+          label: 'Loan Book',
+          icon: <MenuBookIcon />, // Thay YourCustomIcon bằng component icon của bạn
+          onClick: handleCustomButtonClick
+     };
      return (
           <BookProvider>
                <Box sx={{ height: "100%", width: '100%', mt: 5 }}>
@@ -25,9 +36,15 @@ const BookManagementPage = () => {
                          setOpenPopupAdd={() => setOpenPopupAdd(true)}
                          setOpenPopupSearch={() => setOpenPopupSearch(true)}
                          setOpenPopupReg={() => setOpenPopupReg(true)}
+                         setOpenPopupCustom={() => setOpenPopupLoanBook(true)}
+                         customButton={customButton}
                          title={'Libary Management - Table Book'}
                     />
-                    <TableBooks dataSearch={dataSearch} />
+                    <TableBooks
+                         dataSearch={dataSearch}
+                         openLoanBook={openPopupLoanBook}
+                         setOpenLoanBook={setOpenPopupLoanBook}
+                    />
                </Box>
                <Popup
                     title='Tiếp nhận sách mới'
