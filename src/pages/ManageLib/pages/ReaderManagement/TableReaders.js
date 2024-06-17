@@ -25,7 +25,7 @@ const columns = [
 ];
 
 export const TableReaders = ({ dataSearch }) => {
-    const { data } = useReaderContext(); // Thêm hàm handleDataSuccess từ context
+    const { data } = useReaderContext();
     const [searchData, setSearchData] = useState(data);
     const [openEdit, setOpenEdit] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
@@ -133,9 +133,11 @@ export const TableReaders = ({ dataSearch }) => {
                                 </TableRow>
                             ))}
                             {emptyRows > 0 && (
-                                <TableRow style={{ height: 53 * emptyRows }}>
-                                    <TableCell colSpan={columns.length + 1} />
-                                </TableRow>
+                                Array.from(Array(emptyRows)).map((_, index) => (
+                                    <TableRow key={`empty-${index}`} style={{ height: 53 }}>
+                                        <TableCell colSpan={columns.length + 1} />
+                                    </TableRow>
+                                ))
                             )}
                         </TableBody>
                     </Table>

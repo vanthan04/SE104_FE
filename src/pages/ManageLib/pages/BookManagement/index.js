@@ -17,6 +17,7 @@ const BookManagementPage = () => {
      const [openPopupAdd, setOpenPopupAdd] = useState(false)
      const [openPopupSearch, setOpenPopupSearch] = useState(false)
      const [openPopupReg, setOpenPopupReg] = useState(false)
+     const [dataSearch, setDataSearch] = useState([]);
      return (
           <BookProvider>
                <Box sx={{ height: "100%", width: '100%', mt: 5 }}>
@@ -26,7 +27,7 @@ const BookManagementPage = () => {
                          setOpenPopupReg={() => setOpenPopupReg(true)}
                          title={'Libary Management - Table Book'}
                     />
-                    <TableBooks />
+                    <TableBooks dataSearch={dataSearch} />
                </Box>
                <Popup
                     title='Tiếp nhận sách mới'
@@ -44,6 +45,7 @@ const BookManagementPage = () => {
                >
                     <SearchBook
                          closePopup={() => setOpenPopupSearch(false)}
+                         resultSearch={setDataSearch}
                     />
                </Popup>
                <Popup

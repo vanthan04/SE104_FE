@@ -32,12 +32,12 @@ const formatBookData = (book) => {
           MaSach: book.MaSach,
           tensach: book.tensach,
           theloai: book.theloai,
-          listtacgia: book.listTacGia,
+          tacgia: book.tacgia,
           tinhtrang: book.tinhtrang,
      };
 };
 // Thành phần tìm kiếm độc giả
-const SearchBook = React.memo(({ closePopup }) => {
+const SearchBook = React.memo(({ closePopup, resultSearch }) => {
      const { bookGenres } = useBookContext()
      const [dataSearch, setDataSearch] = useState({
           MaSach: '',
@@ -78,8 +78,11 @@ const SearchBook = React.memo(({ closePopup }) => {
                     }
                     // Đặt trạng thái 'isNew' là false cho các kết quả cũ
                     const updatedPrevResults = searchResults.map(item => ({ ...item, isNew: false }));
-                    setSearchResults([...formattedResults, ...updatedPrevResults]); // Cập nhật kết quả tìm kiếm
-                    toast.success(res.message); // Hiển thị thông báo thành công
+                    const finalResults = [...formattedResults, ...updatedPrevResults];
+                    setSearchResults(finalResults); // Cập nhật kết quả tìm kiếm
+                    resultSearch(finalResults); // Truyền kết quả tìm kiếm về component cha
+                    toast.success(res.message);
+                    closePopup()
                } else {
                     toast.error(res.message); // Hiển thị thông báo lỗi
                }
@@ -89,7 +92,7 @@ const SearchBook = React.memo(({ closePopup }) => {
           } finally {
                setDataSearch({ MaSach: '', tensach: '', theloai: '' }); // Đặt lại dữ liệu đầu vào sau khi gọi API
           }
-     }, [dataSearch, searchResults]);
+     }, [dataSearch, searchResults, closePopup, resultSearch]);
 
      // Đặt lại dữ liệu đầu vào khi giá trị của BottomNavigation thay đổi
      useEffect(() => {
@@ -156,7 +159,7 @@ const SearchBook = React.memo(({ closePopup }) => {
                               Find
                          </Button>
                     </Box>
-                    {renderSearchBook({ data: searchResults })}
+                    {/* {renderSearchBook({ data: searchResults })} */}
                </Box>
           </Container>
      );
