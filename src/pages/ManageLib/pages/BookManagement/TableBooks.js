@@ -13,7 +13,7 @@ const columns = [
      { id: 'MaSach', label: 'Mã Sách' },
      { id: 'tensach', label: 'Tên Sách' },
      { id: 'theloai', label: 'Thể loại' },
-     { id: 'listtacgia', label: 'Tác giả' },
+     { id: 'tacgia', label: 'Tác giả' },
      { id: 'tinhtrang', label: 'Tình trạng' }
 ];
 
@@ -73,7 +73,7 @@ export const TableBooks = () => {
                                                   align='center'
                                                   style={column.id === 'tinhtrang' ? { color: getStatusColor(row[column.id]) } : {}}
                                              >
-                                                  {column.id === 'listtacgia'
+                                                  {column.id === 'tacgia'
                                                        ? row[column.id].join(', ')
                                                        : row[column.id]}
                                              </TableCell>
