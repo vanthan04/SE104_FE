@@ -1,52 +1,48 @@
 import React, { useState, useCallback, useEffect } from "react";
 // Nhập các thành phần và thư viện cần thiết từ Material-UI và React
-import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
-import DrawOutlinedIcon from '@mui/icons-material/DrawOutlined';
-import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined';
-import { TextField, Button, Grid, Container, Box } from '@mui/material';
-
+import { TextField, Button, Grid, Container, Box, MenuItem } from '@mui/material';
+import BookIcon from '@mui/icons-material/Book';
+import AutoStoriesOutlinedIcon from '@mui/icons-material/AutoStoriesOutlined';
+import ListOutlinedIcon from '@mui/icons-material/ListOutlined';
 import { toast } from "react-toastify";
 
-import ApiReader from '../../../../untils/api/Reader'
 import { BottomNav } from '../../../../components/controls';
+import { useBookContext } from "../../../../Context";
+import renderSearchBook from "./renderSearchBook";
+import ApiBook from "../../../../untils/api/Book";
 
-// Hàm định dạng dữ liệu độc giả
-const formatReaderData = (reader) => {
-     return {
-          MaDG: reader.MaDG,
-          hoten: reader.hoten,
-          ngaysinhtoShow: reader.ngaysinhtoShow,
-          ngaylapthetoShow: reader.ngaylapthetoShow,
-          ngaysinhtoUpdate: reader.ngaysinhtoUpdate,
-          ngaylapthetoUpdate: reader.ngaylapthetoUpdate,
-          email: reader.email,
-          loaidocgia: reader.loaidocgia,
-          diachi: reader.diachi,
-          tongno: reader.tongno
-     };
-};
 // Labels cho thanh Nav
 const labels = [
      {
-          title: 'Mã độc giả',
-          Icon: <PermIdentityOutlinedIcon />
+          title: 'Mã Sách',
+          Icon: <AutoStoriesOutlinedIcon />
      },
      {
-          title: 'Email',
-          Icon: <MailOutlineOutlinedIcon />
+          title: 'Tên Sách',
+          Icon: <BookIcon />
      },
      {
-          title: 'Họ và tên',
-          Icon: <DrawOutlinedIcon />
+          title: 'Thể loại',
+          Icon: <ListOutlinedIcon />
      }
 ]
+// Hàm định dạng dữ liệu độc giả
+const formatBookData = (book) => {
+     return {
+          MaSach: book.MaSach,
+          tensach: book.tensach,
+          theloai: book.theloai,
+          tacgia: book.tacgia,
+          tinhtrang: book.tinhtrang,
+     };
+};
 // Thành phần tìm kiếm độc giả
-const SearchReader = React.memo((props) => {
-     const { closePopup, resultSearch } = props; // Nhận hàm đóng popup từ props
+const SearchBook = React.memo(({ closePopup, resultSearch }) => {
+     const { bookGenres } = useBookContext()
      const [dataSearch, setDataSearch] = useState({
-          hoten: '',
-          email: '',
-          MaDG: '',
+          MaSach: '',
+          tensach: '',
+          theloai: '',
      });
      const [searchResults, setSearchResults] = useState([]); // Trạng thái lưu trữ kết quả tìm kiếm
      const [value, setValue] = useState(0); // Trạng thái lưu trữ giá trị của BottomNavigation
@@ -65,20 +61,20 @@ const SearchReader = React.memo((props) => {
           event.preventDefault(); // Ngăn chặn hành vi mặc định của sự kiện
           try {
                let res;
-               if (dataSearch.email) {
-                    res = await ApiReader.getSearchEmail(dataSearch.email); // Tìm kiếm theo email
-               } else if (dataSearch.MaDG) {
-                    res = await ApiReader.getSearchMaDG(dataSearch.MaDG); // Tìm kiếm theo mã độc giả
-               } else if (dataSearch.hoten) {
-                    res = await ApiReader.getSearchHoten(dataSearch.hoten); // Tìm kiếm theo họ tên
+               if (dataSearch.MaSach) {
+                    res = await ApiBook.findBookByBookID(dataSearch.MaSach)
+               } else if (dataSearch.tensach) {
+                    res = await ApiBook.findBookByName(dataSearch.tensach)
+               } else if (dataSearch.theloai) {
+                    res = await ApiBook.findBookByGener(dataSearch.theloai)
                }
-
+               console.log(res)
                if (res && res.success) {
                     let formattedResults = [];
                     if (Array.isArray(res.data)) {
-                         formattedResults = res.data.map(reader => ({ ...formatReaderData(reader), isNew: true }));
+                         formattedResults = res.data.map(reader => ({ ...formatBookData(reader), isNew: true }));
                     } else if (res.data._id) {
-                         formattedResults = [{ ...formatReaderData(res.data), isNew: true }];
+                         formattedResults = [{ ...formatBookData(res.data), isNew: true }];
                     }
                     // Đặt trạng thái 'isNew' là false cho các kết quả cũ
                     const updatedPrevResults = searchResults.map(item => ({ ...item, isNew: false }));
@@ -90,16 +86,17 @@ const SearchReader = React.memo((props) => {
                } else {
                     toast.error(res.message); // Hiển thị thông báo lỗi
                }
+
           } catch (error) {
                toast.error("Vui lòng nhập dữ liệu tìm kiếm"); // Hiển thị thông báo lỗi
           } finally {
-               setDataSearch({ hoten: '', email: '', MaDG: '' }); // Đặt lại dữ liệu đầu vào sau khi gọi API
+               setDataSearch({ MaSach: '', tensach: '', theloai: '' }); // Đặt lại dữ liệu đầu vào sau khi gọi API
           }
-     }, [dataSearch, resultSearch, searchResults, closePopup]);
+     }, [dataSearch, searchResults, closePopup, resultSearch]);
 
      // Đặt lại dữ liệu đầu vào khi giá trị của BottomNavigation thay đổi
      useEffect(() => {
-          setDataSearch({ hoten: '', email: '', MaDG: '' });
+          setDataSearch({ MaSach: '', tensach: '', theloai: '' });
      }, [value]);
 
      return (
@@ -113,11 +110,11 @@ const SearchReader = React.memo((props) => {
                               <Grid item xs={12}>
                                    <TextField
                                         variant='outlined'
-                                        label='MaDG - VD: DG00001'
-                                        id='MaDG'
-                                        name='MaDG'
+                                        label='MaSach - VD: MS00001'
+                                        id='MaSach'
+                                        name='MaSach'
                                         fullWidth
-                                        value={dataSearch.MaDG}
+                                        value={dataSearch.MaSach}
                                         onChange={handleChange}
                                    />
                               </Grid>}
@@ -125,26 +122,33 @@ const SearchReader = React.memo((props) => {
                               <Grid item xs={12}>
                                    <TextField
                                         variant='outlined'
-                                        label='Email'
-                                        id='email'
-                                        name='email'
-                                        type='email'
+                                        label='Tên Sách'
+                                        id='tensach'
+                                        name='tensach'
+                                        type='tensach'
                                         fullWidth
-                                        value={dataSearch.email}
+                                        value={dataSearch.tensach}
                                         onChange={handleChange}
                                    />
                               </Grid>}
                          {value === 2 &&
                               <Grid item xs={12}>
                                    <TextField
+                                        select
                                         variant='outlined'
-                                        label='Họ tên'
-                                        id='hoten'
-                                        name='hoten'
+                                        label='Thể loại'
+                                        id='theloai'
+                                        name='theloai'
                                         fullWidth
-                                        value={dataSearch.hoten}
+                                        value={dataSearch.theloai}
                                         onChange={handleChange}
-                                   />
+                                   >
+                                        {bookGenres.map((genre) => (
+                                             <MenuItem key={genre} value={genre}>
+                                                  {genre}
+                                             </MenuItem>
+                                        ))}
+                                   </TextField>
                               </Grid>}
                     </Grid>
                     <Box display='flex' justifyContent='end' margin={2}>
@@ -155,10 +159,10 @@ const SearchReader = React.memo((props) => {
                               Find
                          </Button>
                     </Box>
+                    {/* {renderSearchBook({ data: searchResults })} */}
                </Box>
-               {/* {renderSearchResults({ data: searchResults })} Hiển thị kết quả tìm kiếm */}
           </Container>
      );
 });
 
-export default SearchReader;
+export default SearchBook;
