@@ -1,52 +1,28 @@
-//React
-import { useState } from 'react';
-//Icon
-import PersonAddAlt1OutlinedIcon from '@mui/icons-material/PersonAddAlt1Outlined';
-import SearchIcon from '@mui/icons-material/Search';
-//Components
-import { Box, AppBar, Button, InputBase, Typography } from '@mui/material';
-//Local
+import React, { useState } from 'react';
+import { Box } from '@mui/material';
 import Popup from '../../../../components/controls/Popup';
 import FormAddReader from './FormAddReader';
 import { TableReaders } from './TableReaders';
-import { StyledToolbar, Search } from '../../components';
-import { ReaderProvider } from '../../../../Context/ReaderContext';
+import { StyledAppBar } from '../../components';
+import { ReaderProvider } from '../../../../Context';
 import SearchReader from './SearchReader';
-
-
-
+import RegReader from './RegReader';
 
 export const ReaderManagementPage = () => {
-  const [openPopupAdd, setOpenPopupAdd] = useState(false)
-  const [openPopupSearch, setOpenPopupSearch] = useState(false)
-
+  const [openPopupAdd, setOpenPopupAdd] = useState(false);
+  const [openPopupSearch, setOpenPopupSearch] = useState(false);
+  const [openPopupReg, setOpenPopupReg] = useState(false);
+  const [dataSearch, setDataSearch] = useState([]);
   return (
     <ReaderProvider>
-      <Box sx={{ height: 400, width: '100%', mt: 5 }}>
-        <AppBar position='static'>
-          <StyledToolbar>
-            <Typography variant='h6'>Libary Management - Table Reader</Typography>
-            <Box component='div' sx={{ width: '20%', display: 'flex', justifyContent: 'space-around' }}>
-              <Button
-                color='secondary'
-                variant='contained'
-                startIcon={<SearchIcon />}
-                onClick={() => setOpenPopupSearch(true)}
-              >
-                Search
-              </Button>
-              <Button
-                color='success'
-                variant='contained'
-                startIcon={<PersonAddAlt1OutlinedIcon />}
-                onClick={() => setOpenPopupAdd(true)}
-              >
-                Add
-              </Button>
-            </Box>
-          </StyledToolbar>
-        </AppBar>
-        <TableReaders />
+      <Box sx={{ height: "100%", width: '100%', mt: 5 }}>
+        <StyledAppBar
+          setOpenPopupAdd={() => setOpenPopupAdd(true)}
+          setOpenPopupSearch={() => setOpenPopupSearch(true)}
+          setOpenPopupReg={() => setOpenPopupReg(true)}
+          title={'Library Management - Table Reader'}
+        />
+        <TableReaders dataSearch={dataSearch} />
         <Popup
           title='Đăng kí độc giả mới'
           openPopup={openPopupAdd}
@@ -61,7 +37,15 @@ export const ReaderManagementPage = () => {
         >
           <SearchReader
             closePopup={() => setOpenPopupSearch(false)}
+            resultSearch={setDataSearch}
           />
+        </Popup>
+        <Popup
+          title="Quy định của độc giả"
+          openPopup={openPopupReg}
+          setOpenPopup={setOpenPopupReg}
+        >
+          <RegReader closePopup={() => setOpenPopupReg(false)} />
         </Popup>
       </Box>
     </ReaderProvider>

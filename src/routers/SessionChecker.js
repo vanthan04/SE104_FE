@@ -80,12 +80,10 @@ const SessionChecker = ({ children }) => {
                 openPopup={toggle}
                 setOpenPopup={setToggle}
             >
-                <div>
-                    <Box display='flex' justifyContent='center'>
-                        <Button color='success' onClick={handleExtendSession}>Yes</Button>
-                        <Button color='error' onClick={handleDeleteSession}>No</Button>
-                    </Box>
-                </div>
+                <Box display='flex' justifyContent='center'>
+                    <Button color='success' onClick={handleExtendSession}>Yes</Button>
+                    <Button color='error' onClick={handleDeleteSession}>No</Button>
+                </Box>
             </Popup>
         </>
     );

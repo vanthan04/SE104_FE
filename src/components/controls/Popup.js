@@ -9,9 +9,7 @@ import React from "react";
 
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 
-const Popup = (props) => {
-  const { title, children, openPopup, setOpenPopup } = props;
-
+const Popup = ({ title, children, openPopup, setOpenPopup }) => {
   const handleClose = () => {
     setOpenPopup(false);
   };

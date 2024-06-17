@@ -16,7 +16,7 @@ const AppRoutes = () => {
         },
         {
             path: '/register',
-            element: <RegisterForm/>
+            element: <RegisterForm />
         },
         {
             path: '/librarian',
@@ -29,17 +29,13 @@ const AppRoutes = () => {
                 {
                     path: 'book', // Use relative path
                     element: (
-                        <SessionChecker>
-                            <BookManagementPage />
-                        </SessionChecker>
+                        <BookManagementPage />
                     )
                 },
                 {
                     path: 'reader', // Use relative path
                     element: (
-                        <SessionChecker>
-                            <ReaderManagementPage />
-                        </SessionChecker>
+                        <ReaderManagementPage />
                     )
                 },
             ]

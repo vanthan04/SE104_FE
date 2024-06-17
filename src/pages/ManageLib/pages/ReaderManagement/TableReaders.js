@@ -1,24 +1,16 @@
-import { useState } from 'react'
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import {
-    Box,
-    Table,
-    Button,
-    TablePagination,
-    Tooltip, Paper,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableContainer,
-    TableRow
-}
-    from '@mui/material';
-
+    Box, Table, Button, TablePagination, Tooltip, Paper,
+    TableBody, TableCell, TableHead, TableContainer, TableRow, Typography
+} from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import Popup from '../../../../components/controls/Popup';
+
+import { Popup } from '../../../../components/controls';
+import { useReaderContext } from '../../../../Context';
+
 import EditReader from './EditReader';
 import ConfirmDeleteReader from './ConfirmDeleteReader';
-import { useReaderContext } from '../../../../Context/ReaderContext';
 
 const columns = [
     { id: 'MaDG', label: 'MaDG' },
@@ -28,30 +20,51 @@ const columns = [
     { id: 'loaidocgia', label: 'Loại độc giả' },
     { id: 'diachi', label: 'Địa chỉ' },
     { id: 'ngaylapthetoShow', label: 'Ngày Lập thẻ' },
-    { id: 'tongno', label: 'Tổng nợ' }
+    { id: 'tongno', label: 'Tổng nợ' },
+    { id: 'isLocked', label: 'Trạng thái' }
 ];
 
-export const TableReaders = () => {
-    const { data } = useReaderContext()
-    const [openEdit, setOpenEdit] = useState(false)
-    const [openDelete, setOpenDelete] = useState(false)
+export const TableReaders = ({ dataSearch }) => {
+    const { data } = useReaderContext();
+    const [searchData, setSearchData] = useState(data);
+    const [openEdit, setOpenEdit] = useState(false);
+    const [openDelete, setOpenDelete] = useState(false);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
-    const [dataUserEdit, setDataUserEdit] = useState({})
-    const [dataUserDelete, setDataUserDelete] = useState()
+    const [dataUserEdit, setDataUserEdit] = useState({});
+    const [dataUserDelete, setDataUserDelete] = useState();
+
+    const prevDataLength = useRef(data.length);
+
+    const updateTableData = useCallback(() => {
+        if (data.length !== prevDataLength.current) {
+            setSearchData(data);
+        } else if (dataSearch.length > 0) {
+            setSearchData(dataSearch);
+        }
+        prevDataLength.current = data.length;
+    }, [dataSearch, data]);
+
+    useEffect(() => {
+        updateTableData();
+    }, [dataSearch, data, updateTableData]);
+
     const handleDelete = (madg) => {
-        setOpenDelete(true)
-        setDataUserDelete(madg)
-    }
+        setOpenDelete(true);
+        setDataUserDelete(madg);
+    };
+
     const handleEdit = (user) => {
-        setOpenEdit(true)
-        setDataUserEdit(user)
-    }
+        setOpenEdit(true);
+        setDataUserEdit(user);
+    };
+
     const handleClosePopup = () => {
-        setOpenDelete(false)
-        setOpenEdit(false)
-    }
+        setOpenDelete(false);
+        setOpenEdit(false);
+    };
+
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -61,7 +74,7 @@ export const TableReaders = () => {
         setPage(0);
     };
 
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, searchData.length - page * rowsPerPage);
 
     return (
         <>
@@ -79,15 +92,23 @@ export const TableReaders = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
+                            {searchData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
                                 <TableRow key={row._id}>
                                     {columns.map((column) => (
                                         <TableCell key={`${row._id}-${column.id}`} align='center'>
-                                            {row[column.id]}
+                                            {column.id === 'isLocked' ? (
+                                                <Tooltip title={row.isLocked ? row.reasonLocked : ''}>
+                                                    <Typography color={row[column.id] ? 'error' : 'green'}>
+                                                        {row[column.id] ? 'Đã khóa' : 'Đang hoạt động'}
+                                                    </Typography>
+                                                </Tooltip>
+                                            ) : (
+                                                row[column.id]
+                                            )}
                                         </TableCell>
                                     ))}
                                     <TableCell>
-                                        <Box display='flex'>
+                                        <Box display='flex' justifyContent='center'>
                                             <Tooltip title="Edit" arrow placement='top'>
                                                 <Button
                                                     variant='contained'
@@ -112,16 +133,18 @@ export const TableReaders = () => {
                                 </TableRow>
                             ))}
                             {emptyRows > 0 && (
-                                <TableRow style={{ height: 53 * emptyRows }}>
-                                    <TableCell colSpan={columns.length + 1} />
-                                </TableRow>
+                                Array.from(Array(emptyRows)).map((_, index) => (
+                                    <TableRow key={`empty-${index}`} style={{ height: 53 }}>
+                                        <TableCell colSpan={columns.length + 1} />
+                                    </TableRow>
+                                ))
                             )}
                         </TableBody>
                     </Table>
                 </TableContainer>
                 <TablePagination
                     component="div"
-                    count={data.length}
+                    count={searchData.length}
                     page={page}
                     onPageChange={handleChangePage}
                     rowsPerPage={rowsPerPage}

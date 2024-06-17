@@ -1,14 +1,13 @@
-import { Box, Button, Container, Typography } from '@mui/material'
 import React from 'react'
-import ApiReader from '../../../../untils/api/Reader'
+import { Box, Button, Container, Typography } from '@mui/material'
+import { useBookContext } from '../../../../Context'
+import ApiBook from '../../../../untils/api/Book'
 import { toast } from 'react-toastify'
-import { useReaderContext } from '../../../../Context'
 
-const ConfirmDeleteReader = (props) => {
-     const { MaDG, closePopup } = props
-     const { handleDataSuccess } = useReaderContext()
+const ConfirmDeleteBook = ({ MaSach, closePopup }) => {
+     const { handleDataSuccess } = useBookContext()
      const handleDelete = async () => {
-          const res = await ApiReader.postDeleteReader({ MaDG })
+          const res = await ApiBook.deleteBook(MaSach)
           if (res.success && res) {
                toast.success(`${res.message}`)
                handleDataSuccess()
@@ -18,9 +17,10 @@ const ConfirmDeleteReader = (props) => {
                toast.error(`${res.message}`)
           }
      }
+
      return (
           <Container maxWidth='xs' component='main-detele-reader'>
-               <Typography variant='h6'>Bạn có xác nhận xóa độc giả: {MaDG} này không?</Typography>
+               <Typography variant='h6'>Bạn có xác nhận xóa độc giả: {MaSach} này không?</Typography>
                <Box display='flex' justifyContent='center' mt={2}>
                     <Button
                          variant='contained'
@@ -43,4 +43,4 @@ const ConfirmDeleteReader = (props) => {
      )
 }
 
-export default ConfirmDeleteReader
+export default ConfirmDeleteBook
