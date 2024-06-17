@@ -1,13 +1,15 @@
-// Nhập các thành phần và thư viện cần thiết từ Material-UI và React
-import { TextField, Button, Grid, Container, Box, BottomNavigationAction, BottomNavigation } from '@mui/material';
 import React, { useState, useCallback, useEffect } from "react";
-import ApiDocGia from '../../../../untils/api/DocGia'
-import { toast } from "react-toastify";
-import renderSearchResults from "./renderSearchResults";
-
+// Nhập các thành phần và thư viện cần thiết từ Material-UI và React
 import PermIdentityOutlinedIcon from '@mui/icons-material/PermIdentityOutlined';
 import DrawOutlinedIcon from '@mui/icons-material/DrawOutlined';
 import MailOutlineOutlinedIcon from '@mui/icons-material/MailOutlineOutlined';
+import { TextField, Button, Grid, Container, Box } from '@mui/material';
+
+import { toast } from "react-toastify";
+
+import renderSearchResults from "./renderSearchResults";
+import ApiReader from '../../../../untils/api/Reader'
+import { BottomNav } from '../../../../components/controls';
 
 // Hàm định dạng dữ liệu độc giả
 const formatReaderData = (reader) => {
@@ -21,7 +23,21 @@ const formatReaderData = (reader) => {
           diachi: reader.diachi
      };
 };
-
+// Labels cho thanh Nav
+const labels = [
+     {
+          title: 'Mã độc giả',
+          Icon: <PermIdentityOutlinedIcon />
+     },
+     {
+          title: 'Email',
+          Icon: <MailOutlineOutlinedIcon />
+     },
+     {
+          title: 'Họ và tên',
+          Icon: <DrawOutlinedIcon />
+     }
+]
 // Thành phần tìm kiếm độc giả
 const SearchReader = React.memo((props) => {
      const { closePopup } = props; // Nhận hàm đóng popup từ props
@@ -48,11 +64,11 @@ const SearchReader = React.memo((props) => {
           try {
                let res;
                if (dataSearch.email) {
-                    res = await ApiDocGia.getSearchEmail(dataSearch.email); // Tìm kiếm theo email
+                    res = await ApiReader.getSearchEmail(dataSearch.email); // Tìm kiếm theo email
                } else if (dataSearch.MaDG) {
-                    res = await ApiDocGia.getSearchMaDG(dataSearch.MaDG); // Tìm kiếm theo mã độc giả
+                    res = await ApiReader.getSearchMaDG(dataSearch.MaDG); // Tìm kiếm theo mã độc giả
                } else if (dataSearch.hoten) {
-                    res = await ApiDocGia.getSearchHoten(dataSearch.hoten); // Tìm kiếm theo họ tên
+                    res = await ApiReader.getSearchHoten(dataSearch.hoten); // Tìm kiếm theo họ tên
                }
 
                if (res && res.success) {
@@ -81,25 +97,13 @@ const SearchReader = React.memo((props) => {
           setDataSearch({ hoten: '', email: '', MaDG: '' });
      }, [value]);
 
-     console.log(searchResults);
-
      return (
           <Container component='main-edit-reader' maxWidth='lg'>
                <Box component='form' autoComplete='off' onSubmit={handleSubmit}>
                     <Box component='div'>
-                         <BottomNavigation
-                              showLabels
-                              value={value}
-                              onChange={(event, newValue) => {
-                                   setValue(newValue);
-                              }}
-                         >
-                              <BottomNavigationAction label="Mã độc giả" icon={<PermIdentityOutlinedIcon />} />
-                              <BottomNavigationAction label="Email" icon={<MailOutlineOutlinedIcon />} />
-                              <BottomNavigationAction label="Họ tên" icon={<DrawOutlinedIcon />} />
-                         </BottomNavigation>
+                         <BottomNav value={value} setValue={setValue} labels={labels} />
                     </Box>
-                    <Grid container spacing={2} my={1}>
+                    <Grid container spacing={2} my={2}>
                          {value === 0 &&
                               <Grid item xs={12}>
                                    <TextField
@@ -138,7 +142,7 @@ const SearchReader = React.memo((props) => {
                                    />
                               </Grid>}
                     </Grid>
-                    <Box display='flex' justifyContent='end'>
+                    <Box display='flex' justifyContent='end' margin={2}>
                          <Button variant="contained" color="error" onClick={closePopup}>
                               Cancel
                          </Button>

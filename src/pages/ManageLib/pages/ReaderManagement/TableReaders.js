@@ -1,24 +1,14 @@
 import { useState } from 'react'
-import {
-    Box,
-    Table,
-    Button,
-    TablePagination,
-    Tooltip, Paper,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableContainer,
-    TableRow
-}
-    from '@mui/material';
 
+import { Box, Table, Button, TablePagination, Tooltip, Paper, TableBody, TableCell, TableHead, TableContainer, TableRow, Typography } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
-import Popup from '../../../../components/controls/Popup';
+
+import { Popup } from '../../../../components/controls';
+import { useReaderContext } from '../../../../Context';
+
 import EditReader from './EditReader';
 import ConfirmDeleteReader from './ConfirmDeleteReader';
-import { useReaderContext } from '../../../../Context/ReaderContext';
 
 const columns = [
     { id: 'MaDG', label: 'MaDG' },
@@ -28,7 +18,8 @@ const columns = [
     { id: 'loaidocgia', label: 'Loại độc giả' },
     { id: 'diachi', label: 'Địa chỉ' },
     { id: 'ngaylapthetoShow', label: 'Ngày Lập thẻ' },
-    { id: 'tongno', label: 'Tổng nợ' }
+    { id: 'tongno', label: 'Tổng nợ' },
+    { id: 'isLocked', label: 'Trạng thái' }
 ];
 
 export const TableReaders = () => {
@@ -83,7 +74,15 @@ export const TableReaders = () => {
                                 <TableRow key={row._id}>
                                     {columns.map((column) => (
                                         <TableCell key={`${row._id}-${column.id}`} align='center'>
-                                            {row[column.id]}
+                                            {column.id === 'isLocked' ? (
+                                                <Typography
+                                                    color={row[column.id] ? 'error' : 'green'}
+                                                >
+                                                    {row[column.id] ? 'Đã khóa' : 'Đang hoạt động'}
+                                                </Typography>
+                                            ) : (
+                                                row[column.id]
+                                            )}
                                         </TableCell>
                                     ))}
                                     <TableCell>
