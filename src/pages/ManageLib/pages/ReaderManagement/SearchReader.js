@@ -7,7 +7,6 @@ import { TextField, Button, Grid, Container, Box } from '@mui/material';
 
 import { toast } from "react-toastify";
 
-import renderSearchResults from "./renderSearchResults";
 import ApiReader from '../../../../untils/api/Reader'
 import { BottomNav } from '../../../../components/controls';
 
@@ -18,9 +17,12 @@ const formatReaderData = (reader) => {
           hoten: reader.hoten,
           ngaysinhtoShow: reader.ngaysinhtoShow,
           ngaylapthetoShow: reader.ngaylapthetoShow,
+          ngaysinhtoUpdate: reader.ngaysinhtoUpdate,
+          ngaylapthetoUpdate: reader.ngaylapthetoUpdate,
           email: reader.email,
           loaidocgia: reader.loaidocgia,
-          diachi: reader.diachi
+          diachi: reader.diachi,
+          tongno: reader.tongno
      };
 };
 // Labels cho thanh Nav
@@ -40,7 +42,7 @@ const labels = [
 ]
 // Thành phần tìm kiếm độc giả
 const SearchReader = React.memo((props) => {
-     const { closePopup } = props; // Nhận hàm đóng popup từ props
+     const { closePopup, resultSearch } = props; // Nhận hàm đóng popup từ props
      const [dataSearch, setDataSearch] = useState({
           hoten: '',
           email: '',
@@ -80,8 +82,11 @@ const SearchReader = React.memo((props) => {
                     }
                     // Đặt trạng thái 'isNew' là false cho các kết quả cũ
                     const updatedPrevResults = searchResults.map(item => ({ ...item, isNew: false }));
-                    setSearchResults([...formattedResults, ...updatedPrevResults]); // Cập nhật kết quả tìm kiếm
-                    toast.success(res.message); // Hiển thị thông báo thành công
+                    const finalResults = [...formattedResults, ...updatedPrevResults];
+                    setSearchResults(finalResults); // Cập nhật kết quả tìm kiếm
+                    resultSearch(finalResults); // Truyền kết quả tìm kiếm về component cha
+                    toast.success(res.message);
+                    closePopup()
                } else {
                     toast.error(res.message); // Hiển thị thông báo lỗi
                }
@@ -90,7 +95,7 @@ const SearchReader = React.memo((props) => {
           } finally {
                setDataSearch({ hoten: '', email: '', MaDG: '' }); // Đặt lại dữ liệu đầu vào sau khi gọi API
           }
-     }, [dataSearch, searchResults]);
+     }, [dataSearch, resultSearch, searchResults, closePopup]);
 
      // Đặt lại dữ liệu đầu vào khi giá trị của BottomNavigation thay đổi
      useEffect(() => {
@@ -151,7 +156,7 @@ const SearchReader = React.memo((props) => {
                          </Button>
                     </Box>
                </Box>
-               {renderSearchResults({ data: searchResults })} {/* Hiển thị kết quả tìm kiếm */}
+               {/* {renderSearchResults({ data: searchResults })} Hiển thị kết quả tìm kiếm */}
           </Container>
      );
 });

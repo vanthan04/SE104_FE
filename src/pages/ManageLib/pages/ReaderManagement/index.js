@@ -1,8 +1,5 @@
-//React
-import { useState } from 'react';
-//Components
+import React, { useState } from 'react';
 import { Box } from '@mui/material';
-//Local
 import Popup from '../../../../components/controls/Popup';
 import FormAddReader from './FormAddReader';
 import { TableReaders } from './TableReaders';
@@ -11,14 +8,11 @@ import { ReaderProvider } from '../../../../Context';
 import SearchReader from './SearchReader';
 import RegReader from './RegReader';
 
-
-
-
 export const ReaderManagementPage = () => {
-  const [openPopupAdd, setOpenPopupAdd] = useState(false)
-  const [openPopupSearch, setOpenPopupSearch] = useState(false)
-  const [openPopupReg, setOpenPopupReg] = useState(false)
-
+  const [openPopupAdd, setOpenPopupAdd] = useState(false);
+  const [openPopupSearch, setOpenPopupSearch] = useState(false);
+  const [openPopupReg, setOpenPopupReg] = useState(false);
+  const [dataSearch, setDataSearch] = useState([]);
   return (
     <ReaderProvider>
       <Box sx={{ height: "100%", width: '100%', mt: 5 }}>
@@ -26,9 +20,9 @@ export const ReaderManagementPage = () => {
           setOpenPopupAdd={() => setOpenPopupAdd(true)}
           setOpenPopupSearch={() => setOpenPopupSearch(true)}
           setOpenPopupReg={() => setOpenPopupReg(true)}
-          title={'Libary Management - Table Reader'}
+          title={'Library Management - Table Reader'}
         />
-        <TableReaders />
+        <TableReaders dataSearch={dataSearch} />
         <Popup
           title='Đăng kí độc giả mới'
           openPopup={openPopupAdd}
@@ -43,6 +37,7 @@ export const ReaderManagementPage = () => {
         >
           <SearchReader
             closePopup={() => setOpenPopupSearch(false)}
+            resultSearch={setDataSearch}
           />
         </Popup>
         <Popup
@@ -50,11 +45,8 @@ export const ReaderManagementPage = () => {
           openPopup={openPopupReg}
           setOpenPopup={setOpenPopupReg}
         >
-          <RegReader
-            closePopup={() => setOpenPopupReg(false)}
-          />
+          <RegReader closePopup={() => setOpenPopupReg(false)} />
         </Popup>
-
       </Box>
     </ReaderProvider>
   );

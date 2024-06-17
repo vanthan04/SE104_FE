@@ -1,6 +1,8 @@
-import { useState } from 'react'
-
-import { Box, Table, Button, TablePagination, Tooltip, Paper, TableBody, TableCell, TableHead, TableContainer, TableRow, Typography } from '@mui/material';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
+import {
+    Box, Table, Button, TablePagination, Tooltip, Paper,
+    TableBody, TableCell, TableHead, TableContainer, TableRow, Typography
+} from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 
@@ -22,27 +24,47 @@ const columns = [
     { id: 'isLocked', label: 'Trạng thái' }
 ];
 
-export const TableReaders = () => {
-    const { data = [] } = useReaderContext()
-    const [openEdit, setOpenEdit] = useState(false)
-    const [openDelete, setOpenDelete] = useState(false)
+export const TableReaders = ({ dataSearch }) => {
+    const { data } = useReaderContext(); // Thêm hàm handleDataSuccess từ context
+    const [searchData, setSearchData] = useState(data);
+    const [openEdit, setOpenEdit] = useState(false);
+    const [openDelete, setOpenDelete] = useState(false);
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
-    const [dataUserEdit, setDataUserEdit] = useState({})
-    const [dataUserDelete, setDataUserDelete] = useState()
+    const [dataUserEdit, setDataUserEdit] = useState({});
+    const [dataUserDelete, setDataUserDelete] = useState();
+
+    const prevDataLength = useRef(data.length);
+
+    const updateTableData = useCallback(() => {
+        if (data.length !== prevDataLength.current) {
+            setSearchData(data);
+        } else if (dataSearch.length > 0) {
+            setSearchData(dataSearch);
+        }
+        prevDataLength.current = data.length;
+    }, [dataSearch, data]);
+
+    useEffect(() => {
+        updateTableData();
+    }, [dataSearch, data, updateTableData]);
+
     const handleDelete = (madg) => {
-        setOpenDelete(true)
-        setDataUserDelete(madg)
-    }
+        setOpenDelete(true);
+        setDataUserDelete(madg);
+    };
+
     const handleEdit = (user) => {
-        setOpenEdit(true)
-        setDataUserEdit(user)
-    }
+        setOpenEdit(true);
+        setDataUserEdit(user);
+    };
+
     const handleClosePopup = () => {
-        setOpenDelete(false)
-        setOpenEdit(false)
-    }
+        setOpenDelete(false);
+        setOpenEdit(false);
+    };
+
     const handleChangePage = (event, newPage) => {
         setPage(newPage);
     };
@@ -52,7 +74,7 @@ export const TableReaders = () => {
         setPage(0);
     };
 
-    const emptyRows = rowsPerPage - Math.min(rowsPerPage, data.length - page * rowsPerPage);
+    const emptyRows = rowsPerPage - Math.min(rowsPerPage, searchData.length - page * rowsPerPage);
 
     return (
         <>
@@ -70,15 +92,13 @@ export const TableReaders = () => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {data.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
+                            {searchData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
                                 <TableRow key={row._id}>
                                     {columns.map((column) => (
                                         <TableCell key={`${row._id}-${column.id}`} align='center'>
                                             {column.id === 'isLocked' ? (
                                                 <Tooltip title={row.isLocked ? row.reasonLocked : ''}>
-                                                    <Typography
-                                                        color={row[column.id] ? 'error' : 'green'}
-                                                    >
+                                                    <Typography color={row[column.id] ? 'error' : 'green'}>
                                                         {row[column.id] ? 'Đã khóa' : 'Đang hoạt động'}
                                                     </Typography>
                                                 </Tooltip>
@@ -122,7 +142,7 @@ export const TableReaders = () => {
                 </TableContainer>
                 <TablePagination
                     component="div"
-                    count={data.length}
+                    count={searchData.length}
                     page={page}
                     onPageChange={handleChangePage}
                     rowsPerPage={rowsPerPage}
