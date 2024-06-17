@@ -7,6 +7,7 @@ import { BookManagementPage} from '../pages/ManageLib/pages/BookManagement';
 import SessionChecker from './SessionChecker';
 import RegisterForm from '../components/Auth/Register';
 import RegulationPage from '../pages/ManageLib/pages/Regulation';
+import LoanPage from '../pages/ManageLib/pages/LoanManagement';
 
 const AppRoutes = () => {
 
@@ -48,6 +49,14 @@ const AppRoutes = () => {
                          element: (
                               <SessionChecker>
                                    <RegulationPage />
+                              </SessionChecker>
+                         )
+                    },
+                    {
+                         path: 'loan',
+                         element: (
+                              <SessionChecker>
+                                   <LoanPage />
                               </SessionChecker>
                          )
                     }

@@ -51,12 +51,14 @@ const SideBarML = () => {
                          </NavLink>
                     </ListItem>
                     <ListItem>
-                         <ListItemButton>
-                              <ListItemIcon>
-                                   <FeedOutlinedIcon />
-                              </ListItemIcon>
-                              <ListItemText primary='Loan Management' />
-                         </ListItemButton>
+                         <NavLink to='/librarian/loan' style={{ textDecoration: 'none', color: 'inherit' }}>
+                              <ListItemButton>
+                                   <ListItemIcon>
+                                        <FeedOutlinedIcon />
+                                   </ListItemIcon>
+                                   <ListItemText primary='Loan Management' />
+                              </ListItemButton>
+                         </NavLink>
                     </ListItem>
                     <ListItem>
                          <ListItemButton>
