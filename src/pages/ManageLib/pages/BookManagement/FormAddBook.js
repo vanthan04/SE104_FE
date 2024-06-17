@@ -13,7 +13,7 @@ const FormAddBook = ({ closePopup }) => {
      const [formData, setFormData] = useState({
           tensach: '',
           theloai: '',
-          tacgia: [''], // Khởi tạo là mảng để lưu nhiều tác giả
+          tacgia: [], // Khởi tạo là mảng để lưu nhiều tác giả
           namxuatban: '',
           nhaxuatban: '',
           ngaynhap: '',
@@ -107,14 +107,9 @@ const FormAddBook = ({ closePopup }) => {
                return;
           }
 
-          const dataToSend = {
-               ...formData,
-               tacgia: JSON.stringify(formData.tacgia.filter(author => author.trim() !== '')) // Đảm bảo không gửi tên tác giả trống
-          };
-
 
           // Gọi API để thêm sách mới
-          let response = await ApiBook.createNewBook(dataToSend);
+          let response = await ApiBook.createNewBook(formData);
           if (response && response.success) {
                toast.success(`${response.message}`); // Thông báo thành công
                handleDataSuccess(); // Cập nhật lại dữ liệu của table khi thêm thành công
@@ -122,7 +117,7 @@ const FormAddBook = ({ closePopup }) => {
                setFormData({
                     tensach: '',
                     theloai: '',
-                    tacgia: [''],
+                    tacgia: [],
                     namxuatban: '',
                     nhaxuatban: '',
                     ngaynhap: '',
