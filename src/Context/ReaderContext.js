@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import ApiReader from '../untils/api/Reader';
 
 const ReaderContext = createContext();
@@ -9,7 +9,7 @@ export const useReaderContext = () => {
 
 export const ReaderProvider = ({ children }) => {
      const [data, setData] = useState([]);
-     const [maDGList, setMaDGList] = useState([]);
+     const [hotenList, setHotenList] = useState([]);
 
      useEffect(() => {
           fetchData();
@@ -19,17 +19,18 @@ export const ReaderProvider = ({ children }) => {
           try {
                const response = await ApiReader.getAllReader();
                if (response.data && Array.isArray(response.data)) {
+                    const filteredData = response.data.filter(item => !item.isLocked); // Example filter condition
                     setData(response.data);
-                    const maDGArray = response.data.map(item => item.MaDG);
-                    setMaDGList(maDGArray);
+                    const hotenArray = filteredData.map(item => item.hoten); // Extracting 'hoten' from filtered data
+                    setHotenList(hotenArray);
                } else {
                     setData([]);
-                    setMaDGList([]);
+                    setHotenList([]);
                }
           } catch (error) {
                console.error("Failed to fetch reader data:", error);
                setData([]);
-               setMaDGList([]);
+               setHotenList([]);
           }
      };
 
@@ -38,7 +39,7 @@ export const ReaderProvider = ({ children }) => {
      };
 
      return (
-          <ReaderContext.Provider value={{ data, maDGList, handleDataSuccess }}>
+          <ReaderContext.Provider value={{ data, hotenList, handleDataSuccess }}>
                {children}
           </ReaderContext.Provider>
      );

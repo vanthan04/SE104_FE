@@ -107,14 +107,8 @@ const FormAddBook = ({ closePopup }) => {
                return;
           }
 
-          const dataToSend = {
-               ...formData,
-               tacgia: JSON.stringify(formData.tacgia.filter(author => author.trim() !== '')) // Đảm bảo không gửi tên tác giả trống
-          };
-
-
           // Gọi API để thêm sách mới
-          let response = await ApiBook.createNewBook(dataToSend);
+          let response = await ApiBook.createNewBook(formData);
           if (response && response.success) {
                toast.success(`${response.message}`); // Thông báo thành công
                handleDataSuccess(); // Cập nhật lại dữ liệu của table khi thêm thành công

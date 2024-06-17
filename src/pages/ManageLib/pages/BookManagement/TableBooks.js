@@ -1,12 +1,13 @@
-import React, { useState, useCallback, useRef, useEffect } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import {
      Box, Table, Button, TablePagination, Tooltip, Paper, TableBody,
      TableCell, TableHead, TableContainer, TableRow, Checkbox
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
-import { useBookContext } from '../../../../Context';
+import { ReaderProvider, useBookContext } from '../../../../Context';
 import Popup from '../../../../components/controls/Popup';
 import ConfirmDeleteBook from './ConfirmDeleteBook';
+import LoanBook from '../LoanManagement/LoanBook';
 
 const columns = [
      { id: 'checkbox', label: '', disableSorting: true }, // Cột checkbox
@@ -18,7 +19,7 @@ const columns = [
      { id: 'tinhtrang', label: 'Tình trạng' }
 ];
 
-export const TableBooks = ({ dataSearch }) => {
+export const TableBooks = ({ dataSearch, openLoanBook, setOpenLoanBook }) => {
      const { data = [] } = useBookContext(); // Lấy dữ liệu sách từ context
      const [searchData, setSearchData] = useState(data);
      const [openDelete, setOpenDelete] = useState(false);
@@ -34,6 +35,7 @@ export const TableBooks = ({ dataSearch }) => {
 
      const handleClosePopup = () => {
           setOpenDelete(false);
+          setOpenLoanBook(false)
      };
 
      const handleChangePage = (event, newPage) => {
@@ -54,26 +56,28 @@ export const TableBooks = ({ dataSearch }) => {
                }
           });
      };
-     
+
      const getStatusColor = (status) => {
           return status === 'Còn Trống' ? 'green' : 'red';
      };
-     const prevDataLength = useRef(data.length);
 
      const updateTableData = useCallback(() => {
-          if (data.length !== prevDataLength.current) {
-               setSearchData(data);
-          } else if (dataSearch.length > 0) {
+          if (dataSearch.length > 0) {
                setSearchData(dataSearch);
           }
-          prevDataLength.current = data.length;
-     }, [dataSearch, data]);
+     }, [dataSearch]);
 
      useEffect(() => {
           updateTableData();
-     }, [dataSearch, data, updateTableData]);
+     }, [dataSearch, updateTableData]);
+
+     useEffect(() => {
+          setSearchData(data)
+     }, [data])
 
      const emptyRows = rowsPerPage - Math.min(rowsPerPage, searchData.length - page * rowsPerPage);
+
+     console.log(selectedRows)
 
      return (
           <Box sx={{ minHeight: '500px', width: '100%' }}>
@@ -155,6 +159,19 @@ export const TableBooks = ({ dataSearch }) => {
                          closePopup={handleClosePopup}
                     />
                </Popup>
+               <ReaderProvider>
+                    <Popup
+                         title='Lập phiếu mượn sách'
+                         openPopup={openLoanBook}
+                         setOpenPopup={setOpenLoanBook}
+                    >
+                         <LoanBook
+                              selectRows={selectedRows}
+                              closePopup={handleClosePopup}
+                         />
+                    </Popup>
+               </ReaderProvider>
+
           </Box>
      );
 };
