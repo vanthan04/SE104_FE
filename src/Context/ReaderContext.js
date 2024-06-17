@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import ApiReader from '../untils/api/Reader';
 
 const ReaderContext = createContext();
@@ -19,8 +19,9 @@ export const ReaderProvider = ({ children }) => {
           try {
                const response = await ApiReader.getAllReader();
                if (response.data && Array.isArray(response.data)) {
+                    const filteredData = response.data.filter(item => !item.isLocked); // Example filter condition
                     setData(response.data);
-                    const hotenArray = response.data.map(item => item.hoten);
+                    const hotenArray = filteredData.map(item => item.hoten); // Extracting 'hoten' from filtered data
                     setHotenList(hotenArray);
                } else {
                     setData([]);
