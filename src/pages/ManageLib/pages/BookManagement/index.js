@@ -25,7 +25,7 @@ const BookManagementPage = () => {
      };
 
      const customButton = {
-          label: 'Loan Book',
+          label: 'Borrowing Book',
           icon: <MenuBookIcon />, // Thay YourCustomIcon bằng component icon của bạn
           onClick: handleCustomButtonClick
      };
@@ -66,7 +66,7 @@ const BookManagementPage = () => {
                     />
                </Popup>
                <Popup
-                    title="Quy định của độc giả"
+                    title="Quy định của sách"
                     openPopup={openPopupReg}
                     setOpenPopup={setOpenPopupReg}
                >

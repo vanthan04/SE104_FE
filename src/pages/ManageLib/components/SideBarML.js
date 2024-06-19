@@ -50,20 +50,34 @@ const SideBarML = () => {
                          </NavLink>
                     </ListItem>
                     <ListItem>
-                         <ListItemButton>
-                              <ListItemIcon>
-                                   <FeedOutlinedIcon />
-                              </ListItemIcon>
-                              <ListItemText primary='Loan Management' />
-                         </ListItemButton>
+                         <NavLink to='/librarian/return-book' style={{ textDecoration: 'none', color: 'inherit' }}>
+                              <ListItemButton>
+                                   <ListItemIcon>
+                                        <FeedOutlinedIcon />
+                                   </ListItemIcon>
+                                   <ListItemText primary='Return Book Management' />
+                              </ListItemButton>
+                         </NavLink>
                     </ListItem>
                     <ListItem>
-                         <ListItemButton>
-                              <ListItemIcon>
-                                   <AssessmentOutlinedIcon />
-                              </ListItemIcon>
-                              <ListItemText primary='Report preparation' />
-                         </ListItemButton>
+                         <NavLink to='/librarian/borrow-book' style={{ textDecoration: 'none', color: 'inherit' }}>
+                              <ListItemButton>
+                                   <ListItemIcon>
+                                        <FeedOutlinedIcon />
+                                   </ListItemIcon>
+                                   <ListItemText primary='Borrow Book Management' />
+                              </ListItemButton>
+                         </NavLink>
+                    </ListItem>
+                    <ListItem>
+                         <NavLink to='/librarian/report' style={{ textDecoration: 'none', color: 'inherit' }}>
+                              <ListItemButton>
+                                   <ListItemIcon>
+                                        <AssessmentOutlinedIcon />
+                                   </ListItemIcon>
+                                   <ListItemText primary='Report preparation' />
+                              </ListItemButton>
+                         </NavLink>
                     </ListItem>
                     <Divider />
                     <ListItem>

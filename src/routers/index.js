@@ -38,6 +38,24 @@ const AppRoutes = () => {
                         <ReaderManagementPage />
                     )
                 },
+                {
+                    path: 'return-book',
+                    element: (
+                        <h1>Return Book</h1>
+                    )
+                },
+                {
+                    path: 'borrow-book',
+                    element: (
+                        <h1>Borrow Book</h1>
+                    )
+                },
+                {
+                    path: 'report',
+                    element: (
+                        <h1>Report</h1>
+                    )
+                }
             ]
         }
     ]);
