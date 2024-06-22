@@ -7,21 +7,23 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { ReaderProvider, useBookContext } from '../../../../Context';
 import Popup from '../../../../components/controls/Popup';
 import ConfirmDeleteBook from './ConfirmDeleteBook';
-import LoanBook from '../LoanManagement/LoanBookForm';
+import LoanBook from '../LoanManagement/LoanBook/LoanBookForm';
 
 const columns = [
-     { id: 'checkbox', label: '', disableSorting: true }, // Cột checkbox
+     { id: 'checkbox', label: '' },
      { id: 'stt', label: 'STT' },
      { id: 'MaSach', label: 'Mã Sách' },
      { id: 'tensach', label: 'Tên Sách' },
      { id: 'theloai', label: 'Thể loại' },
      { id: 'tacgia', label: 'Tác giả' },
-     { id: 'tinhtrang', label: 'Tình trạng' }
+     { id: 'tinhtrang', label: 'Tình trạng' },
+     { id: 'borrowerInfo', label: 'Người mượn' }
 ];
 
-export const TableBooks = ({ dataSearch }) => {
+export const TableBooks = ({ dataSearch, openLoanBook, setOpenLoanBook }) => {
      const { data = [] } = useBookContext(); // Lấy dữ liệu sách từ context
      const [searchData, setSearchData] = useState(data);
+     const [selectedRows, setSelectedRows] = useState([]);
      const [openDelete, setOpenDelete] = useState(false);
      const [page, setPage] = useState(0);
      const [rowsPerPage, setRowsPerPage] = useState(10);
@@ -63,26 +65,46 @@ export const TableBooks = ({ dataSearch }) => {
           setSearchData(data);
      }, [data]);
 
+     const handleSelectRow = (row) => {
+          if (!isSelected(row)) {
+               setSelectedRows(prevSelected => [...prevSelected, row]);
+          }
+     };
+
+     const isSelected = (row) => {
+          return selectedRows.some(selectedRow => selectedRow._id === row._id);
+     };
+
+     const handleDeselectRow = (row) => {
+          setSelectedRows(prevSelected => prevSelected.filter(selectedRow => selectedRow._id !== row._id));
+     };
      const emptyRows = rowsPerPage - Math.min(rowsPerPage, searchData.length - page * rowsPerPage);
+
      return (
           <Box sx={{ minHeight: '500px', width: '100%' }}>
                <TableContainer component={Paper} sx={{ maxHeight: '480px', overflow: 'auto' }}>
                     <Table stickyHeader>
                          <TableHead>
                               <TableRow>
-                                   {columns.map((column, index) => (
+                                   {columns.map((column) => (
                                         <TableCell key={column.id} align='center'>
                                              {column.label}
                                         </TableCell>
                                    ))}
-                                   <TableCell key="actions" align='center'>Actions</TableCell>
+                                   <TableCell align='center'>Actions</TableCell>
                               </TableRow>
                          </TableHead>
                          <TableBody>
                               {searchData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
                                    <TableRow key={`${row._id} + ${index}`}>
+                                        <TableCell padding="checkbox">
+                                             <Checkbox
+                                                  checked={isSelected(row)}
+                                                  onChange={() => isSelected(row) ? handleDeselectRow(row) : handleSelectRow(row)}
+                                             />
+                                        </TableCell>
                                         <TableCell align='center'>{page * rowsPerPage + index + 1}</TableCell>
-                                        {columns.slice(1).map((column) => (
+                                        {columns.slice(2).map((column) => (
                                              <TableCell
                                                   key={`${row._id}-${column.id}`}
                                                   align='center'
@@ -90,10 +112,10 @@ export const TableBooks = ({ dataSearch }) => {
                                              >
                                                   {column.id === 'tacgia'
                                                        ? row[column.id].join(', ')
-                                                       : row[column.id]}
+                                                       : column.id === 'borrowerInfo' && row.borrowerInfo ? row.borrowerInfo.HoTenDocGia : row[column.id]}
                                              </TableCell>
                                         ))}
-                                        <TableCell key={`actions-${row._id}`}>
+                                        <TableCell>
                                              <Box display='flex' justifyContent='center'>
                                                   <Tooltip title="Delete" arrow placement='top'>
                                                        <Button
@@ -138,6 +160,18 @@ export const TableBooks = ({ dataSearch }) => {
                          closePopup={handleClosePopup}
                     />
                </Popup>
+               <ReaderProvider>
+                    <Popup
+                         title='Lập phiếu mượn sách'
+                         openPopup={openLoanBook}
+                         setOpenPopup={setOpenLoanBook}
+                    >
+                         <LoanBook
+                              selectRows={selectedRows}
+                              closePopup={handleClosePopup}
+                         />
+                    </Popup>
+               </ReaderProvider>
           </Box>
      );
 };

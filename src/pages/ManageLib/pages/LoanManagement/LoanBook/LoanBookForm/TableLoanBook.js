@@ -10,7 +10,7 @@ import {
      TableCell,
 } from '@mui/material';
 
-const LoanBookTable = ({ books }) => {
+const TableLoanBook = ({ books }) => {
      return (
           <Paper elevation={3} sx={{ p: 2, mt: 2 }}>
                <Typography variant="h6">Danh sách sách</Typography>
@@ -48,4 +48,4 @@ const LoanBookTable = ({ books }) => {
      );
 };
 
-export default LoanBookTable;
+export default TableLoanBook;

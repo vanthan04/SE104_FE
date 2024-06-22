@@ -65,8 +65,8 @@ const TableLoan = ({ data = [] }) => {
      };
 
      return (
-          <div>
-               <TableContainer component={Paper}>
+          <div style={{ maxHeight: '500px', overflowY: 'auto' }}>
+               <TableContainer component={Paper} >
                     <Table>
                          <TableHead>
                               <TableRow>
@@ -74,6 +74,7 @@ const TableLoan = ({ data = [] }) => {
                                    <TableCell>Mã độc giả</TableCell>
                                    <TableCell>Họ tên</TableCell>
                                    <TableCell>Mã sách</TableCell>
+                                   <TableCell>Tên sách</TableCell>
                                    <TableCell>Ngày mượn</TableCell>
                                    <TableCell>Số ngày mượn</TableCell>
                                    <TableCell>Ngày trả</TableCell>
@@ -96,21 +97,28 @@ const TableLoan = ({ data = [] }) => {
                                                        {item.HoTenDocGia}
                                                   </TableCell>
                                              </TableRow>
-                                             {item.DanhSachSach.map((sach, cellIndex) => (
-                                                  <TableRow key={`${rowIndex}-${cellIndex}`}>
-                                                       <TableCell key={`MaSach-${rowIndex}-${cellIndex}`}>
-                                                            <Checkbox
-                                                                 checked={selectedCells.includes(`${rowIndex}-${cellIndex}`)}
-                                                                 onChange={() => toggleCellSelection(rowIndex, cellIndex)}
-                                                            />
-                                                            {sach.MaSach}
-                                                       </TableCell>
-                                                       <TableCell key={`NgayMuon-${rowIndex}-${cellIndex}`}>{sach.NgayMuon}</TableCell>
-                                                       <TableCell key={`SoNgayMuon-${rowIndex}-${cellIndex}`}>{sach.SoNgayMuon}</TableCell>
-                                                       <TableCell key={`NgayTra-${rowIndex}-${cellIndex}`}>{sach.NgayTra}</TableCell>
-                                                       <TableCell key={`TienPhat-${rowIndex}-${cellIndex}`}>{sach.TienPhat}</TableCell>
-                                                  </TableRow>
-                                             ))}
+                                             {item.DanhSachSach.map((sach, cellIndex) => {
+                                                  const isBorrowed = sach.SoNgayMuon === null || sach.NgayTra === null;
+                                                  return (
+                                                       <TableRow key={`${rowIndex}-${cellIndex}`}>
+                                                            <TableCell key={`MaSach-${rowIndex}-${cellIndex}`}>
+                                                                 <Checkbox
+                                                                      checked={selectedCells.includes(`${rowIndex}-${cellIndex}`)}
+                                                                      onChange={() => toggleCellSelection(rowIndex, cellIndex)}
+                                                                 />
+                                                                 {sach.MaSach}
+                                                            </TableCell>
+                                                            <TableCell key={`TenSach-${rowIndex}-${cellIndex}`}>{sach.TenSach}</TableCell>
+                                                            <TableCell key={`NgayMuon-${rowIndex}-${cellIndex}`}>{sach.NgayMuon}</TableCell>
+                                                            <TableCell key={`SoNgayMuon-${rowIndex}-${cellIndex}`}>{sach.SoNgayMuon}</TableCell>
+                                                            <TableCell key={`NgayTra-${rowIndex}-${cellIndex}`}>{sach.NgayTra}</TableCell>
+                                                            <TableCell key={`TienPhat-${rowIndex}-${cellIndex}`}>{sach.TienPhat}</TableCell>
+                                                            <TableCell key={`TrangThai-${rowIndex}-${cellIndex}`} style={{ color: isBorrowed ? 'red' : 'green' }}>
+                                                                 {isBorrowed ? 'Đang mượn' : 'Đã trả'}
+                                                            </TableCell>
+                                                       </TableRow>
+                                                  );
+                                             })}
                                              <TableRow key={`button-${rowIndex}`}>
                                                   <TableCell rowSpan={item.DanhSachSach.length + 1} align='right'>
                                                        <Button variant="contained" color="primary" onClick={handleReturnBooks}>
@@ -122,7 +130,7 @@ const TableLoan = ({ data = [] }) => {
                                    ))
                               ) : (
                                    <TableRow>
-                                        <TableCell colSpan={8} align="center">
+                                        <TableCell colSpan={10} align="center">
                                              Không có dữ liệu
                                         </TableCell>
                                    </TableRow>

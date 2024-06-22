@@ -1,16 +1,16 @@
 import React, { useState } from 'react';
 import { Box } from '@mui/material';
-import TableLoan from './TableLoan';
+import TableLoan from './InfoReturnBook';
 import { ReaderProvider } from '../../../../../Context';
-import { SearchAppBar } from '../../../components';
+import { SearchReturnBookAppBar } from '../../../components';
 
-export const BorrowManagementPage = () => {
+export const ReturnBookManagementPage = () => {
      const [dataSearch, setDataSearch] = useState({})
      return (
           <ReaderProvider>
                <Box sx={{ height: "100%", width: '100%', mt: 5 }}>
-                    <SearchAppBar
-                         title={"Libary Management - Borrow Book Table"}
+                    <SearchReturnBookAppBar
+                         title={"Libary Management - Return Book"}
                          setDataSearch={setDataSearch}
                     />
                     <TableLoan
