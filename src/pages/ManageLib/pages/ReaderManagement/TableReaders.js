@@ -5,12 +5,14 @@ import {
 } from '@mui/material';
 import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
+import ReportIcon from '@mui/icons-material/Report';
 
 import { Popup } from '../../../../components/controls';
 import { useReaderContext } from '../../../../Context';
 
 import EditReader from './EditReader';
 import ConfirmDeleteReader from './ConfirmDeleteReader';
+import FormAddCollection from '../CollectionManagement/FormAddCollection';
 
 const columns = [
     { id: 'MaDG', label: 'MaDG' },
@@ -29,11 +31,15 @@ export const TableReaders = ({ dataSearch }) => {
     const [searchData, setSearchData] = useState(data);
     const [openEdit, setOpenEdit] = useState(false);
     const [openDelete, setOpenDelete] = useState(false);
+    const [openUserCollection, setOpenUserCollection] = useState(false)
     const [page, setPage] = useState(0);
     const [rowsPerPage, setRowsPerPage] = useState(10);
 
     const [dataUserEdit, setDataUserEdit] = useState({});
     const [dataUserDelete, setDataUserDelete] = useState();
+
+    const [dataUserCollection, setDataUserCollection] = useState({})
+
 
 
     const updateTableData = useCallback(() => {
@@ -60,9 +66,15 @@ export const TableReaders = ({ dataSearch }) => {
         setDataUserEdit(user);
     };
 
+    const handleCollection = (user) => {
+        setDataUserCollection(user)
+        setOpenUserCollection(true)
+    }
+
     const handleClosePopup = () => {
         setOpenDelete(false);
         setOpenEdit(false);
+        setOpenUserCollection(false)
     };
 
     const handleChangePage = (event, newPage) => {
@@ -124,8 +136,18 @@ export const TableReaders = ({ dataSearch }) => {
                                                     variant='contained'
                                                     color='error'
                                                     onClick={() => handleDelete(row.MaDG)}
+                                                    sx={{ mr: 1 }}
                                                 >
                                                     <DeleteIcon fontSize='small' />
+                                                </Button>
+                                            </Tooltip>
+                                            <Tooltip title="Lập phiếu thu" arrow placement='top'>
+                                                <Button
+                                                    variant='contained'
+                                                    color='primary'
+                                                    onClick={() => handleCollection(row)}
+                                                >
+                                                    <ReportIcon fontSize='small' />
                                                 </Button>
                                             </Tooltip>
                                         </Box>
@@ -171,6 +193,17 @@ export const TableReaders = ({ dataSearch }) => {
             >
                 <ConfirmDeleteReader
                     MaDG={dataUserDelete}
+                    closePopup={handleClosePopup}
+                />
+            </Popup>
+
+            <Popup
+                title='Lập phiếu thu tiền phạt'
+                openPopup={openUserCollection}
+                setOpenPopup={setOpenUserCollection}
+            >
+                <FormAddCollection
+                    data={dataUserCollection}
                     closePopup={handleClosePopup}
                 />
             </Popup>

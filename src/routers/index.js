@@ -9,6 +9,7 @@ import RegisterForm from '../components/Auth/Register';
 import { ReturnBookManagementPage } from '../pages/ManageLib/pages/LoanManagement/ReturnBook';
 import ReportGener from '../pages/ManageLib/pages/ReportManagement/ReportGener';
 import ReportReturnLatePage from '../pages/ManageLib/pages/ReportManagement/ReportReturnLate';
+import CollectionManagementPage from '../pages/ManageLib/pages/CollectionManagement';
 
 const AppRoutes = () => {
 
@@ -57,7 +58,14 @@ const AppRoutes = () => {
                 {
                     path: 'report-return-late',
                     element: (
-                        <ReportReturnLatePage/>
+                        <ReportReturnLatePage />
+                    )
+                }
+                ,
+                {
+                    path: 'collection',
+                    element: (
+                        <CollectionManagementPage />
                     )
                 }
             ]
