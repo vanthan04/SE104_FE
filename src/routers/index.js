@@ -6,6 +6,7 @@ import LoginForm from "../components/Auth/Login";
 import BookManagementPage from '../pages/ManageLib/pages/BookManagement';
 import SessionChecker from './SessionChecker';
 import RegisterForm from '../components/Auth/Register';
+import { BorrowManagementPage } from '../pages/ManageLib/pages/LoanManagement/TableLoanBook';
 
 const AppRoutes = () => {
 
@@ -47,7 +48,7 @@ const AppRoutes = () => {
                 {
                     path: 'borrow-book',
                     element: (
-                        <h1>Borrow Book</h1>
+                        <BorrowManagementPage />
                     )
                 },
                 {
