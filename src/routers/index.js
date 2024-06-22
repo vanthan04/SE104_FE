@@ -40,12 +40,6 @@ const AppRoutes = () => {
                     )
                 },
                 {
-                    path: 'borrow-book',
-                    element: (
-                        <h1>Return Book</h1>
-                    )
-                },
-                {
                     path: 'return-book',
                     element: (
                         <ReturnBookManagementPage />

@@ -35,7 +35,7 @@ const SideBarML = () => {
                                    <ListItemIcon>
                                         <LibraryBooksOutlinedIcon />
                                    </ListItemIcon>
-                                   <ListItemText primary='Book Management' />
+                                   <ListItemText primary='Quản lý sách' />
                               </ListItemButton>
                          </NavLink>
                     </ListItem>
@@ -45,7 +45,7 @@ const SideBarML = () => {
                                    <ListItemIcon>
                                         <AccountCircleOutlinedIcon />
                                    </ListItemIcon>
-                                   <ListItemText primary='Reader Management' />
+                                   <ListItemText primary='Quản lý độc giả' />
                               </ListItemButton>
                          </NavLink>
                     </ListItem>
@@ -55,17 +55,7 @@ const SideBarML = () => {
                                    <ListItemIcon>
                                         <FeedOutlinedIcon />
                                    </ListItemIcon>
-                                   <ListItemText primary='Return Book Management' />
-                              </ListItemButton>
-                         </NavLink>
-                    </ListItem>
-                    <ListItem>
-                         <NavLink to='/librarian/borrow-book' style={{ textDecoration: 'none', color: 'inherit' }}>
-                              <ListItemButton>
-                                   <ListItemIcon>
-                                        <FeedOutlinedIcon />
-                                   </ListItemIcon>
-                                   <ListItemText primary='Borrow Book Management' />
+                                   <ListItemText primary='Trả sách' />
                               </ListItemButton>
                          </NavLink>
                     </ListItem>
@@ -75,7 +65,7 @@ const SideBarML = () => {
                                    <ListItemIcon>
                                         <AssessmentOutlinedIcon />
                                    </ListItemIcon>
-                                   <ListItemText primary='Report preparation' />
+                                   <ListItemText primary='Báo cáo thống kê' />
                               </ListItemButton>
                          </NavLink>
                     </ListItem>

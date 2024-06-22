@@ -20,7 +20,7 @@ export const ReaderManagementPage = () => {
           setOpenPopupAdd={() => setOpenPopupAdd(true)}
           setOpenPopupSearch={() => setOpenPopupSearch(true)}
           setOpenPopupReg={() => setOpenPopupReg(true)}
-          title={'Library Management - Table Reader'}
+          title={'QUẢN LÝ THƯ VIỆN - THÔNG TIN ĐỘC GIẢ'}
         />
         <TableReaders dataSearch={dataSearch} />
         <Popup
