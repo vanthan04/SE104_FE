@@ -3,6 +3,7 @@ import { TextField, Button, Box } from '@mui/material';
 import { toast } from 'react-toastify';
 import ApiReport from '../../../../../untils/api/Report';
 import { saveAs } from 'file-saver';
+const ExcelJS = require('exceljs');
 
 const DateSelector = ({ setData }) => {
      const [dataSubmit, setDataSubmit] = useState({
@@ -32,19 +33,42 @@ const DateSelector = ({ setData }) => {
 
      const handleDownload = async () => {
           try {
-               // Gọi API để tải file CSV từ server
+               // Call API to download file CSV from server
                const response = await ApiReport.downloadInfoByMonth(dataSubmit);
-               console.log(response);
-               // Xây dựng tên file dựa trên tháng và năm
-               let filename = `Báo cáo sách mượn sách tháng ${dataSubmit.month}/${dataSubmit.year}.csv`;
+               
+               if (!response.success){
+                    toast.error(response.message);
+               }
        
-               // Tạo một Blob từ dữ liệu nhận được
-               const blob = new Blob([response], { type: 'text/csv;charset=utf-8;' });
+               // Build filename based on month and year
+               let filename = `Báo cáo sách mượn sách tháng ${dataSubmit.month}/${dataSubmit.year}.xlsx`;
        
-               // Sử dụng file-saver để tải file về
+               // Convert CSV data to workbook
+               const workbook = new ExcelJS.Workbook();
+               const worksheet = workbook.addWorksheet('Báo cáo');
+       
+               // Assuming 'response' contains valid CSV data
+               const csvData = response.split('\n');
+               const dataArray = csvData.map(row => row.split(','));
+       
+               // Trim whitespace and remove ""
+               const trimmedDataArray = dataArray.map(row => row.map(cell => cell.trim().replace(/^"(.+(?="$))"$/, '$1')));
+
+               // Add column headers
+               worksheet.columns = trimmedDataArray[0].map(header => ({ header, key: header, width: 20 }));
+
+               // Add data rows
+               trimmedDataArray.slice(1).forEach(row => worksheet.addRow(row));
+       
+               // Create Blob from workbook
+               const buffer = await workbook.xlsx.writeBuffer();
+               const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
+       
+               // Download file using FileSaver.js
                saveAs(blob, filename);
        
            } catch (error) {
+               console.log(error);
                toast.error('Đã xảy ra lỗi khi tải file!');
            }
      }

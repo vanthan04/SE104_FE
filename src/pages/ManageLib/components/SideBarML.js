@@ -1,15 +1,38 @@
+import React, { useState } from 'react';
 import { Box, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
-import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import LibraryBooksOutlinedIcon from '@mui/icons-material/LibraryBooksOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import KeyboardReturnOutlinedIcon from '@mui/icons-material/KeyboardReturnOutlined';
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import ReportIcon from '@mui/icons-material/Report';
-import React from 'react';
 import { NavLink } from 'react-router-dom';
+import ApiUser from "../../../untils/api/user"
+import {useNavigate} from "react-router-dom";
+import { toast } from "react-toastify";
+import Popup from '../../../components/controls/Popup';
+import { Button } from '@mui/material';
 
 const SideBarML = () => {
+     const [showPopup, setShowPopup] = useState(false);
+     const navigate = useNavigate()
+     const handleLogout = async () => {
+          setShowPopup(true);
+     }
+     const handleSubmitLogout = async () => {
+          // Xử lý khi người dùng chọn "Yes" trong popup
+          await ApiUser.getLogout();
+          navigate('/');
+          setShowPopup(false);
+          toast.success("Đăng xuất thành công")
+      };
+  
+      const handleNoLogout = () => {
+          // Xử lý khi người dùng chọn "No" trong popup
+          // Đóng popup sau khi xử lý
+          setShowPopup(false);
+
+     };
      return (
           <Box
                flex={6 / 7} p={2}
@@ -79,7 +102,7 @@ const SideBarML = () => {
                     </ListItem>
                     <Divider />
                     <ListItem sx={{ width: '100%', padding: 1 }}>
-                         <ListItemButton sx={{ width: '100%' }}>
+                         <ListItemButton sx={{ width: '100%' }} onClick={handleLogout}>
                               <ListItemIcon>
                                    <LogoutOutlinedIcon />
                               </ListItemIcon>
@@ -87,6 +110,16 @@ const SideBarML = () => {
                          </ListItemButton>
                     </ListItem>
                </List>
+               <Popup
+                title="Bạn có muốn đăng xuất?"
+                openPopup={showPopup}
+                setOpenPopup={setShowPopup}
+            >
+                <Box display='flex' justifyContent='center'>
+                    <Button color='success' onClick={handleSubmitLogout}>Yes</Button>
+                    <Button color='error' onClick={handleNoLogout}>No</Button>
+                </Box>
+            </Popup>
           </Box>
      );
 }
