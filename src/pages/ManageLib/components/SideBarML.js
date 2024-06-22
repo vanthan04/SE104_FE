@@ -1,26 +1,23 @@
-import { Box, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material'
+import { Box, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
 import HomeOutlinedIcon from '@mui/icons-material/HomeOutlined';
 import LibraryBooksOutlinedIcon from '@mui/icons-material/LibraryBooksOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
-import FeedOutlinedIcon from '@mui/icons-material/FeedOutlined';
+import KeyboardReturnOutlinedIcon from '@mui/icons-material/KeyboardReturnOutlined';
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
-
-import React from 'react'
+import React from 'react';
 import { NavLink } from 'react-router-dom';
-
-
 
 const SideBarML = () => {
      return (
           <Box
-               flex={1 / 5} p={2}
+               flex={6 / 7} p={2}
                sx={{ display: { xs: 'none', sm: 'block' } }}
           >
                <List>
-                    <ListItem>
-                         <NavLink to="/" style={{ textDecoration: 'none', color: 'inherit' }}>
-                              <ListItemButton>
+                    <ListItem sx={{ width: '100%', padding: 1 }}>
+                         <NavLink to="/" style={{ textDecoration: 'none', color: 'inherit', width: '100%' }}>
+                              <ListItemButton sx={{ width: '100%' }}>
                                    <ListItemIcon>
                                         <HomeOutlinedIcon />
                                    </ListItemIcon>
@@ -29,9 +26,9 @@ const SideBarML = () => {
                          </NavLink>
                     </ListItem>
                     <Divider />
-                    <ListItem>
-                         <NavLink to="/librarian/book" style={{ textDecoration: 'none', color: 'inherit' }}>
-                              <ListItemButton>
+                    <ListItem sx={{ width: '100%', padding: 1 }}>
+                         <NavLink to="/librarian/book" style={{ textDecoration: 'none', color: 'inherit', width: '100%' }}>
+                              <ListItemButton sx={{ width: '100%' }}>
                                    <ListItemIcon>
                                         <LibraryBooksOutlinedIcon />
                                    </ListItemIcon>
@@ -39,9 +36,9 @@ const SideBarML = () => {
                               </ListItemButton>
                          </NavLink>
                     </ListItem>
-                    <ListItem>
-                         <NavLink to='/librarian/reader' style={{ textDecoration: 'none', color: 'inherit' }}>
-                              <ListItemButton>
+                    <ListItem sx={{ width: '100%', padding: 1 }}>
+                         <NavLink to='/librarian/reader' style={{ textDecoration: 'none', color: 'inherit', width: '100%' }}>
+                              <ListItemButton sx={{ width: '100%' }}>
                                    <ListItemIcon>
                                         <AccountCircleOutlinedIcon />
                                    </ListItemIcon>
@@ -49,29 +46,39 @@ const SideBarML = () => {
                               </ListItemButton>
                          </NavLink>
                     </ListItem>
-                    <ListItem>
-                         <NavLink to='/librarian/return-book' style={{ textDecoration: 'none', color: 'inherit' }}>
-                              <ListItemButton>
+                    <ListItem sx={{ width: '100%', padding: 1 }}>
+                         <NavLink to='/librarian/return-book' style={{ textDecoration: 'none', color: 'inherit', width: '100%' }}>
+                              <ListItemButton sx={{ width: '100%' }}>
                                    <ListItemIcon>
-                                        <FeedOutlinedIcon />
+                                        <KeyboardReturnOutlinedIcon />
                                    </ListItemIcon>
                                    <ListItemText primary='Trả sách' />
                               </ListItemButton>
                          </NavLink>
                     </ListItem>
-                    <ListItem>
-                         <NavLink to='/librarian/report' style={{ textDecoration: 'none', color: 'inherit' }}>
-                              <ListItemButton>
+                    <ListItem sx={{ width: '100%', padding: 1 }}>
+                         <NavLink to='/librarian/report-gener' style={{ textDecoration: 'none', color: 'inherit', width: '100%' }}>
+                              <ListItemButton sx={{ width: '100%' }}>
                                    <ListItemIcon>
                                         <AssessmentOutlinedIcon />
                                    </ListItemIcon>
-                                   <ListItemText primary='Báo cáo thống kê' />
+                                   <ListItemText primary='Báo cáo thống kê sách mượn theo thể loại' />
+                              </ListItemButton>
+                         </NavLink>
+                    </ListItem>
+                    <ListItem sx={{ width: '100%', padding: 1 }}>
+                         <NavLink to='/librarian/report-return-late' style={{ textDecoration: 'none', color: 'inherit', width: '100%' }}>
+                              <ListItemButton sx={{ width: '100%' }}>
+                                   <ListItemIcon>
+                                        <AssessmentOutlinedIcon />
+                                   </ListItemIcon>
+                                   <ListItemText primary='Báo cáo thống kê sách trả trễ' />
                               </ListItemButton>
                          </NavLink>
                     </ListItem>
                     <Divider />
-                    <ListItem>
-                         <ListItemButton>
+                    <ListItem sx={{ width: '100%', padding: 1 }}>
+                         <ListItemButton sx={{ width: '100%' }}>
                               <ListItemIcon>
                                    <LogoutOutlinedIcon />
                               </ListItemIcon>
@@ -80,7 +87,7 @@ const SideBarML = () => {
                     </ListItem>
                </List>
           </Box>
-     )
+     );
 }
 
-export default SideBarML
+export default SideBarML;
