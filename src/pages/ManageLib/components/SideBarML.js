@@ -5,6 +5,7 @@ import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined
 import KeyboardReturnOutlinedIcon from '@mui/icons-material/KeyboardReturnOutlined';
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
+import ReportIcon from '@mui/icons-material/Report';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
@@ -73,6 +74,16 @@ const SideBarML = () => {
                                         <AssessmentOutlinedIcon />
                                    </ListItemIcon>
                                    <ListItemText primary='Báo cáo thống kê sách trả trễ' />
+                              </ListItemButton>
+                         </NavLink>
+                    </ListItem>
+                    <ListItem sx={{ width: '100%', padding: 1 }}>
+                         <NavLink to='/librarian/collection' style={{ textDecoration: 'none', color: 'inherit', width: '100%' }}>
+                              <ListItemButton sx={{ width: '100%' }}>
+                                   <ListItemIcon>
+                                        <ReportIcon />
+                                   </ListItemIcon>
+                                   <ListItemText primary='Quản lý phiếu phạt' />
                               </ListItemButton>
                          </NavLink>
                     </ListItem>
