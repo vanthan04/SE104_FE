@@ -1,9 +1,22 @@
-import React from 'react'
+import React, { useState } from 'react';
+import { Box } from '@mui/material';
+import TableLoan from './InfoReturnBook';
+import { ReaderProvider } from '../../../../../Context';
+import { SearchReturnBookAppBar } from '../../../components';
 
-const ReturnBook = () => {
-  return (
-    <div>ReturnBook</div>
-  )
+export const ReturnBookManagementPage = () => {
+     const [dataSearch, setDataSearch] = useState({})
+     return (
+          <ReaderProvider>
+               <Box sx={{ height: "100%", width: '100%', mt: 5 }}>
+                    <SearchReturnBookAppBar
+                         title={"Libary Management - Return Book"}
+                         setDataSearch={setDataSearch}
+                    />
+                    <TableLoan
+                         data={dataSearch}
+                    />
+               </Box>
+          </ReaderProvider>
+     );
 }
-
-export default ReturnBook

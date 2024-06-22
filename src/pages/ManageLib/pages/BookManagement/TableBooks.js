@@ -7,26 +7,27 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import { ReaderProvider, useBookContext } from '../../../../Context';
 import Popup from '../../../../components/controls/Popup';
 import ConfirmDeleteBook from './ConfirmDeleteBook';
-import LoanBook from '../LoanManagement/LoanBook';
+import LoanBook from '../LoanManagement/LoanBook/LoanBookForm';
 
 const columns = [
-     { id: 'checkbox', label: '', disableSorting: true }, // Cột checkbox
+     { id: 'checkbox', label: '' },
      { id: 'stt', label: 'STT' },
      { id: 'MaSach', label: 'Mã Sách' },
      { id: 'tensach', label: 'Tên Sách' },
      { id: 'theloai', label: 'Thể loại' },
      { id: 'tacgia', label: 'Tác giả' },
-     { id: 'tinhtrang', label: 'Tình trạng' }
+     { id: 'tinhtrang', label: 'Tình trạng' },
+     { id: 'borrowerInfo', label: 'Người mượn' }
 ];
 
 export const TableBooks = ({ dataSearch, openLoanBook, setOpenLoanBook }) => {
      const { data = [] } = useBookContext(); // Lấy dữ liệu sách từ context
      const [searchData, setSearchData] = useState(data);
+     const [selectedRows, setSelectedRows] = useState([]);
      const [openDelete, setOpenDelete] = useState(false);
      const [page, setPage] = useState(0);
      const [rowsPerPage, setRowsPerPage] = useState(10);
      const [dataBookDelete, setDataBookDelete] = useState();
-     const [selectedRows, setSelectedRows] = useState([]); // Trạng thái lưu trữ các hàng đã chọn
 
      const handleDelete = (MaSach) => {
           setDataBookDelete(MaSach);
@@ -35,7 +36,6 @@ export const TableBooks = ({ dataSearch, openLoanBook, setOpenLoanBook }) => {
 
      const handleClosePopup = () => {
           setOpenDelete(false);
-          setOpenLoanBook(false)
      };
 
      const handleChangePage = (event, newPage) => {
@@ -45,16 +45,6 @@ export const TableBooks = ({ dataSearch, openLoanBook, setOpenLoanBook }) => {
      const handleChangeRowsPerPage = (event) => {
           setRowsPerPage(parseInt(event.target.value, 10));
           setPage(0);
-     };
-
-     const handleSelectRow = (row) => {
-          setSelectedRows(prevSelected => {
-               if (prevSelected.some(selectedRow => selectedRow._id === row._id)) {
-                    return prevSelected.filter(selectedRow => selectedRow._id !== row._id);
-               } else {
-                    return [...prevSelected, row];
-               }
-          });
      };
 
      const getStatusColor = (status) => {
@@ -72,12 +62,23 @@ export const TableBooks = ({ dataSearch, openLoanBook, setOpenLoanBook }) => {
      }, [dataSearch, updateTableData]);
 
      useEffect(() => {
-          setSearchData(data)
-     }, [data])
+          setSearchData(data);
+     }, [data]);
 
+     const handleSelectRow = (row) => {
+          if (!isSelected(row)) {
+               setSelectedRows(prevSelected => [...prevSelected, row]);
+          }
+     };
+
+     const isSelected = (row) => {
+          return selectedRows.some(selectedRow => selectedRow._id === row._id);
+     };
+
+     const handleDeselectRow = (row) => {
+          setSelectedRows(prevSelected => prevSelected.filter(selectedRow => selectedRow._id !== row._id));
+     };
      const emptyRows = rowsPerPage - Math.min(rowsPerPage, searchData.length - page * rowsPerPage);
-
-     console.log(selectedRows)
 
      return (
           <Box sx={{ minHeight: '500px', width: '100%' }}>
@@ -95,15 +96,15 @@ export const TableBooks = ({ dataSearch, openLoanBook, setOpenLoanBook }) => {
                          </TableHead>
                          <TableBody>
                               {searchData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
-                                   <TableRow key={row._id}>
+                                   <TableRow key={`${row._id} + ${index}`}>
                                         <TableCell padding="checkbox">
                                              <Checkbox
-                                                  checked={selectedRows.some(selectedRow => selectedRow._id === row._id)}
-                                                  onChange={() => handleSelectRow(row)}
+                                                  checked={isSelected(row)}
+                                                  onChange={() => isSelected(row) ? handleDeselectRow(row) : handleSelectRow(row)}
                                              />
                                         </TableCell>
                                         <TableCell align='center'>{page * rowsPerPage + index + 1}</TableCell>
-                                        {columns.slice(2).map((column) => ( // Bỏ qua cột checkbox
+                                        {columns.slice(2).map((column) => (
                                              <TableCell
                                                   key={`${row._id}-${column.id}`}
                                                   align='center'
@@ -111,7 +112,7 @@ export const TableBooks = ({ dataSearch, openLoanBook, setOpenLoanBook }) => {
                                              >
                                                   {column.id === 'tacgia'
                                                        ? row[column.id].join(', ')
-                                                       : row[column.id]}
+                                                       : column.id === 'borrowerInfo' && row.borrowerInfo ? row.borrowerInfo.HoTenDocGia : row[column.id]}
                                              </TableCell>
                                         ))}
                                         <TableCell>
@@ -171,7 +172,6 @@ export const TableBooks = ({ dataSearch, openLoanBook, setOpenLoanBook }) => {
                          />
                     </Popup>
                </ReaderProvider>
-
           </Box>
      );
 };

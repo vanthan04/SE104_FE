@@ -28,6 +28,7 @@ const labels = [
 // Hàm định dạng dữ liệu độc giả
 const formatBookData = (book) => {
      return {
+          _id: book._id,
           MaSach: book.MaSach,
           tensach: book.tensach,
           theloai: book.theloai,
@@ -37,7 +38,7 @@ const formatBookData = (book) => {
 };
 // Thành phần tìm kiếm độc giả
 const SearchBook = React.memo(({ closePopup, resultSearch }) => {
-     const { bookGenres } = useBookContext()
+     const { bookGenres, data } = useBookContext()
      const [dataSearch, setDataSearch] = useState({
           MaSach: '',
           tensach: '',
@@ -54,6 +55,11 @@ const SearchBook = React.memo(({ closePopup, resultSearch }) => {
                [name]: value
           }));
      }, []);
+
+     const handleCancel = () => {
+          resultSearch(data)
+          closePopup()
+     }
 
      // Hàm xử lý khi gửi biểu mẫu tìm kiếm
      const handleSubmit = useCallback(async (event) => {
@@ -151,7 +157,7 @@ const SearchBook = React.memo(({ closePopup, resultSearch }) => {
                               </Grid>}
                     </Grid>
                     <Box display='flex' justifyContent='end' margin={2}>
-                         <Button variant="contained" color="error" onClick={closePopup}>
+                         <Button variant="contained" color="error" onClick={handleCancel}>
                               Cancel
                          </Button>
                          <Button variant="contained" color="success" onClick={handleSubmit} sx={{ mx: '10px' }}>

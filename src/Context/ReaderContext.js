@@ -10,6 +10,7 @@ export const useReaderContext = () => {
 export const ReaderProvider = ({ children }) => {
      const [data, setData] = useState([]);
      const [hotenList, setHotenList] = useState([]);
+     const [MaDGList, setMaDGList] = useState([])
 
      useEffect(() => {
           fetchData();
@@ -23,6 +24,8 @@ export const ReaderProvider = ({ children }) => {
                     setData(response.data);
                     const hotenArray = filteredData.map(item => item.hoten); // Extracting 'hoten' from filtered data
                     setHotenList(hotenArray);
+                    const MaDGArray = filteredData.map(item => item.MaDG); // Extracting 'MaDG' from filtered data
+                    setMaDGList(MaDGArray)
                } else {
                     setData([]);
                     setHotenList([]);
@@ -39,7 +42,7 @@ export const ReaderProvider = ({ children }) => {
      };
 
      return (
-          <ReaderContext.Provider value={{ data, hotenList, handleDataSuccess }}>
+          <ReaderContext.Provider value={{ data, hotenList, MaDGList, handleDataSuccess }}>
                {children}
           </ReaderContext.Provider>
      );

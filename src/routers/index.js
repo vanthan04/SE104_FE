@@ -6,7 +6,7 @@ import LoginForm from "../components/Auth/Login";
 import BookManagementPage from '../pages/ManageLib/pages/BookManagement';
 import SessionChecker from './SessionChecker';
 import RegisterForm from '../components/Auth/Register';
-import RegulationPage from '../pages/ManageLib/pages/Regulation';
+import { ReturnBookManagementPage } from '../pages/ManageLib/pages/LoanManagement/ReturnBook';
 
 const AppRoutes = () => {
 
@@ -40,14 +40,23 @@ const AppRoutes = () => {
                     )
                 },
                 {
-                    path: 'regulation', // Use relative path
+                    path: 'borrow-book',
                     element: (
-                        <SessionChecker>
-                            <RegulationPage />
-                        </SessionChecker>
+                        <h1>Return Book</h1>
                     )
                 },
-
+                {
+                    path: 'return-book',
+                    element: (
+                        <ReturnBookManagementPage />
+                    )
+                },
+                {
+                    path: 'report',
+                    element: (
+                        <h1>Report</h1>
+                    )
+                }
             ]
         }
     ]);
