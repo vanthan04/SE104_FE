@@ -14,8 +14,8 @@ class ReportService {
         return response
     }
     dowloadLateReturnBook = async (data) => {
-        const response = await axios.get('/report/download-late-return-book', { params: data })
-        return response
+        const response = await axios.get('/report/download-late-return-book', { params: data, responseType: 'blob' });
+        return response;
     }
 }
 

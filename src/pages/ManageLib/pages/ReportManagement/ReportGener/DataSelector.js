@@ -30,7 +30,7 @@ const DateSelector = ({ setData }) => {
      };
 
      return (
-          <Box component="form" onSubmit={handleSubmit} sx={{ mb: 4, alignContent: 'center', display: 'flex' }}>
+          <Box component="form" onSubmit={handleSubmit} sx={{ mb: 4, display: 'flex', alignItems: 'center', justifyContent: 'left' }}>
                <TextField
                     label="Month"
                     type="number"
@@ -49,9 +49,14 @@ const DateSelector = ({ setData }) => {
                     required
                     sx={{ mr: 2 }}
                />
-               <Button type="submit" variant="contained" color="primary">
-                    Thống kê
-               </Button>
+               <Box>
+                    <Button type="submit" variant="contained" color="primary" size="small" sx={{ mx: 2 }}>
+                         Thống kê
+                    </Button>
+                    <Button variant="contained" color="success" size="small" >
+                         Tải về
+                    </Button>
+               </Box>
           </Box>
      );
 };
