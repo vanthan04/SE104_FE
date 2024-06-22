@@ -7,6 +7,8 @@ import BookManagementPage from '../pages/ManageLib/pages/BookManagement';
 import SessionChecker from './SessionChecker';
 import RegisterForm from '../components/Auth/Register';
 import { ReturnBookManagementPage } from '../pages/ManageLib/pages/LoanManagement/ReturnBook';
+import ReportGener from '../pages/ManageLib/pages/ReportManagement/ReportGener';
+import ReportReturnLatePage from '../pages/ManageLib/pages/ReportManagement/ReportReturnLate';
 
 const AppRoutes = () => {
 
@@ -40,21 +42,22 @@ const AppRoutes = () => {
                     )
                 },
                 {
-                    path: 'borrow-book',
-                    element: (
-                        <h1>Return Book</h1>
-                    )
-                },
-                {
                     path: 'return-book',
                     element: (
                         <ReturnBookManagementPage />
                     )
                 },
                 {
-                    path: 'report',
+                    path: 'report-gener',
                     element: (
-                        <h1>Report</h1>
+                        <ReportGener />
+                    )
+                }
+                ,
+                {
+                    path: 'report-return-late',
+                    element: (
+                        <ReportReturnLatePage/>
                     )
                 }
             ]

@@ -4,7 +4,7 @@ import { useReaderContext } from '../../../Context';
 import { toast } from 'react-toastify';
 import ApiBorrowReturn from '../../../untils/api/BorrowReturn';
 
-const SearchAppBar = ({ title, setDataSearch }) => {
+const SearchAppBar = ({ title, setDataSearch, setopenPopup }) => {
      const { MaDGList } = useReaderContext();
      const [selectedMaDG, setSelectedMaDG] = useState('');
 
@@ -44,11 +44,11 @@ const SearchAppBar = ({ title, setDataSearch }) => {
                          sx={{ minWidth: 200, backgroundColor: 'white', borderRadius: 1, mr: 2 }}
                          SelectProps={{
                               displayEmpty: true,
-                              renderValue: (value) => (value ? `Selected: ${value}` : 'Select MaDG'),
+                              renderValue: (value) => (value ? `Mã độc giả: ${value}` : 'Chọn Mã độc giả'),
                          }}
                     >
                          <MenuItem disabled value="">
-                              Select MaDG
+                              Mã độc giả
                          </MenuItem>
                          {MaDGList.map((maDG) => (
                               <MenuItem key={maDG} value={maDG}>
@@ -56,8 +56,19 @@ const SearchAppBar = ({ title, setDataSearch }) => {
                               </MenuItem>
                          ))}
                     </TextField>
-                    <Button variant="contained" color="success" onClick={handleButtonClick}>
-                         Search
+                    <Button
+                         variant="contained"
+                         color="success"
+                         onClick={handleButtonClick}
+                         sx={{ mx: 1 }}>
+                         TÌM KIẾM
+                    </Button>
+                    <Button
+                         variant="contained"
+                         color="warning"
+                         onClick={() => setopenPopup(true)}
+                         sx={{ mx: 1 }}>
+                         Quy định
                     </Button>
                </Toolbar>
           </AppBar>

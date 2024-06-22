@@ -1,20 +1,20 @@
 import axios from "../axios";
 
 class ReportService {
-    getInfoByMonth = async (month, year) => {
-        const response = await axios.get(`report/genre-month?month=${month}&year=${year}`);
+    getInfoByMonth = async (data) => {
+        const response = await axios.get('/report/genre-month', { params: data }); // Sử dụng params để gửi query parameters
         return response;
     }
-    getLateReturnBook = async (ngaybaocao) => {
-        const response = axios.get(`late-return-book?ngaybaocao=${ngaybaocao}`);
-        return response;
+    getLateReturnBook = async (data) => {
+        const response = await axios.get('/report/late-return-book', { params: data })
+        return response
     }
-    downloadInfoByMonth = async (month, year) => {
-        const response = await axios.get(`report/download-genre-month?month=${month}&year=${year}`);
-        return response;
+    downloadInfoByMonth = async (data) => {
+        const response = await axios.get('/report/download-genre-month', { params: data })
+        return response
     }
-    dowloadLateReturnBook = async (ngaybaocao) => {
-        const response = axios.get(`report/download-late-return-book?ngaybaocao=${ngaybaocao}`);
+    dowloadLateReturnBook = async (data) => {
+        const response = await axios.get('/report/download-late-return-book', { params: data, responseType: 'blob' });
         return response;
     }
 }

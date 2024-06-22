@@ -25,6 +25,14 @@ class RegulationService {
           const response = await axios.put('ruleManage/updatePulishYearDistance', option)
           return response
      }
+     getBorrowReturnRule = async () => {
+          const response = await axios.get('ruleManage/get-book-borrow-return-rule')
+          return response
+     }
+     putUpdateBorrowReturnRule = async (option = {}) => {
+          const response = await axios.put('ruleManage/update-book-borrow-return-rule', option)
+          return response
+     }
 
 }
 
