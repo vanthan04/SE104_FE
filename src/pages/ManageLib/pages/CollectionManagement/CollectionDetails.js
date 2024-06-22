@@ -5,17 +5,22 @@ import ApiCollection from '../../../../untils/api/Collection';
 
 const CollectionDetails = () => {
      const [data, setData] = useState(null);
-     const [dataSelect, setDataSelect] = useState({
-          MaDG: '',
-     });
+     const [dataSelect, setDataSelect] = useState({ MaDG: '' });
+     const [loading, setLoading] = useState(false);
 
      useEffect(() => {
           const fetchData = async () => {
-               try {
-                    const response = await ApiCollection.getCollectionListByReaderID(dataSelect.MaDG); // Adjust the API endpoint as needed
-                    setData(response.data);
-               } catch (error) {
-                    console.error('Failed to fetch data:', error);
+               if (dataSelect.MaDG) {
+                    setLoading(true);
+                    try {
+                         const response = await ApiCollection.getCollectionListByReaderID(dataSelect.MaDG);
+                         setData(response.data);
+                    } catch (error) {
+                         console.error('Failed to fetch data:', error);
+                         setData(null);
+                    } finally {
+                         setLoading(false);
+                    }
                }
           };
 
