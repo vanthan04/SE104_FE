@@ -3,6 +3,8 @@ import { TextField, Button, Box } from '@mui/material';
 import { toast } from 'react-toastify';
 import ApiReport from '../../../../../untils/api/Report';
 import { saveAs } from 'file-saver';
+import DownloadOutlinedIcon from '@mui/icons-material/DownloadOutlined';
+import SignalCellularAltOutlinedIcon from '@mui/icons-material/SignalCellularAltOutlined';
 const ExcelJS = require('exceljs');
 
 const DateSelectorReturnLate = ({ setData }) => {
@@ -17,9 +19,19 @@ const DateSelectorReturnLate = ({ setData }) => {
                [name]: value
           });
      };
+     const validateFields = () => {
+          if (!dataSubmit.ngaybaocao) {
+               toast.warning('Giá trị đầu vào bị bỏ trống');
+               return false
+          }
+          return true
+     };
 
      const handleSubmit = async (e) => {
           e.preventDefault();
+          if (!validateFields()) {
+               return;
+          }
           try {
                const response = await ApiReport.getLateReturnBook(dataSubmit);
                // Gọi API với thông tin tháng và năm được đặt trong query parameters
@@ -39,6 +51,9 @@ const DateSelectorReturnLate = ({ setData }) => {
      };
 
      const handleDownload = async () => {
+          if (!validateFields()) {
+               return;
+          }
           try {
                // Gọi API để tải file CSV từ server
                const response = await ApiReport.dowloadLateReturnBook(dataSubmit);
@@ -87,14 +102,28 @@ const DateSelectorReturnLate = ({ setData }) => {
                     name="ngaybaocao"
                     value={dataSubmit.ngaybaocao}
                     onChange={handleChange}
-                    required
+                    // required
                     InputLabelProps={{ shrink: true }}
                />
                <Box>
-                    <Button type="submit" variant="contained" color="primary" size="small" sx={{ mx: 2 }}>
+                    <Button
+                         type="submit"
+                         variant="contained"
+                         color="primary"
+                         size="small"
+                         sx={{ mx: 2 }}
+                         startIcon={<SignalCellularAltOutlinedIcon />}
+                    >
                          Thống kê
                     </Button>
-                    <Button variant="contained" color="success" size="small" onClick={handleDownload}>
+                    <Button
+                         variant="contained"
+                         color="success"
+                         size="small"
+                         onClick={handleDownload}
+                         disabled={!dataSubmit.ngaybaocao}
+                         startIcon={<DownloadOutlinedIcon />}
+                    >
                          Tải về
                     </Button>
                </Box>
