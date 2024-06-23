@@ -2,10 +2,9 @@ import React from 'react';
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 
 const ReportTable = ({ data }) => {
-     if (!data || data.tongSoLuotMuon === 0) {
-          return <h4>Thông tin không có sẵn</h4>;
+     if (!data) {
+          return <h3>Thông tin chưa được cập nhật...</h3>;
      }
-
      return (
           <TableContainer component={Paper}>
                <Table>

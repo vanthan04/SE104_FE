@@ -1,11 +1,11 @@
 import React, { useState } from 'react';
 import {
-     Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Checkbox, Button
+     Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Paper, Checkbox, Button, Typography
 } from '@mui/material';
 import ApiBorrowReturn from '../../../../../untils/api/BorrowReturn';
 import { toast } from 'react-toastify';
 
-const TableLoan = ({ data = [] }) => {
+const TableLoan = ({ data = [], refetchData }) => {
      const [selectedCells, setSelectedCells] = useState([]);
      const [NgayTraThucTe, setNgayTraThucTe] = useState(new Date().toISOString().split('T')[0]);
 
@@ -40,11 +40,10 @@ const TableLoan = ({ data = [] }) => {
           };
 
           try {
-               console.log('Check res >>>', returnOption);
                const response = await ApiBorrowReturn.postBookReturn(returnOption);
-               console.log('Check res >>>', response);
                if (response.success) {
                     toast.success(response.message);
+                    refetchData(data[0].MaDocGia); // Call refetchData to refresh the data
                } else {
                     toast.error(response.message);
                }
@@ -57,7 +56,7 @@ const TableLoan = ({ data = [] }) => {
 
      const getHoTenFromData = (selectedCell) => {
           if (selectedCell) {
-               const [rowIndex, cellIndex] = selectedCell.split('-').map(Number);
+               const [rowIndex] = selectedCell.split('-').map(Number);
                const reader = data[rowIndex];
                return reader.HoTenDocGia;
           }
@@ -66,13 +65,20 @@ const TableLoan = ({ data = [] }) => {
 
      return (
           <div style={{ maxHeight: '500px', overflowY: 'auto' }}>
-               <TableContainer component={Paper} >
+               {data.length > 0 && (
+                    <Paper sx={{ marginBottom: 2, padding: 2 }}>
+                         <Typography variant="h6" gutterBottom>Thông tin độc giả</Typography>
+                         <Typography><strong>Mã Độc Giả:</strong> {data[0].MaDocGia}</Typography>
+                         <Typography><strong>Họ Tên:</strong> {data[0].HoTenDocGia}</Typography>
+                         <Typography><strong>Tổng nợ:</strong> {data[0].TongNo}</Typography>
+                    </Paper>
+               )}
+               <TableContainer component={Paper}>
                     <Table>
                          <TableHead>
                               <TableRow>
+                                   <TableCell></TableCell>
                                    <TableCell>STT</TableCell>
-                                   <TableCell>Mã độc giả</TableCell>
-                                   <TableCell>Họ tên</TableCell>
                                    <TableCell>Mã sách</TableCell>
                                    <TableCell>Tên sách</TableCell>
                                    <TableCell>Ngày mượn</TableCell>
@@ -86,41 +92,31 @@ const TableLoan = ({ data = [] }) => {
                               {data.length > 0 ? (
                                    data.map((item, rowIndex) => (
                                         <React.Fragment key={rowIndex}>
-                                             <TableRow>
-                                                  <TableCell rowSpan={item.DanhSachSach.length + 1}>
-                                                       {rowIndex + 1}
-                                                  </TableCell>
-                                                  <TableCell rowSpan={item.DanhSachSach.length + 1}>
-                                                       {item.MaDocGia}
-                                                  </TableCell>
-                                                  <TableCell rowSpan={item.DanhSachSach.length + 1}>
-                                                       {item.HoTenDocGia}
-                                                  </TableCell>
-                                             </TableRow>
                                              {item.DanhSachSach.map((sach, cellIndex) => {
                                                   const isBorrowed = sach.SoNgayMuon === null || sach.NgayTra === null;
                                                   return (
                                                        <TableRow key={`${rowIndex}-${cellIndex}`}>
-                                                            <TableCell key={`MaSach-${rowIndex}-${cellIndex}`}>
+                                                            <TableCell padding="checkbox">
                                                                  <Checkbox
                                                                       checked={selectedCells.includes(`${rowIndex}-${cellIndex}`)}
                                                                       onChange={() => toggleCellSelection(rowIndex, cellIndex)}
                                                                  />
-                                                                 {sach.MaSach}
                                                             </TableCell>
-                                                            <TableCell key={`TenSach-${rowIndex}-${cellIndex}`}>{sach.TenSach}</TableCell>
-                                                            <TableCell key={`NgayMuon-${rowIndex}-${cellIndex}`}>{sach.NgayMuon}</TableCell>
-                                                            <TableCell key={`SoNgayMuon-${rowIndex}-${cellIndex}`}>{sach.SoNgayMuon}</TableCell>
-                                                            <TableCell key={`NgayTra-${rowIndex}-${cellIndex}`}>{sach.NgayTra}</TableCell>
-                                                            <TableCell key={`TienPhat-${rowIndex}-${cellIndex}`}>{sach.TienPhat}</TableCell>
-                                                            <TableCell key={`TrangThai-${rowIndex}-${cellIndex}`} style={{ color: isBorrowed ? 'red' : 'green' }}>
+                                                            <TableCell>{cellIndex + 1}</TableCell>
+                                                            <TableCell>{sach.MaSach}</TableCell>
+                                                            <TableCell>{sach.TenSach}</TableCell>
+                                                            <TableCell>{sach.NgayMuon}</TableCell>
+                                                            <TableCell>{sach.SoNgayMuon}</TableCell>
+                                                            <TableCell>{sach.NgayTra}</TableCell>
+                                                            <TableCell>{sach.TienPhat}</TableCell>
+                                                            <TableCell style={{ color: isBorrowed ? 'red' : 'green' }}>
                                                                  {isBorrowed ? 'Đang mượn' : 'Đã trả'}
                                                             </TableCell>
                                                        </TableRow>
                                                   );
                                              })}
                                              <TableRow key={`button-${rowIndex}`}>
-                                                  <TableCell rowSpan={item.DanhSachSach.length + 1} align='right'>
+                                                  <TableCell colSpan={9} align='right'>
                                                        <Button variant="contained" color="primary" onClick={handleReturnBooks}>
                                                             Trả sách
                                                        </Button>
@@ -130,7 +126,7 @@ const TableLoan = ({ data = [] }) => {
                                    ))
                               ) : (
                                    <TableRow>
-                                        <TableCell colSpan={10} align="center">
+                                        <TableCell colSpan={9} align="center">
                                              Không có dữ liệu
                                         </TableCell>
                                    </TableRow>

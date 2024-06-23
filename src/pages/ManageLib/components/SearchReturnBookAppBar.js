@@ -4,7 +4,7 @@ import { useReaderContext } from '../../../Context';
 import { toast } from 'react-toastify';
 import ApiBorrowReturn from '../../../untils/api/BorrowReturn';
 
-const SearchAppBar = ({ title, setDataSearch, setopenPopup }) => {
+const SearchAppBar = ({ title, setDataSearch, setopenPopup, refetchData }) => {
      const { MaDGList } = useReaderContext();
      const [selectedMaDG, setSelectedMaDG] = useState('');
 
@@ -17,8 +17,8 @@ const SearchAppBar = ({ title, setDataSearch, setopenPopup }) => {
           try {
                const response = await ApiBorrowReturn.getBookBorrowReturn(selectedMaDG)
                if (response.success) {
-                    toast.success('Thành công')
-                    setDataSearch(response.data)
+                    toast.success('Thành công');
+                    setDataSearch(response.data);
                } else {
                     toast.error('Thất bại');
                }
@@ -26,7 +26,6 @@ const SearchAppBar = ({ title, setDataSearch, setopenPopup }) => {
                console.error('Error borrowing book:', error);
                toast.error('Failed to borrow book. Please try again later.'); // Generic error message
           }
-
      };
 
      return (

@@ -25,7 +25,10 @@ const DateSelectorReturnLate = ({ setData }) => {
                // Gọi API với thông tin tháng và năm được đặt trong query parameters
                if (response.success) {
                     setData(response.data); // Giả sử API trả về dữ liệu dưới dạng response.data.data
-                    toast.success(response.message)
+                    if (response.data.length === 0) {
+                         toast.warning('Không có sách trả trễ!!');
+                         return
+                    }
                }
                else {
                     toast.error(response.message)
@@ -41,38 +44,38 @@ const DateSelectorReturnLate = ({ setData }) => {
                const response = await ApiReport.dowloadLateReturnBook(dataSubmit);
                console.log(response);
 
-        
+
                // Build filename based on month and year
                let filename = `Báo cáo sách sách trả trễ ${dataSubmit.ngaybaocao}.xlsx`;
-        
+
                // Convert CSV data to workbook
                const workbook = new ExcelJS.Workbook();
                const worksheet = workbook.addWorksheet('Báo cáo');
-        
+
                // Assuming 'response' contains valid CSV data
                const csvData = response.split('\n');
                const dataArray = csvData.map(row => row.split(','));
-        
+
                // Trim whitespace and remove ""
                const trimmedDataArray = dataArray.map(row => row.map(cell => cell.trim().replace(/^"(.+(?="$))"$/, '$1')));
- 
+
                // Add column headers
                worksheet.columns = trimmedDataArray[0].map(header => ({ header, key: header, width: 20 }));
- 
+
                // Add data rows
                trimmedDataArray.slice(1).forEach(row => worksheet.addRow(row));
-        
+
                // Create Blob from workbook
                const buffer = await workbook.xlsx.writeBuffer();
                const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-        
+
                // Download file using FileSaver.js
                saveAs(blob, filename);
 
           } catch (error) {
                toast.error('Đã xảy ra lỗi khi tải file!');
-          }    
-          
+          }
+
      };
 
      return (

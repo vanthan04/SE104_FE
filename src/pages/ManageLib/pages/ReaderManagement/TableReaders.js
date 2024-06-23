@@ -104,8 +104,8 @@ export const TableReaders = ({ dataSearch }) => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {searchData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
-                                <TableRow key={row._id}>
+                            {searchData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row, index) => (
+                                <TableRow key={`${row._id} - ${index}`}>
                                     {columns.map((column) => (
                                         <TableCell key={`${row._id}-${column.id}`} align='center'>
                                             {column.id === 'isLocked' ? (
@@ -141,7 +141,7 @@ export const TableReaders = ({ dataSearch }) => {
                                                     <DeleteIcon fontSize='small' />
                                                 </Button>
                                             </Tooltip>
-                                            <Tooltip title="Lập phiếu thu" arrow placement='top'>
+                                            <Tooltip title="Lập phiếu phạt" arrow placement='top'>
                                                 <Button
                                                     variant='contained'
                                                     color='primary'

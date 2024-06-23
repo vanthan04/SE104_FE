@@ -2,6 +2,9 @@ import React from 'react';
 import { TableContainer, Table, TableHead, TableBody, TableRow, TableCell, Paper } from '@mui/material';
 
 const ReportReturnLateTable = ({ data }) => {
+     if (!data || data.length === 0) {
+          return <h4>Thông tin chưa được cập nhật... </h4>
+     }
      return (
           <TableContainer component={Paper}>
                <Table>

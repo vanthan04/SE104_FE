@@ -36,6 +36,8 @@ export const TableBooks = ({ dataSearch, openLoanBook, setOpenLoanBook }) => {
 
      const handleClosePopup = () => {
           setOpenDelete(false);
+          setOpenLoanBook(false)
+          setSelectedRows([])
      };
 
      const handleChangePage = (event, newPage) => {

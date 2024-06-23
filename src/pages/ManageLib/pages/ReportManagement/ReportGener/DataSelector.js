@@ -21,10 +21,13 @@ const DateSelector = ({ setData }) => {
 
      const handleSubmit = async (e) => {
           e.preventDefault();
-          console.log('check data submit: ', dataSubmit)
           try {
                // Gọi API ở đây với thông tin ngày và tháng
                const response = await ApiReport.getInfoByMonth(dataSubmit);
+               if (response.data.tongSoLuotMuon === 0) {
+                    toast.warning('Chưa có thống kê về thể loại sách')
+                    return
+               }
                setData(response.data); // Giả sử API trả về dữ liệu dưới dạng response.data
           } catch (error) {
                toast.error('Failed to fetch data');
@@ -35,22 +38,22 @@ const DateSelector = ({ setData }) => {
           try {
                // Call API to download file CSV from server
                const response = await ApiReport.downloadInfoByMonth(dataSubmit);
-               
-               if (!response.success){
+
+               if (!response.success) {
                     toast.error(response.message);
                }
-       
+
                // Build filename based on month and year
                let filename = `Báo cáo sách mượn sách tháng ${dataSubmit.month}/${dataSubmit.year}.xlsx`;
-       
+
                // Convert CSV data to workbook
                const workbook = new ExcelJS.Workbook();
                const worksheet = workbook.addWorksheet('Báo cáo');
-       
+
                // Assuming 'response' contains valid CSV data
                const csvData = response.split('\n');
                const dataArray = csvData.map(row => row.split(','));
-       
+
                // Trim whitespace and remove ""
                const trimmedDataArray = dataArray.map(row => row.map(cell => cell.trim().replace(/^"(.+(?="$))"$/, '$1')));
 
@@ -59,18 +62,18 @@ const DateSelector = ({ setData }) => {
 
                // Add data rows
                trimmedDataArray.slice(1).forEach(row => worksheet.addRow(row));
-       
+
                // Create Blob from workbook
                const buffer = await workbook.xlsx.writeBuffer();
                const blob = new Blob([buffer], { type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' });
-       
+
                // Download file using FileSaver.js
                saveAs(blob, filename);
-       
-           } catch (error) {
+
+          } catch (error) {
                console.log(error);
                toast.error('Đã xảy ra lỗi khi tải file!');
-           }
+          }
      }
      return (
           <Box component="form" onSubmit={handleSubmit} sx={{ mb: 4, display: 'flex', alignItems: 'center', justifyContent: 'left' }}>
