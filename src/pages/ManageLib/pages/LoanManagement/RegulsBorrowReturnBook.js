@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import {
-     Box, Paper, TextField, Typography, Button
+     Box, Paper, TextField, Button
 } from '@mui/material';
 import ApiReg from '../../../../untils/api/Regulation';
 import { toast } from 'react-toastify';
