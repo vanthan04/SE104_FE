@@ -30,7 +30,10 @@ const CollectionDetails = () => {
      return (
           <div>
                <CollectionSelector dataSelect={dataSelect} setDataSelect={setDataSelect} />
-               {data ? <CollectionTable data={data} /> : <div>Loading...</div>}
+               {
+                    !loading && data ? <CollectionTable data={data} /> : <div>Loading...</div>
+               }
+               
           </div>
      );
 };

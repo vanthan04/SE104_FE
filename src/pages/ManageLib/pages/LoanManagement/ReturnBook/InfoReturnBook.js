@@ -7,7 +7,7 @@ import { toast } from 'react-toastify';
 
 const TableLoan = ({ data = [], refetchData }) => {
      const [selectedCells, setSelectedCells] = useState([]);
-     const [NgayTraThucTe, setNgayTraThucTe] = useState(new Date().toISOString().split('T')[0]);
+     const NgayTraThucTe = new Date().toISOString().split('T')[0];
 
      const toggleCellSelection = (rowIndex, cellIndex) => {
           const cellIdentifier = `${rowIndex}-${cellIndex}`;
