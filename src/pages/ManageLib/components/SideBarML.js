@@ -13,28 +13,31 @@ import ApiUser from "../../../untils/api/user";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Popup from '../../../components/controls/Popup';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector} from 'react-redux';
 import { logout } from '../../../store/user/userSlice';
 
 const SideBarML = () => {
      const [showPopup, setShowPopup] = useState(false);
-     const [email, setEmail] = useState('');
-     const [showResetPassword, setShowResetPassword] = useState(false); // State for toggling visibility
+     const [fullname, setFullname] = useState('');
+
+     const [showResetPassword, setShowResetPassword] = useState(false);
      const navigate = useNavigate();
      const dispatch = useDispatch();
-
+     const { isLoggin } = useSelector((state) => state.user);
      useEffect(() => {
           const fetchEmail = async () => {
                try {
-                    const response = await ApiUser.getEmail(); // Assume this endpoint fetches the user's email
-                    setEmail(response.email);
+                    if (isLoggin){
+                         const response = await ApiUser.getCurrent();
+                         setFullname(response.userData.fullname);
+                    }  
                } catch (error) {
                     console.error('Error fetching email:', error);
                }
           };
 
           fetchEmail();
-     }, []);
+     }, [isLoggin]);
 
      const handleLogout = async () => {
           setShowPopup(true);
@@ -64,9 +67,10 @@ const SideBarML = () => {
                               <ListItemIcon>
                                    <PortraitOutlinedIcon />
                               </ListItemIcon>
-                              <ListItemText primary={email} />
+                              <ListItemText primary={fullname} />
                          </ListItemButton>
                     </ListItem>
+                    
                     {showResetPassword && (
                          <ListItem sx={{ width: '100%', padding: 1 }}>
                               <NavLink to="/librarian/resetpw" style={{ textDecoration: 'none', color: 'inherit', width: '100%' }}>
@@ -78,6 +82,16 @@ const SideBarML = () => {
                                    </ListItemButton>
                               </NavLink>
                          </ListItem>
+                    )}
+                    {showResetPassword && (
+                              <ListItem sx={{ width: '100%', padding: 1 }}>
+                                   <ListItemButton sx={{ width: '100%' }} onClick={handleLogout}>
+                                        <ListItemIcon>
+                                             <LogoutOutlinedIcon />
+                                        </ListItemIcon>
+                                        <ListItemText primary='Đăng xuất' />
+                                   </ListItemButton>
+                              </ListItem>
                     )}
                     <Divider />
                     <ListItem sx={{ width: '100%', padding: 1 }}>
@@ -141,14 +155,7 @@ const SideBarML = () => {
                          </NavLink>
                     </ListItem>
                     <Divider />
-                    <ListItem sx={{ width: '100%', padding: 1 }}>
-                         <ListItemButton sx={{ width: '100%' }} onClick={handleLogout}>
-                              <ListItemIcon>
-                                   <LogoutOutlinedIcon />
-                              </ListItemIcon>
-                              <ListItemText primary='Đăng xuất' />
-                         </ListItemButton>
-                    </ListItem>
+                    
                </List>
                <Popup
                     title="Bạn có muốn đăng xuất?"

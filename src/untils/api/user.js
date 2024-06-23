@@ -16,6 +16,18 @@ class UserService {
     getLogout = async () => {
         await axios.get('/user/logout');
     }
+    getCurrent = async ()=> {
+        const response = await axios.get('user/current');
+        return response;
+    }
+    postResetPassword = async (password, newpassword) => {
+        const response = await axios.post('user/reset-password', {password, newpassword});
+        return response;
+    }
+    getForgetPassword = async () => {
+        const response = await axios.get('user/forget-password');
+        return response;
+    }
 }
 
 const ApiUser = new UserService();

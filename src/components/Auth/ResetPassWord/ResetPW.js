@@ -5,7 +5,6 @@ import ApiUser from '../../../untils/api/user'
 import { toast } from "react-toastify";
 
 const ResetPW = () => {
-     const navigate = useNavigate();
      const [data, setData] = useState({
           CurPassword: "",
           NewPassword: "",
@@ -51,23 +50,24 @@ const ResetPW = () => {
                newErrorMessages.password = "Mật khẩu không có khoảng cách";
           }
 
-          if (data.Newpassword !== data.confirmNewPassword) {
+          if (data.NewPassword !== data.confirmNewPassword) {
                valid = false;
                newErrorMessages.confirmNewPassword = "Mật khẩu không khớp";
           }
 
           setErrorMessages(newErrorMessages);
 
-          if (!valid) return;
+          
 
-          const dataReq = {
-               password: data.CurPassword,
-               newpassword: data.NewPassword
+          const response = await ApiUser.postResetPassword(data.CurPassword, data.NewPassword);
+          if (!response.success){
+               toast.error(response.message);
+          }
+          else{
+               toast.success(response.message);
           }
 
-          //Call API
-
-
+          if (!valid) return;
      };
 
      const handleKeyDown = (event) => {

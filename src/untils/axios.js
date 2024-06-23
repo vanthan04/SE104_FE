@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const instance = axios.create({
-  baseURL: "https://quanlithuvien.onrender.com/api/",
-  // baseURL: "http://localhost:8000/api/",
+  // baseURL: "https://quanlithuvien.onrender.com/api/",
+  baseURL: "http://localhost:8000/api/",
   withCredentials: true
 });
 

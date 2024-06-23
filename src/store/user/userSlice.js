@@ -24,6 +24,25 @@ const userSlice = createSlice({
             localStorage.clear();
         }
     },
+    // extraReducers: (builder) => {
+    //     builder.addCase(actions.getCurrent.pending, (state) => {
+    //       state.isLoading = true;
+    //     });
+    //     builder.addCase(actions.getCurrent.fulfilled, (state, action) => {
+    //       state.isLoading = false;
+    //       state.current = action.payload;
+    //       state.isLoggin = true;
+    //     });
+    
+    //     builder.addCase(actions.getCurrent.rejected, (state, action) => {
+    //       state.isLoading = false;
+    //       state.current = null;
+    //       state.isLoggin = false;
+    //       state.token = null;
+    //       state.mes =
+    //         "The login session has expired. Please log in again to continue!";
+    //     });
+    //   },
 });
 
 export const { loginSuccess, logout, clearStorage } = userSlice.actions;

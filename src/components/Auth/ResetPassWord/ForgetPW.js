@@ -1,6 +1,8 @@
 import { Box, Container, TextField, Typography, Button } from "@mui/material";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import ApiUser from "../../../untils/api/user";
+import { toast } from "react-toastify";
 
 const ForgetPW = () => {
      const navigate = useNavigate();
@@ -44,9 +46,14 @@ const ForgetPW = () => {
                newErrorMessages.email = "Không đúng định dạng email";
           }
 
-          //Call Api
-
-
+          const response = await ApiUser.getForgetPassword();
+          if(response.success){
+               toast.success(response.message);
+               navigate('/')
+          } else {
+               toast.error(response.message);
+          }
+          
           setErrorMessages(newErrorMessages);
 
           if (!valid) return;
