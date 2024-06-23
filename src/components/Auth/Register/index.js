@@ -182,7 +182,7 @@ const RegisterForm = () => {
             sx={{ mt: 3, mb: 2 }}
             onClick={handleRegister}
           >
-            Register
+            Đăng ký
           </Button>
         </Box>
       </Box>

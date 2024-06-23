@@ -12,10 +12,13 @@ import {useNavigate} from "react-router-dom";
 import { toast } from "react-toastify";
 import Popup from '../../../components/controls/Popup';
 import { Button } from '@mui/material';
+import { useDispatch } from 'react-redux'
+import { logout } from '../../../store/user/userSlice'
 
 const SideBarML = () => {
      const [showPopup, setShowPopup] = useState(false);
      const navigate = useNavigate()
+     const dispatch = useDispatch();
      const handleLogout = async () => {
           setShowPopup(true);
      }
@@ -23,6 +26,7 @@ const SideBarML = () => {
           // Xử lý khi người dùng chọn "Yes" trong popup
           await ApiUser.getLogout();
           navigate('/');
+          dispatch(logout())
           setShowPopup(false);
           toast.success("Đăng xuất thành công")
       };
