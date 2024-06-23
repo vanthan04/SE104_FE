@@ -13,6 +13,9 @@ class UserService {
         const response = await axios.get('user/get-refresh-token');
         return response;
     }
+    getLogout = async () => {
+        await axios.get('/user/logout');
+    }
 }
 
 const ApiUser = new UserService();

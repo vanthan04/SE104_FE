@@ -9,8 +9,8 @@ class BorrowReturnService {
           const response = await axios.post('/book-borrow-return/book-return', option)
           return response
      }
-     getBookBorrowReturn = async (option = {}) => {
-          const response = await axios.post('/book-borrow-return/book-borrow-return', option)
+     getBookBorrowReturn = async (MaDG) => {
+          const response = await axios.get(`/book-borrow-return/book-borrow-return?MaDG=${MaDG}`)
           return response
      }
 

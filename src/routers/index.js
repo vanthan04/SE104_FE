@@ -6,6 +6,10 @@ import LoginForm from "../components/Auth/Login";
 import BookManagementPage from '../pages/ManageLib/pages/BookManagement';
 import SessionChecker from './SessionChecker';
 import RegisterForm from '../components/Auth/Register';
+import { ReturnBookManagementPage } from '../pages/ManageLib/pages/LoanManagement/ReturnBook';
+import ReportGener from '../pages/ManageLib/pages/ReportManagement/ReportGener';
+import ReportReturnLatePage from '../pages/ManageLib/pages/ReportManagement/ReportReturnLate';
+import CollectionManagementPage from '../pages/ManageLib/pages/CollectionManagement';
 
 const AppRoutes = () => {
 
@@ -38,6 +42,32 @@ const AppRoutes = () => {
                         <ReaderManagementPage />
                     )
                 },
+                {
+                    path: 'return-book',
+                    element: (
+                        <ReturnBookManagementPage />
+                    )
+                },
+                {
+                    path: 'report-gener',
+                    element: (
+                        <ReportGener />
+                    )
+                }
+                ,
+                {
+                    path: 'report-return-late',
+                    element: (
+                        <ReportReturnLatePage />
+                    )
+                }
+                ,
+                {
+                    path: 'collection',
+                    element: (
+                        <CollectionManagementPage />
+                    )
+                }
             ]
         }
     ]);

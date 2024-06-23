@@ -64,7 +64,7 @@ const LoginForm = () => {
           px: 5
         }}>
         <Typography component='h1' variant='h3'>
-          Login Form
+          ĐĂNG NHẬP
         </Typography>
 
         <Box component='form' noValidate sx={{ mt: 1 }} onSubmit={handleSubmit}>
@@ -98,7 +98,7 @@ const LoginForm = () => {
             onClick={handleSubmit}
             disabled={email && password ? false : true}
           >
-            Sign In
+            Đăng nhập
           </Button>
           <Box
             sx={{
@@ -108,7 +108,7 @@ const LoginForm = () => {
             }}
           >
             <Typography component='p' variant='body2'>
-              Don't have an account? <Link to="/register">Register here</Link>
+                Bạn chưa có tài khoản? <Link to="/register">Đăng ký ngay</Link>
             </Typography>
           </Box>
         </Box>

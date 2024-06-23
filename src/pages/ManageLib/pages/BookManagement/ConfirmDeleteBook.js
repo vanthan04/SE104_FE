@@ -20,7 +20,7 @@ const ConfirmDeleteBook = ({ MaSach, closePopup }) => {
 
      return (
           <Container maxWidth='xs' component='main-detele-reader'>
-               <Typography variant='h6'>Bạn có xác nhận xóa độc giả: {MaSach} này không?</Typography>
+               <Typography variant='h6'>Bạn có xác nhận xóa sách: {MaSach} này không?</Typography>
                <Box display='flex' justifyContent='center' mt={2}>
                     <Button
                          variant='contained'

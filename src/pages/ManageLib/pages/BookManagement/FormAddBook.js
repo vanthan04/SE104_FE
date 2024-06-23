@@ -13,7 +13,7 @@ const FormAddBook = ({ closePopup }) => {
      const [formData, setFormData] = useState({
           tensach: '',
           theloai: '',
-          tacgia: [''], // Khởi tạo là mảng để lưu nhiều tác giả
+          tacgia: [], // Khởi tạo là mảng để lưu nhiều tác giả
           namxuatban: '',
           nhaxuatban: '',
           ngaynhap: '',
@@ -107,6 +107,7 @@ const FormAddBook = ({ closePopup }) => {
                return;
           }
 
+
           // Gọi API để thêm sách mới
           let response = await ApiBook.createNewBook(formData);
           if (response && response.success) {
@@ -116,7 +117,7 @@ const FormAddBook = ({ closePopup }) => {
                setFormData({
                     tensach: '',
                     theloai: '',
-                    tacgia: [''],
+                    tacgia: [],
                     namxuatban: '',
                     nhaxuatban: '',
                     ngaynhap: '',
