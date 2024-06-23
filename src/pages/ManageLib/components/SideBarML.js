@@ -28,7 +28,7 @@ const SideBarML = () => {
           navigate('/');
           dispatch(logout())
           setShowPopup(false);
-          toast.success("Đăng xuất thành công")
+          toast.success("Đăng xuất thành công");
       };
   
       const handleNoLogout = () => {
