@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit';
-
 const initialState = {
     token: null,
     expiresAt: null,
@@ -19,7 +18,7 @@ const userSlice = createSlice({
             state.token = null;
             state.expiresAt = null;
             state.isLoggin = false;
-            localStorage.clear()
+            localStorage.clear();
         },
         clearStorage: (state, action) => {
             localStorage.clear();

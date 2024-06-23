@@ -107,6 +107,7 @@ const FormAddBook = ({ closePopup }) => {
                return;
           }
 
+
           // Gọi API để thêm sách mới
           let response = await ApiBook.createNewBook(formData);
           if (response && response.success) {
@@ -116,7 +117,7 @@ const FormAddBook = ({ closePopup }) => {
                setFormData({
                     tensach: '',
                     theloai: '',
-                    tacgia: [''],
+                    tacgia: [],
                     namxuatban: '',
                     nhaxuatban: '',
                     ngaynhap: '',

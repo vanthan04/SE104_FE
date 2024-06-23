@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 
 import ApiReader from '../../../../untils/api/Reader'
 import { BottomNav } from '../../../../components/controls';
+import { useReaderContext } from "../../../../Context";
 
 // Hàm định dạng dữ liệu độc giả
 const formatReaderData = (reader) => {
@@ -42,6 +43,7 @@ const labels = [
 ]
 // Thành phần tìm kiếm độc giả
 const SearchReader = React.memo((props) => {
+     const { handleDataSuccess } = useReaderContext()
      const { closePopup, resultSearch } = props; // Nhận hàm đóng popup từ props
      const [dataSearch, setDataSearch] = useState({
           hoten: '',
@@ -97,6 +99,11 @@ const SearchReader = React.memo((props) => {
           }
      }, [dataSearch, resultSearch, searchResults, closePopup]);
 
+     const handlCancel = async () => {
+          handleDataSuccess()
+          closePopup()
+     }
+
      // Đặt lại dữ liệu đầu vào khi giá trị của BottomNavigation thay đổi
      useEffect(() => {
           setDataSearch({ hoten: '', email: '', MaDG: '' });
@@ -148,7 +155,7 @@ const SearchReader = React.memo((props) => {
                               </Grid>}
                     </Grid>
                     <Box display='flex' justifyContent='end' margin={2}>
-                         <Button variant="contained" color="error" onClick={closePopup}>
+                         <Button variant="contained" color="error" onClick={handlCancel}>
                               Cancel
                          </Button>
                          <Button variant="contained" color="success" onClick={handleSubmit} sx={{ mx: '10px' }}>

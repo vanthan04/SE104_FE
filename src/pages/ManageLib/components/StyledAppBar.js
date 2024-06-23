@@ -8,6 +8,7 @@ import StyledToolbar from './StyledToolbar';
 // Styled button for custom button
 const CustomButton = styled(Button)(({ theme }) => ({
      color: 'white',
+     marginInline: '2px',
      backgroundColor: theme.palette.success.light,
      '&:hover': {
           backgroundColor: theme.palette.success.dark,
@@ -21,9 +22,9 @@ const StyledAppBar = ({ setOpenPopupAdd, setOpenPopupSearch, setOpenPopupReg, se
                     <Typography variant='h6'>{title}</Typography>
                     <Box component='div'
                          sx={{
-                              width: customButton ? '40%' : '25%', // Conditional width for Box
+                              width: '60%', // Conditional width for Box
                               display: 'flex',
-                              justifyContent: 'space-between',
+                              justifyContent: 'right',
                          }}
                     >
                          {customButton && (
@@ -40,24 +41,27 @@ const StyledAppBar = ({ setOpenPopupAdd, setOpenPopupSearch, setOpenPopupReg, se
                               variant='contained'
                               startIcon={<SearchIcon />}
                               onClick={setOpenPopupSearch}
+                              sx={{ mx: '2px' }}
                          >
-                              Search
+                              Tìm kiếm
                          </Button>
                          <Button
                               color='success'
                               variant='contained'
                               startIcon={<AddCircleOutlineOutlinedIcon />}
                               onClick={setOpenPopupAdd}
+                              sx={{ mx: '2px' }}
                          >
-                              Add
+                              Thêm
                          </Button>
                          <Button
                               color='warning'
                               variant='contained'
                               startIcon={<ReportProblemOutlinedIcon />}
                               onClick={setOpenPopupReg}
+                              sx={{ mx: '2px' }}
                          >
-                              Reguls
+                              Quy định
                          </Button>
                     </Box>
                </StyledToolbar>
