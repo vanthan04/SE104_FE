@@ -81,7 +81,7 @@ const RegReader = ({ closePopup }) => {
                          sx={{ mx: '10px' }}
                          onClick={closePopup}
                     >
-                         Cancel
+                         Hủy
                     </Button>
                     <Button
                          variant='contained'
@@ -89,7 +89,7 @@ const RegReader = ({ closePopup }) => {
                          sx={{ mx: '10px' }}
                          onClick={handleUpdateRegReader}
                     >
-                         Update
+                         Cập nhật
                     </Button>
                </Box>
           </Box>

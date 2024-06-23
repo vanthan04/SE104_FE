@@ -100,7 +100,7 @@ export const TableReaders = ({ dataSearch }) => {
                                         {column.label}
                                     </TableCell>
                                 ))}
-                                <TableCell align='center'>Actions</TableCell>
+                                <TableCell align='center'>Chức năng</TableCell>
                             </TableRow>
                         </TableHead>
                         <TableBody>
@@ -121,7 +121,7 @@ export const TableReaders = ({ dataSearch }) => {
                                     ))}
                                     <TableCell>
                                         <Box display='flex' justifyContent='center'>
-                                            <Tooltip title="Edit" arrow placement='top'>
+                                            <Tooltip title="Chỉnh sửa độc giả" arrow placement='top'>
                                                 <Button
                                                     variant='contained'
                                                     sx={{ mr: 1 }}
@@ -131,7 +131,7 @@ export const TableReaders = ({ dataSearch }) => {
                                                     <EditIcon fontSize='small' />
                                                 </Button>
                                             </Tooltip>
-                                            <Tooltip title="Delete" arrow placement='top'>
+                                            <Tooltip title="Xóa độc giả" arrow placement='top'>
                                                 <Button
                                                     variant='contained'
                                                     color='error'

@@ -31,7 +31,7 @@ const CollectionDetails = () => {
           <div>
                <CollectionSelector dataSelect={dataSelect} setDataSelect={setDataSelect} />
                {
-                    !loading && data ? <CollectionTable data={data} /> : <div>Loading...</div>
+                    !loading && data ? <CollectionTable data={data} /> : <div>Đang tải...</div>
                }
                
           </div>

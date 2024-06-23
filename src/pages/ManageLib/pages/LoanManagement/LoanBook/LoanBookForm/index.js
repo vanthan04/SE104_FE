@@ -83,10 +83,10 @@ const LoanBook = ({ selectRows, closePopup }) => {
         <LoanBookTable books={selectRows} />
         <Grid container justifyContent="flex-end" mt={2}>
           <Button type="submit" variant="contained" color="primary" style={{ marginLeft: '10px' }}>
-            Submit
+            Xác nhận
           </Button>
           <Button variant="contained" color="error" onClick={handleCancel} style={{ marginLeft: '10px' }}>
-            Cancel
+            Hủy
           </Button>
         </Grid>
       </form>

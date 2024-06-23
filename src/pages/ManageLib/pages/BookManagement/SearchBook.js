@@ -34,6 +34,7 @@ const formatBookData = (book) => {
           theloai: book.theloai,
           tacgia: book.tacgia,
           tinhtrang: book.tinhtrang,
+          borrowerInfo: book.borrowerInfo
      };
 };
 // Thành phần tìm kiếm độc giả
@@ -73,7 +74,6 @@ const SearchBook = React.memo(({ closePopup, resultSearch }) => {
                } else if (dataSearch.theloai) {
                     res = await ApiBook.findBookByGener(dataSearch.theloai)
                }
-               console.log(res)
                if (res && res.success) {
                     let formattedResults = [];
                     if (Array.isArray(res.data)) {
@@ -158,10 +158,10 @@ const SearchBook = React.memo(({ closePopup, resultSearch }) => {
                     </Grid>
                     <Box display='flex' justifyContent='end' margin={2}>
                          <Button variant="contained" color="error" onClick={handleCancel}>
-                              Cancel
+                              Hủy
                          </Button>
                          <Button variant="contained" color="success" onClick={handleSubmit} sx={{ mx: '10px' }}>
-                              Find
+                              Tìm kiếm
                          </Button>
                     </Box>
                     {/* {renderSearchBook({ data: searchResults })} */}

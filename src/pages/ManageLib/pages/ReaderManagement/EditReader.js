@@ -129,10 +129,10 @@ const EditReader = (props) => {
         </Grid>
         <Box display='flex' justifyContent='end'>
           <Button variant="contained" color="error" onClick={closePopup}>
-            Cancel
+            Hủy
           </Button>
           <Button variant="contained" color="success" onClick={handleSubmit} sx={{ mx: '10px' }}>
-            Change
+            Thay đổi
           </Button>
         </Box>
       </Box>

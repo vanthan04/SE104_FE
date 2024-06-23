@@ -156,10 +156,10 @@ const SearchReader = React.memo((props) => {
                     </Grid>
                     <Box display='flex' justifyContent='end' margin={2}>
                          <Button variant="contained" color="error" onClick={handlCancel}>
-                              Cancel
+                              Hủy
                          </Button>
                          <Button variant="contained" color="success" onClick={handleSubmit} sx={{ mx: '10px' }}>
-                              Find
+                              Tìm kiếm
                          </Button>
                     </Box>
                </Box>

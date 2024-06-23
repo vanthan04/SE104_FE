@@ -35,7 +35,7 @@ const RegulationTable = ({ data, keyMapping, units, handleInputChange }) => {
                               ))
                          ) : (
                               <TableRow>
-                                   <TableCell colSpan={3}>No regulations found</TableCell>
+                                   <TableCell colSpan={3}>Không tìm thấy quy định</TableCell>
                               </TableRow>
                          )}
                     </TableBody>

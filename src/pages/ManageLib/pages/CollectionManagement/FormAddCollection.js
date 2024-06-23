@@ -38,8 +38,8 @@ const FormAddCollection = ({ data, closePopup }) => {
                }
           }
           catch (error) {
-               console.error('Error add collection:', error);
-               toast.error('Failed to addcollection. Please try again later.'); // Generic error message
+               console.error('Lỗi lập phiếu phạt:', error);
+               toast.error('Làm ơn thử lại.'); // Generic error message
           }
           closePopup();
      };
@@ -120,7 +120,7 @@ const FormAddCollection = ({ data, closePopup }) => {
                          </Grid>
                          <Grid item xs={12} display="flex" justifyContent="flex-end">
                               <Button type="submit" variant="contained" color="primary">
-                                   Submit
+                                   Xác nhận
                               </Button>
                          </Grid>
                     </Grid>

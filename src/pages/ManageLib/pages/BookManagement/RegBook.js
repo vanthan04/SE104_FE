@@ -23,7 +23,7 @@ const RegBook = ({ closePopup }) => {
                     soLuongTheLoai: res.data.theloai.length
                });
           } catch (error) {
-               toast.error("Error fetching book rules");
+               toast.error("Lỗi lấy thông tin quy định");
                console.error(error);
           }
      };
@@ -78,7 +78,7 @@ const RegBook = ({ closePopup }) => {
                     toast.error(`Thể loại sách ${response.message}`);
                }
           } catch (error) {
-               toast.error("Error updating genres");
+               toast.error("Lỗi cập nhật thể loại sách");
                console.error(error);
           }
      };
@@ -92,7 +92,7 @@ const RegBook = ({ closePopup }) => {
                     toast.error(`Khoảng cách xuất bản ${response.message}`);
                }
           } catch (error) {
-               toast.error("Error updating publish year distance");
+               toast.error("Lỗi cập nhật khoảng cách năm sản xuất");
                console.error(error);
           }
      };

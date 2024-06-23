@@ -8,7 +8,7 @@ import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import ReportIcon from '@mui/icons-material/Report';
 import { NavLink } from 'react-router-dom';
 import ApiUser from "../../../untils/api/user"
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Popup from '../../../components/controls/Popup';
 import { Button } from '@mui/material';
@@ -29,9 +29,9 @@ const SideBarML = () => {
           dispatch(logout())
           setShowPopup(false);
           toast.success("Đăng xuất thành công");
-      };
-  
-      const handleNoLogout = () => {
+     };
+
+     const handleNoLogout = () => {
           // Xử lý khi người dùng chọn "No" trong popup
           // Đóng popup sau khi xử lý
           setShowPopup(false);
@@ -110,20 +110,20 @@ const SideBarML = () => {
                               <ListItemIcon>
                                    <LogoutOutlinedIcon />
                               </ListItemIcon>
-                              <ListItemText primary='Log out' />
+                              <ListItemText primary='Đăng xuất' />
                          </ListItemButton>
                     </ListItem>
                </List>
                <Popup
-                title="Bạn có muốn đăng xuất?"
-                openPopup={showPopup}
-                setOpenPopup={setShowPopup}
-            >
-                <Box display='flex' justifyContent='center'>
-                    <Button color='success' onClick={handleSubmitLogout}>Yes</Button>
-                    <Button color='error' onClick={handleNoLogout}>No</Button>
-                </Box>
-            </Popup>
+                    title="Bạn có muốn đăng xuất?"
+                    openPopup={showPopup}
+                    setOpenPopup={setShowPopup}
+               >
+                    <Box display='flex' justifyContent='center'>
+                         <Button color='success' onClick={handleSubmitLogout}>Đồng ý</Button>
+                         <Button color='error' onClick={handleNoLogout}>Hủy</Button>
+                    </Box>
+               </Popup>
           </Box>
      );
 }

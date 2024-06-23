@@ -28,7 +28,7 @@ const ConfirmDeleteReader = (props) => {
                          sx={{ mx: '10px' }}
                          onClick={closePopup}
                     >
-                         Cancel
+                         Hủy
                     </Button>
                     <Button
                          variant='contained'
@@ -36,7 +36,7 @@ const ConfirmDeleteReader = (props) => {
                          sx={{ mx: '10px' }}
                          onClick={handleDelete}
                     >
-                         Confirm
+                         Đồng ý
                     </Button>
                </Box>
           </Container>

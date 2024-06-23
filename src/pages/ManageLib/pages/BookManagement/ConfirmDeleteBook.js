@@ -28,7 +28,7 @@ const ConfirmDeleteBook = ({ MaSach, closePopup }) => {
                          sx={{ mx: '10px' }}
                          onClick={closePopup}
                     >
-                         Cancel
+                         Hủy
                     </Button>
                     <Button
                          variant='contained'
@@ -36,7 +36,7 @@ const ConfirmDeleteBook = ({ MaSach, closePopup }) => {
                          sx={{ mx: '10px' }}
                          onClick={handleDelete}
                     >
-                         Confirm
+                         Xác nhận
                     </Button>
                </Box>
           </Container>

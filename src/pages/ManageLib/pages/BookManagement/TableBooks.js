@@ -93,7 +93,7 @@ export const TableBooks = ({ dataSearch, openLoanBook, setOpenLoanBook }) => {
                                              {column.label}
                                         </TableCell>
                                    ))}
-                                   <TableCell align='center'>Actions</TableCell>
+                                   <TableCell align='center'>Chức năng</TableCell>
                               </TableRow>
                          </TableHead>
                          <TableBody>
@@ -119,7 +119,7 @@ export const TableBooks = ({ dataSearch, openLoanBook, setOpenLoanBook }) => {
                                         ))}
                                         <TableCell>
                                              <Box display='flex' justifyContent='center'>
-                                                  <Tooltip title="Delete" arrow placement='top'>
+                                                  <Tooltip title="Xóa sách" arrow placement='top'>
                                                        <Button
                                                             variant='contained'
                                                             color='error'
