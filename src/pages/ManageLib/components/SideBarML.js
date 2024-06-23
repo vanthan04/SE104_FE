@@ -18,22 +18,21 @@ import { logout } from '../../../store/user/userSlice';
 
 const SideBarML = () => {
      const [showPopup, setShowPopup] = useState(false);
-     const [email, setEmail] = useState('');
+     const [fullname, setFullname] = useState('');
      const [showResetPassword, setShowResetPassword] = useState(false); // State for toggling visibility
      const navigate = useNavigate();
      const dispatch = useDispatch();
 
      useEffect(() => {
-          const fetchEmail = async () => {
+          const fetchFullname = async () => {
                try {
-                    const response = await ApiUser.getEmail(); // Assume this endpoint fetches the user's email
-                    setEmail(response.email);
+                    //Gọi Api getFullname
                } catch (error) {
                     console.error('Error fetching email:', error);
                }
           };
 
-          fetchEmail();
+          fetchFullname();
      }, []);
 
      const handleLogout = async () => {
@@ -64,7 +63,7 @@ const SideBarML = () => {
                               <ListItemIcon>
                                    <PortraitOutlinedIcon />
                               </ListItemIcon>
-                              <ListItemText primary={email} />
+                              <ListItemText primary={fullname} />
                          </ListItemButton>
                     </ListItem>
                     {showResetPassword && (
