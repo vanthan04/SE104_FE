@@ -7,7 +7,7 @@ const ReportReturnLatePage = () => {
 
      return (
           <div>
-               <h2>Report Return Late</h2>
+               <h2>BÁO CÁO THỐNG KÊ SÁCH TRẢ TRỄ</h2>
                <DateSelectorReturnLate setData={setData} />
                <ReportReturnLateTable data={data} />
           </div>
