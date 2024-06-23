@@ -10,6 +10,8 @@ import { ReturnBookManagementPage } from '../pages/ManageLib/pages/LoanManagemen
 import ReportGener from '../pages/ManageLib/pages/ReportManagement/ReportGener';
 import ReportReturnLatePage from '../pages/ManageLib/pages/ReportManagement/ReportReturnLate';
 import CollectionManagementPage from '../pages/ManageLib/pages/CollectionManagement';
+import ForgetPW from '../components/Auth/ResetPassWord/ForgetPW';
+import ResetPW from '../components/Auth/ResetPassWord/ResetPW';
 
 const AppRoutes = () => {
 
@@ -21,6 +23,10 @@ const AppRoutes = () => {
         {
             path: '/register',
             element: <RegisterForm />
+        },
+        {
+            path: '/forget',
+            element: <ForgetPW />
         },
         {
             path: '/librarian',
@@ -66,6 +72,13 @@ const AppRoutes = () => {
                     path: 'collection',
                     element: (
                         <CollectionManagementPage />
+                    )
+                }
+                ,
+                {
+                    path: 'resetpw',
+                    element: (
+                        <ResetPW />
                     )
                 }
             ]

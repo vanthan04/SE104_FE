@@ -46,23 +46,23 @@ const RegisterForm = () => {
     for (const field in data) {
       if (!data[field]) {
         valid = false;
-        newErrorMessages[field] = "This field is required";
+        newErrorMessages[field] = "Bắt buộc";
       }
     }
 
     if (data.email && !emailPattern.test(data.email)) {
       valid = false;
-      newErrorMessages.email = "Invalid email format";
+      newErrorMessages.email = "Không đúng định dạng email";
     }
 
     if (data.password && /\s/.test(data.password)) {
       valid = false;
-      newErrorMessages.password = "Password should not contain spaces";
+      newErrorMessages.password = "Mật khẩu không có khoảng cách";
     }
 
     if (data.password !== data.confirmPassword) {
       valid = false;
-      newErrorMessages.confirmPassword = "Passwords do not match";
+      newErrorMessages.confirmPassword = "Mật khẩu không khớp";
     }
 
     setErrorMessages(newErrorMessages);

@@ -1,48 +1,84 @@
-import React, { useState } from 'react';
-import { Box, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText } from '@mui/material';
+import React, { useState, useEffect } from 'react';
+import { Box, Divider, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Button } from '@mui/material';
 import LibraryBooksOutlinedIcon from '@mui/icons-material/LibraryBooksOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import KeyboardReturnOutlinedIcon from '@mui/icons-material/KeyboardReturnOutlined';
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
+import LockResetIcon from '@mui/icons-material/LockReset';
 import ReportIcon from '@mui/icons-material/Report';
+import PortraitOutlinedIcon from '@mui/icons-material/PortraitOutlined';
 import { NavLink } from 'react-router-dom';
-import ApiUser from "../../../untils/api/user"
+import ApiUser from "../../../untils/api/user";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import Popup from '../../../components/controls/Popup';
-import { Button } from '@mui/material';
-import { useDispatch } from 'react-redux'
-import { logout } from '../../../store/user/userSlice'
+import { useDispatch } from 'react-redux';
+import { logout } from '../../../store/user/userSlice';
 
 const SideBarML = () => {
      const [showPopup, setShowPopup] = useState(false);
-     const navigate = useNavigate()
+     const [email, setEmail] = useState('');
+     const [showResetPassword, setShowResetPassword] = useState(false); // State for toggling visibility
+     const navigate = useNavigate();
      const dispatch = useDispatch();
+
+     useEffect(() => {
+          const fetchEmail = async () => {
+               try {
+                    const response = await ApiUser.getEmail(); // Assume this endpoint fetches the user's email
+                    setEmail(response.email);
+               } catch (error) {
+                    console.error('Error fetching email:', error);
+               }
+          };
+
+          fetchEmail();
+     }, []);
+
      const handleLogout = async () => {
           setShowPopup(true);
-     }
+     };
+
      const handleSubmitLogout = async () => {
-          // Xử lý khi người dùng chọn "Yes" trong popup
           await ApiUser.getLogout();
           navigate('/');
-          dispatch(logout())
+          dispatch(logout());
           setShowPopup(false);
           toast.success("Đăng xuất thành công");
      };
 
      const handleNoLogout = () => {
-          // Xử lý khi người dùng chọn "No" trong popup
-          // Đóng popup sau khi xử lý
           setShowPopup(false);
-
      };
+
+     const toggleResetPassword = () => {
+          setShowResetPassword(!showResetPassword); // Toggle visibility
+     };
+
      return (
-          <Box
-               flex={6 / 7} p={2}
-               sx={{ display: { xs: 'none', sm: 'block' } }}
-          >
+          <Box flex={6 / 7} p={2} sx={{ display: { xs: 'none', sm: 'block' } }}>
                <List>
+                    <ListItem sx={{ width: '100%', padding: 1 }}>
+                         <ListItemButton sx={{ width: '100%' }} onClick={toggleResetPassword}>
+                              <ListItemIcon>
+                                   <PortraitOutlinedIcon />
+                              </ListItemIcon>
+                              <ListItemText primary={email} />
+                         </ListItemButton>
+                    </ListItem>
+                    {showResetPassword && (
+                         <ListItem sx={{ width: '100%', padding: 1 }}>
+                              <NavLink to="/librarian/resetpw" style={{ textDecoration: 'none', color: 'inherit', width: '100%' }}>
+                                   <ListItemButton sx={{ width: '100%' }}>
+                                        <ListItemIcon>
+                                             <LockResetIcon />
+                                        </ListItemIcon>
+                                        <ListItemText primary='Đổi mật khẩu' />
+                                   </ListItemButton>
+                              </NavLink>
+                         </ListItem>
+                    )}
                     <Divider />
                     <ListItem sx={{ width: '100%', padding: 1 }}>
                          <NavLink to="/librarian/book" style={{ textDecoration: 'none', color: 'inherit', width: '100%' }}>

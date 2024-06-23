@@ -24,7 +24,7 @@ const LoginForm = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (!email || !password) {
-      alert('Username/Password is required')
+      alert('Email/Password bắt buộc')
       return
     }
     const user = {
@@ -33,7 +33,6 @@ const LoginForm = () => {
     }
     // Gọi phương thức postLogin từ ApiUser với đường dẫn và dữ liệu đăng nhập
     const response = await ApiUser.postLogin(user);
-    console.log(response);
     if (response.success) {
       toast.success(response.message);
       const expiresAt = new Date(new Date().getTime() + parseInt(response.expiresAt) * 60 * 1000);
@@ -103,12 +102,15 @@ const LoginForm = () => {
           <Box
             sx={{
               display: 'flex',
-              justifyContent: 'flex-end',
+              justifyContent: 'space-between',
               width: '100%'
             }}
           >
             <Typography component='p' variant='body2'>
-                Bạn chưa có tài khoản? <Link to="/register">Đăng ký ngay</Link>
+              Bạn chưa có tài khoản? <Link to="/register">Đăng ký ngay</Link>
+            </Typography>
+            <Typography component='p' variant='body2'>
+              <Link to="/forget">Quên mật khẩu!</Link>
             </Typography>
           </Box>
         </Box>
