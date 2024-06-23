@@ -23,17 +23,17 @@ const SideBarML = () => {
      const navigate = useNavigate();
      const dispatch = useDispatch();
 
-     useEffect(() => {
-          const fetchFullname = async () => {
-               try {
-                    //Gọi Api getFullname
-               } catch (error) {
-                    console.error('Error fetching email:', error);
-               }
-          };
+     // useEffect(() => {
+     //      const fetchFullname = async () => {
+     //           try {
+     //                //Gọi Api getFullname
+     //           } catch (error) {
+     //                console.error('Error fetching email:', error);
+     //           }
+     //      };
 
-          fetchFullname();
-     }, []);
+     //      fetchFullname();
+     // }, []);
 
      const handleLogout = async () => {
           setShowPopup(true);
