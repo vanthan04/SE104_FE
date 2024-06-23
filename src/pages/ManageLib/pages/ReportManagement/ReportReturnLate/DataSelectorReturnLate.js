@@ -3,6 +3,8 @@ import { TextField, Button, Box } from '@mui/material';
 import { toast } from 'react-toastify';
 import ApiReport from '../../../../../untils/api/Report';
 import { saveAs } from 'file-saver';
+import DownloadOutlinedIcon from '@mui/icons-material/DownloadOutlined';
+import SignalCellularAltOutlinedIcon from '@mui/icons-material/SignalCellularAltOutlined';
 const ExcelJS = require('exceljs');
 
 const DateSelectorReturnLate = ({ setData }) => {
@@ -104,10 +106,24 @@ const DateSelectorReturnLate = ({ setData }) => {
                     InputLabelProps={{ shrink: true }}
                />
                <Box>
-                    <Button type="submit" variant="contained" color="primary" size="small" sx={{ mx: 2 }}>
+                    <Button
+                         type="submit"
+                         variant="contained"
+                         color="primary"
+                         size="small"
+                         sx={{ mx: 2 }}
+                         startIcon={<SignalCellularAltOutlinedIcon />}
+                    >
                          Thống kê
                     </Button>
-                    <Button variant="contained" color="success" size="small" onClick={handleDownload} disabled={!dataSubmit.ngaybaocao}>
+                    <Button
+                         variant="contained"
+                         color="success"
+                         size="small"
+                         onClick={handleDownload}
+                         disabled={!dataSubmit.ngaybaocao}
+                         startIcon={<DownloadOutlinedIcon />}
+                    >
                          Tải về
                     </Button>
                </Box>

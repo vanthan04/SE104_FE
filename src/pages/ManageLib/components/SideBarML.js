@@ -4,6 +4,8 @@ import LibraryBooksOutlinedIcon from '@mui/icons-material/LibraryBooksOutlined';
 import AccountCircleOutlinedIcon from '@mui/icons-material/AccountCircleOutlined';
 import KeyboardReturnOutlinedIcon from '@mui/icons-material/KeyboardReturnOutlined';
 import AssessmentOutlinedIcon from '@mui/icons-material/AssessmentOutlined';
+import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined';
+import KeyboardArrowDownOutlinedIcon from '@mui/icons-material/KeyboardArrowDownOutlined';
 import LogoutOutlinedIcon from '@mui/icons-material/LogoutOutlined';
 import LockResetIcon from '@mui/icons-material/LockReset';
 import ReportIcon from '@mui/icons-material/Report';
@@ -63,7 +65,14 @@ const SideBarML = () => {
                               <ListItemIcon>
                                    <PortraitOutlinedIcon />
                               </ListItemIcon>
-                              <ListItemText primary={fullname} />
+                              <ListItemText
+                                   primary={fullname}
+                                   secondary={
+                                        <Box display="flex" justifyContent="flex-end" alignItems="center">
+                                             {showResetPassword ? <KeyboardArrowDownOutlinedIcon /> : <KeyboardArrowRightOutlinedIcon />}
+                                        </Box>
+                                   }
+                              />
                          </ListItemButton>
                     </ListItem>
                     {showResetPassword && (

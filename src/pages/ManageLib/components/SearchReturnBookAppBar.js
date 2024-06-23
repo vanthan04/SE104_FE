@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { AppBar, Toolbar, Typography, TextField, MenuItem, Button } from '@mui/material';
 import { useReaderContext } from '../../../Context';
 import { toast } from 'react-toastify';
+import SearchIcon from '@mui/icons-material/Search';
+import ReportProblemOutlinedIcon from '@mui/icons-material/ReportProblemOutlined';
 import ApiBorrowReturn from '../../../untils/api/BorrowReturn';
 
 const SearchAppBar = ({ title, setDataSearch, setopenPopup, refetchData }) => {
@@ -59,14 +61,18 @@ const SearchAppBar = ({ title, setDataSearch, setopenPopup, refetchData }) => {
                          variant="contained"
                          color="success"
                          onClick={handleButtonClick}
-                         sx={{ mx: 1 }}>
+                         sx={{ mx: 1 }}
+                         startIcon={<SearchIcon />}
+                    >
                          TÌM KIẾM
                     </Button>
                     <Button
                          variant="contained"
                          color="warning"
                          onClick={() => setopenPopup(true)}
-                         sx={{ mx: 1 }}>
+                         sx={{ mx: 1 }}
+                         startIcon={<ReportProblemOutlinedIcon />}
+                    >
                          Quy định
                     </Button>
                </Toolbar>

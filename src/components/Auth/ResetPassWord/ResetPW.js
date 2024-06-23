@@ -51,7 +51,7 @@ const ResetPW = () => {
                newErrorMessages.password = "Mật khẩu không có khoảng cách";
           }
 
-          if (data.Newpassword !== data.confirmNewPassword) {
+          if (data.NewPassword !== data.confirmNewPassword) {
                valid = false;
                newErrorMessages.confirmNewPassword = "Mật khẩu không khớp";
           }
