@@ -6,7 +6,7 @@ import { loginSuccess } from '../../../store/user/userSlice'
 import ApiUser from '../../../untils/api/user'
 import { toast } from 'react-toastify';
 
-const LoginForm = () => {
+const LoginForm = ({setDataLogin}) => {
   const [data, setData] = useState({
     email: '',
     password: ''
@@ -31,24 +31,19 @@ const LoginForm = () => {
       email: email,
       password: password
     }
-    try {
-        // Gọi phương thức postLogin từ ApiUser với đường dẫn và dữ liệu đăng nhập
-      const response = await ApiUser.postLogin(user);
-      console.log(response)
-      if (response.success) {
-        toast.success(response.message);
-        const expiresAt = new Date(new Date().getTime() + parseInt(response.expiresAt) * 60 * 1000);
-        dispatch(
-          loginSuccess({ token: response.accessToken, expiresAt: expiresAt.toISOString() })
-        );
-        navigate('/librarian')
-      } else {
-        toast.error(response.message)
-      }
-    } catch (error) {
-      console.log("error")
+    // Gọi phương thức postLogin từ ApiUser với đường dẫn và dữ liệu đăng nhập
+    const response = await ApiUser.postLogin(user);
+    if (response.success) {
+      toast.success(response.message);
+      setDataLogin(response.data)
+      const expiresAt = new Date(new Date().getTime() + parseInt(response.expiresAt) * 60 * 1000);
+      dispatch(
+        loginSuccess({ token: response.accessToken, expiresAt: expiresAt.toISOString() })
+      );
+      navigate('/librarian')
+    } else {
+      toast.error(response.message)
     }
-    
   }
 
   return (

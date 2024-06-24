@@ -7,12 +7,12 @@ import NavBar from '../../components/NavBar/NavBar'
 
 
 
-const ManageLibPage = () => {
+const ManageLibPage = ({ dataLogin }) => {
      return (
           <>
                <NavBar />
                <Box display='flex' spacing={2} justifyContent='space-between'>
-                    <SideBarML />
+                    <SideBarML dataLogin={dataLogin} />
                     <Box flex={4}>
                          <Outlet />
                     </Box>

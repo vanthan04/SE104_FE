@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import ManageLibPage from "../pages/ManageLib";
 import { ReaderManagementPage } from "../pages/ManageLib/pages/ReaderManagement";
@@ -14,11 +14,13 @@ import ForgetPW from '../components/Auth/ResetPassWord/ForgetPW';
 import ResetPW from '../components/Auth/ResetPassWord/ResetPW';
 
 const AppRoutes = () => {
-
+    const [dataLogin, setDataLogin] = useState({})
     const router = createBrowserRouter([
         {
             path: '/',
-            element: <LoginForm />
+            element: <LoginForm
+                setDataLogin={setDataLogin}
+            />
         },
         {
             path: '/register',
@@ -32,7 +34,9 @@ const AppRoutes = () => {
             path: '/librarian',
             element: (
                 <SessionChecker>
-                    <ManageLibPage />
+                    <ManageLibPage
+                        dataLogin={dataLogin}
+                    />
                 </SessionChecker>
             ),
             children: [

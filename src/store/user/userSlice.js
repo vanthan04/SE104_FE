@@ -1,40 +1,30 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { getCurrent } from "./userActions";
+import { createSlice } from '@reduxjs/toolkit';
+const initialState = {
+    token: null,
+    expiresAt: null,
+    isLoggin: false,
+};
 
 const userSlice = createSlice({
-    name: "user",
-    initialState: {
-        fullname: "",
-        isLoggin: false,
-        token: "",
-        expiresAt: "",
-        error: null,
-    },
+    name: 'user',
+    initialState,
     reducers: {
-        logout: (state) => {
-            state.fullname = "";
-            state.isLoggin = false;
-            state.token = "";
-            state.expiresAt = "";
-            state.fullname = "";
-        },
         loginSuccess: (state, action) => {
-            state.isLoggin = true;
             state.token = action.payload.token;
             state.expiresAt = action.payload.expiresAt;
-            state.fullname = action.payload.data.fullname;
+            state.isLoggin = true;
         },
-    },
-    extraReducers: (builder) => {
-        builder
-            .addCase(getCurrent.fulfilled, (state, action) => {
-                state.fullname = action.payload.fullname;
-            })
-            .addCase(getCurrent.rejected, (state, action) => {
-                state.error = action.payload;
-            });
+        logout: (state) => {
+            state.token = null;
+            state.expiresAt = null;
+            state.isLoggin = false;
+            localStorage.clear();
+        },
+        clearStorage: (state, action) => {
+            localStorage.clear();
+        }
     },
 });
 
-export const { logout, loginSuccess } = userSlice.actions;
+export const { loginSuccess, logout, clearStorage } = userSlice.actions;
 export default userSlice.reducer;
