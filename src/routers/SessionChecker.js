@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { toast } from 'react-toastify';
-import { logout, clearStorage, loginSuccess } from '../store/user/userSlice';
+import { logout, loginSuccess } from '../store/user/userSlice';
 import Popup from '../components/controls/Popup';
 import { Button, Box } from '@mui/material';
 import ApiUser from '../untils/api/user';
@@ -9,7 +9,7 @@ import { Navigate } from 'react-router-dom';
 
 const SessionChecker = ({ children }) => {
     const dispatch = useDispatch();
-    const isLoggin = useSelector((state) => state.user.isLoggin); // Thay thế bằng logic kiểm tra đăng nhập thực tế
+    const isLoggin = useSelector((state) => state.user.isLoggin);
     const expiresAt = useSelector((state) => state.user.expiresAt);
     const [toggle, setToggle] = useState(false);
     const [isSessionValid, setIsSessionValid] = useState(true);
@@ -18,7 +18,7 @@ const SessionChecker = ({ children }) => {
         if (!expiresAt) return;
 
         const checkSession = () => {
-            console.log("Checking session...")
+            console.log("Checking session...");
             const timeLeft = new Date(expiresAt) - new Date();
             if (timeLeft <= 0) {
                 dispatch(logout());
@@ -26,13 +26,13 @@ const SessionChecker = ({ children }) => {
                 setIsSessionValid(false);
                 return;
             }
-            if (timeLeft <= 60 * 1000) { // 10 seconds before expiry
+            if (timeLeft <= 60 * 1000) { // 1 minute before expiry
                 setToggle(true);
             }
         };
 
         checkSession(); // Initial check
-        const intervalId = setInterval(checkSession, 5 * 60 * 1000); // Check every 1 second
+        const intervalId = setInterval(checkSession, 5 * 60 * 1000); // Check every 5 minutes
 
         return () => clearInterval(intervalId);
     }, [expiresAt, dispatch]);
@@ -41,7 +41,6 @@ const SessionChecker = ({ children }) => {
         try {
             const response = await ApiUser.getRefreshToken();
             if (response.success) {
-                dispatch(clearStorage());
                 dispatch(loginSuccess({
                     token: response.accessToken,
                     expiresAt: new Date(new Date().getTime() + response.expiresAt * 60 * 1000).toISOString()

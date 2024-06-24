@@ -18,7 +18,7 @@ const commonConfig = {
 
 const userConfig = {
   ...commonConfig,
-  whitelist: ['isLoggin', 'token', 'expiresAt'], // thêm expiresAt nếu cần
+  whitelist: ['isLoggin', 'token', 'expiresAt'],
 };
 
 const persistedReducer = persistReducer(userConfig, userSlice);
