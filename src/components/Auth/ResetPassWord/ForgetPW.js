@@ -46,7 +46,7 @@ const ForgetPW = () => {
                newErrorMessages.email = "Không đúng định dạng email";
           }
 
-          const response = await ApiUser.getForgetPassword();
+          const response = await ApiUser.postForgetPassword(data.email);
           if(response.success){
                toast.success(response.message);
                navigate('/')

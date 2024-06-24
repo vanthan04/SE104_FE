@@ -10,7 +10,7 @@ const NavBar = () => {
   return (
     <AppBar position='sticky'>
       <StyledToolBar>
-        <Typography variant='h6'>Libary Management</Typography>
+        <Typography variant='h6'>Quản lí thư viện</Typography>
       </StyledToolBar>
     </AppBar>
   )

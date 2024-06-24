@@ -24,8 +24,8 @@ class UserService {
         const response = await axios.post('user/reset-password', {password, newpassword});
         return response;
     }
-    getForgetPassword = async () => {
-        const response = await axios.get('user/forget-password');
+    postForgetPassword = async (email) => {
+        const response = await axios.post('user/forget-password', {email});
         return response;
     }
 }

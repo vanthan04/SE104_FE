@@ -21,25 +21,28 @@ import { logout } from '../../../store/user/userSlice';
 const SideBarML = () => {
      const [showPopup, setShowPopup] = useState(false);
      const [fullname, setFullname] = useState('');
-
      const [showResetPassword, setShowResetPassword] = useState(false);
      const navigate = useNavigate();
      const dispatch = useDispatch();
-     const { isLoggin } = useSelector((state) => state.user);
+     const isLoggin = useSelector((state) => state.user.isLoggin)
+
      useEffect(() => {
           const fetchEmail = async () => {
                try {
-                    if (isLoggin){
                          const response = await ApiUser.getCurrent();
-                         setFullname(response.userData.fullname);
-                    }  
-               } catch (error) {
+                         if (response.success){
+                              console.log(response)
+                              setFullname(response.userData.fullname);
+                         }
+                         else{
+                              toast.error(response.userData)
+                         }
+                    } catch (error) {
                     console.error('Error fetching email:', error);
                }
           };
-
           fetchEmail();
-     }, [isLoggin]);
+     }, []);
 
      const handleLogout = async () => {
           setShowPopup(true);
@@ -64,12 +67,17 @@ const SideBarML = () => {
      return (
           <Box flex={6 / 7} p={2} sx={{ display: { xs: 'none', sm: 'block' } }}>
                <List>
-                    <ListItem sx={{ width: '100%', padding: 1 }}>
+               <ListItem sx={{ width: '100%', padding: 1 }}>
                          <ListItemButton sx={{ width: '100%' }} onClick={toggleResetPassword}>
                               <ListItemIcon>
                                    <PortraitOutlinedIcon />
                               </ListItemIcon>
-                              <ListItemText primary={fullname} />
+                              <ListItemText
+                                   primary={fullname}
+                              />
+                              <Box display="flex" justifyContent="flex-end" alignItems="center">
+                                   {showResetPassword ? <KeyboardArrowDownOutlinedIcon /> : <KeyboardArrowRightOutlinedIcon />}
+                              </Box>
                          </ListItemButton>
                     </ListItem>
                     
