@@ -92,7 +92,7 @@ const TableLoan = ({ data = [], refetchData }) => {
                               {data.length > 0 ? (
                                    data.map((item, rowIndex) => (
                                         <React.Fragment key={rowIndex}>
-                                             {item.DanhSachSach.map((sach, cellIndex) => {
+                                             {item.DanhSachSach.slice().reverse().map((sach, cellIndex) => {
                                                   const isBorrowed = sach.SoNgayMuon === null || sach.NgayTra === null;
                                                   return (
                                                        <TableRow key={`${rowIndex}-${cellIndex}`}>
@@ -100,6 +100,7 @@ const TableLoan = ({ data = [], refetchData }) => {
                                                                  <Checkbox
                                                                       checked={selectedCells.includes(`${rowIndex}-${cellIndex}`)}
                                                                       onChange={() => toggleCellSelection(rowIndex, cellIndex)}
+                                                                      disabled={!isBorrowed}
                                                                  />
                                                             </TableCell>
                                                             <TableCell>{cellIndex + 1}</TableCell>
