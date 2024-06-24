@@ -6,7 +6,7 @@ import { loginSuccess } from '../../../store/user/userSlice'
 import ApiUser from '../../../untils/api/user'
 import { toast } from 'react-toastify';
 
-const LoginForm = ({setDataLogin}) => {
+const LoginForm = () => {
   const [data, setData] = useState({
     email: '',
     password: ''
@@ -35,7 +35,7 @@ const LoginForm = ({setDataLogin}) => {
     const response = await ApiUser.postLogin(user);
     if (response.success) {
       toast.success(response.message);
-      setDataLogin(response.data)
+      localStorage.setItem('fullname', JSON.stringify(response.data.fullname)); // Store login data in local storage
       const expiresAt = new Date(new Date().getTime() + parseInt(response.expiresAt) * 60 * 1000);
       dispatch(
         loginSuccess({ token: response.accessToken, expiresAt: expiresAt.toISOString() })

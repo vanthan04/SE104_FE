@@ -18,12 +18,19 @@ import Popup from '../../../components/controls/Popup';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../../store/user/userSlice';
 
-const SideBarML = ({ dataLogin }) => {
+const SideBarML = () => {
      const [showPopup, setShowPopup] = useState(false);
      const [showResetPassword, setShowResetPassword] = useState(false);
+     const [fullname, setFullname] = useState('');
      const navigate = useNavigate();
      const dispatch = useDispatch();
 
+     useEffect(() => {
+          const fullname = JSON.parse(localStorage.getItem('fullname'));
+          if (fullname) {
+               setFullname(fullname);
+          }
+     }, []);
 
      const handleLogout = async () => {
           setShowPopup(true);
@@ -54,7 +61,7 @@ const SideBarML = ({ dataLogin }) => {
                                    <PortraitOutlinedIcon />
                               </ListItemIcon>
                               <ListItemText
-                                   primary={dataLogin.fullname}
+                                   primary={fullname}
                               />
                               <Box display="flex" justifyContent="flex-end" alignItems="center">
                                    {showResetPassword ? <KeyboardArrowDownOutlinedIcon /> : <KeyboardArrowRightOutlinedIcon />}
@@ -63,26 +70,26 @@ const SideBarML = ({ dataLogin }) => {
                     </ListItem>
 
                     {showResetPassword && (
-                         <ListItem sx={{ width: '100%', padding: 1 }}>
-                              <NavLink to="/librarian/resetpw" style={{ textDecoration: 'none', color: 'inherit', width: '100%' }}>
-                                   <ListItemButton sx={{ width: '100%' }}>
+                         <>
+                              <ListItem sx={{ width: '100%', padding: 1 }}>
+                                   <NavLink to="/librarian/resetpw" style={{ textDecoration: 'none', color: 'inherit', width: '100%' }}>
+                                        <ListItemButton sx={{ width: '100%' }}>
+                                             <ListItemIcon>
+                                                  <LockResetIcon />
+                                             </ListItemIcon>
+                                             <ListItemText primary='Đổi mật khẩu' />
+                                        </ListItemButton>
+                                   </NavLink>
+                              </ListItem>
+                              <ListItem sx={{ width: '100%', padding: 1 }}>
+                                   <ListItemButton sx={{ width: '100%' }} onClick={handleLogout}>
                                         <ListItemIcon>
-                                             <LockResetIcon />
+                                             <LogoutOutlinedIcon />
                                         </ListItemIcon>
-                                        <ListItemText primary='Đổi mật khẩu' />
+                                        <ListItemText primary='Đăng xuất' />
                                    </ListItemButton>
-                              </NavLink>
-                         </ListItem>
-                    )}
-                    {showResetPassword && (
-                         <ListItem sx={{ width: '100%', padding: 1 }}>
-                              <ListItemButton sx={{ width: '100%' }} onClick={handleLogout}>
-                                   <ListItemIcon>
-                                        <LogoutOutlinedIcon />
-                                   </ListItemIcon>
-                                   <ListItemText primary='Đăng xuất' />
-                              </ListItemButton>
-                         </ListItem>
+                              </ListItem>
+                         </>
                     )}
                     <Divider />
                     <ListItem sx={{ width: '100%', padding: 1 }}>
@@ -121,7 +128,7 @@ const SideBarML = ({ dataLogin }) => {
                                    <ListItemIcon>
                                         <AssessmentOutlinedIcon />
                                    </ListItemIcon>
-                                   <ListItemText primary='Báo cáo thống kê sách mượn theo thể loại' />
+                                   <ListItemText primary='Thống kê sách mượn theo thể loại' />
                               </ListItemButton>
                          </NavLink>
                     </ListItem>
@@ -131,7 +138,7 @@ const SideBarML = ({ dataLogin }) => {
                                    <ListItemIcon>
                                         <AssessmentOutlinedIcon />
                                    </ListItemIcon>
-                                   <ListItemText primary='Báo cáo thống kê sách trả trễ' />
+                                   <ListItemText primary='Thống kê sách trả trễ' />
                               </ListItemButton>
                          </NavLink>
                     </ListItem>
@@ -146,7 +153,6 @@ const SideBarML = ({ dataLogin }) => {
                          </NavLink>
                     </ListItem>
                     <Divider />
-
                </List>
                <Popup
                     title="Bạn có muốn đăng xuất?"

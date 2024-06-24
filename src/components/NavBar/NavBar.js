@@ -9,7 +9,7 @@ const StyledToolBar = styled(Toolbar)({
 const NavBar = () => {
   return (
     <AppBar position='sticky'>
-      <StyledToolBar>
+      <StyledToolBar sx={{height: '5vh'}}>
         <Typography variant='h6'>Quản lí thư viện</Typography>
       </StyledToolBar>
     </AppBar>

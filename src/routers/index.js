@@ -14,13 +14,10 @@ import ForgetPW from '../components/Auth/ResetPassWord/ForgetPW';
 import ResetPW from '../components/Auth/ResetPassWord/ResetPW';
 
 const AppRoutes = () => {
-    const [dataLogin, setDataLogin] = useState({})
     const router = createBrowserRouter([
         {
             path: '/',
-            element: <LoginForm
-                setDataLogin={setDataLogin}
-            />
+            element: <LoginForm />
         },
         {
             path: '/register',
@@ -34,9 +31,7 @@ const AppRoutes = () => {
             path: '/librarian',
             element: (
                 <SessionChecker>
-                    <ManageLibPage
-                        dataLogin={dataLogin}
-                    />
+                    <ManageLibPage />
                 </SessionChecker>
             ),
             children: [
