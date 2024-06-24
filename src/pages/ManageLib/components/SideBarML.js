@@ -17,6 +17,7 @@ import { toast } from "react-toastify";
 import Popup from '../../../components/controls/Popup';
 import { useDispatch, useSelector} from 'react-redux';
 import { logout } from '../../../store/user/userSlice';
+import { getCurrent } from '../../../store/user/userActions';
 
 const SideBarML = () => {
      const [showPopup, setShowPopup] = useState(false);
@@ -24,25 +25,10 @@ const SideBarML = () => {
      const [showResetPassword, setShowResetPassword] = useState(false);
      const navigate = useNavigate();
      const dispatch = useDispatch();
-     const isLoggin = useSelector((state) => state.user.isLoggin)
 
      useEffect(() => {
-          const fetchEmail = async () => {
-               try {
-                         const response = await ApiUser.getCurrent();
-                         if (response.success){
-                              console.log(response)
-                              setFullname(response.userData.fullname);
-                         }
-                         else{
-                              toast.error(response.userData)
-                         }
-                    } catch (error) {
-                    console.error('Error fetching email:', error);
-               }
-          };
-          fetchEmail();
-     }, []);
+          dispatch(getCurrent());
+      }, [dispatch]);
 
      const handleLogout = async () => {
           setShowPopup(true);

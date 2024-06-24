@@ -31,18 +31,24 @@ const LoginForm = () => {
       email: email,
       password: password
     }
-    // Gọi phương thức postLogin từ ApiUser với đường dẫn và dữ liệu đăng nhập
-    const response = await ApiUser.postLogin(user);
-    if (response.success) {
-      toast.success(response.message);
-      const expiresAt = new Date(new Date().getTime() + parseInt(response.expiresAt) * 60 * 1000);
-      dispatch(
-        loginSuccess({ token: response.accessToken, expiresAt: expiresAt.toISOString() })
-      );
-      navigate('/librarian')
-    } else {
-      toast.error(response.message)
+    try {
+        // Gọi phương thức postLogin từ ApiUser với đường dẫn và dữ liệu đăng nhập
+      const response = await ApiUser.postLogin(user);
+      console.log(response)
+      if (response.success) {
+        toast.success(response.message);
+        const expiresAt = new Date(new Date().getTime() + parseInt(response.expiresAt) * 60 * 1000);
+        dispatch(
+          loginSuccess({ token: response.accessToken, expiresAt: expiresAt.toISOString() })
+        );
+        navigate('/librarian')
+      } else {
+        toast.error(response.message)
+      }
+    } catch (error) {
+      console.log("error")
     }
+    
   }
 
   return (
