@@ -40,6 +40,10 @@ const FormAddBook = ({ closePopup }) => {
           if (name === 'numAuthors') {
                // Nếu thay đổi số lượng tác giả
                const newNumAuthors = parseInt(value, 10);
+               if (isNaN(newNumAuthors) || newNumAuthors < 1) {
+                    toast.error('Số lượng tác giả phải là số nguyên lớn hơn 0');
+                    return;
+               }
                setNumAuthors(newNumAuthors);
                setFormData({
                     ...formData,

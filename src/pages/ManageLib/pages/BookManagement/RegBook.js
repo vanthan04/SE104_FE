@@ -11,7 +11,7 @@ const RegBook = ({ closePopup }) => {
      const { handleDataSuccess } = useBookContext()
      const [dataRegBook, setDataRegBook] = useState({
           theloai: [],
-          khoangcachxuatban: '',
+          khoangcachxuatban: 0,
           soLuongTheLoai: 0
      });
 
@@ -34,11 +34,25 @@ const RegBook = ({ closePopup }) => {
 
      const handleChange = (e) => {
           const { name, value } = e.target;
+          if (name === 'khoangcachxuatban'){
+               const khoangcach = parseInt(value, 10)||0;
+               if (khoangcach < 0){
+                    toast.error('Khoảng cách năm không âm!')
+                    return;
+               }
+          }
 
           if (name === 'soLuongTheLoai') {
-               const soLuong = parseInt(value, 10) || 0;
+               const soLuong = parseInt(value, 10)||0;
                const theloai = [...dataRegBook.theloai];
-
+               if (isNaN(soLuong) || soLuong > 30) {
+                    toast.error('Số lượng thể loại tối đa không quá 30.');
+                    return;
+               }
+               if (soLuong < 0){
+                    toast.error('Số lượng sách không được âm')
+                    return;
+               }
                while (theloai.length < soLuong) {
                     theloai.push('');
                }
